@@ -21,9 +21,13 @@ import { Schema } from 'mongoose';
 const profileSchema: Schema = new Schema({
   username: {
     type: String,
+    required: true,
+    unique: true,
+    trim: true,
   },
   title: {
     type: String,
+    trim: true,
   },
   bio: {
     type: String,
