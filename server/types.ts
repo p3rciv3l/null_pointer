@@ -1,4 +1,5 @@
 import { Request } from 'express';
+import { Profiler } from 'inspector/promises';
 import { ObjectId } from 'mongodb';
 import { Server } from 'socket.io';
 
@@ -20,7 +21,7 @@ export type OrderType = 'newest' | 'unanswered' | 'active' | 'mostViewed';
 export interface Answer {
   _id?: ObjectId;
   text: string;
-  ansBy: string;
+  ansBy: Profile;
   ansDateTime: Date;
   comments: Comment[] | ObjectId[];
 }
@@ -72,12 +73,12 @@ export interface Question {
   title: string;
   text: string;
   tags: Tag[];
-  askedBy: string;
+  askedBy: Profile;
   askDateTime: Date;
   answers: Answer[] | ObjectId[];
   views: string[];
-  upVotes: string[];
-  downVotes: string[];
+  upVotes: Profile[];
+  downVotes: Profile[];
   comments: Comment[] | ObjectId[];
 }
 
@@ -145,7 +146,7 @@ export interface VoteRequest extends Request {
 export interface Comment {
   _id?: ObjectId;
   text: string;
-  commentBy: string;
+  commentBy: Profile;
   commentDateTime: Date;
 }
 

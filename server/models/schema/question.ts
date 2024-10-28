@@ -26,14 +26,15 @@ const questionSchema: Schema = new Schema(
     tags: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
     answers: [{ type: Schema.Types.ObjectId, ref: 'Answer' }],
     askedBy: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: 'Profile',
     },
     askDateTime: {
       type: Date,
     },
     views: [{ type: String }],
-    upVotes: [{ type: String }],
-    downVotes: [{ type: String }],
+    upVotes: [{ type: Schema.Types.ObjectId, ref: 'Profile' }],
+    downVotes: [{ type: Schema.Types.ObjectId, ref: 'Profile' }],
     comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
   },
   { collection: 'Question' },
