@@ -149,6 +149,34 @@ export interface Comment {
   commentDateTime: Date;
 }
 
+
+/**
+ * Interface representing a Profile, which contains:
+ * - 'username' - The username of the user.
+ * - 'title' - The job title of the user.
+ * - 'bio' - A short description about the user.
+ * - 'numAnswers' - The number of answers the user has submitted.
+ * - 'numQuestions' - The number of questions the user has submitted.
+ * - 'reputation' - The rank of the user in the stack community.
+ * - 'joinedWhen' - How long the user has created this Profile for.
+ * - 'score' - An integer score calculated based on number of upvotes and downvotes receieved.
+ * - 'numDownvotes' - The number of downvotes the user has ever recieved.
+ * - 'numUpvotes' - The number of upvotes the user has ever recieved.
+ */
+export interface Profile {
+  _id?: ObjectId; 
+  username: string; 
+  title: string;
+  bio: string; 
+  numAnswers: number; 
+  numQuestions: number;
+  numDownvotes: number; 
+  numUpvotes: number;
+  reputation: number;
+  score: number; 
+  joinedWhen: Date;
+}
+
 /**
  * Interface extending the request body when adding a comment to a question or an answer, which contains:
  * - id - The unique identifier of the question or answer being commented on.
