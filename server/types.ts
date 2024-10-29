@@ -167,14 +167,10 @@ export interface Profile {
   username: string; 
   title: string;
   bio: string; 
-  numDownvotesReceived: number; 
-  numUpvotesReceived: number;
   answersGiven: Answer[];
   questionsAsked: Question[];
   questionsUpvoted: Question[];
   answersUpvoted: Answer[];
-  reputation: number;
-  score: number; 
   joinedWhen: Date;
 }
 

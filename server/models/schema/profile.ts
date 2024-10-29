@@ -33,16 +33,6 @@ const profileSchema: Schema = new Schema({
     type: String,
     maxlength: 500,
   },
-  numDownvotesReceived: {
-    type: Number,
-    default: 0,
-    min: 0,
-  },
-  numUpvotesReceived: {
-    type: Number,
-    default: 0,
-    min: 0,
-  },
   answersGiven: {
     type: [{ type: Schema.Types.ObjectId, ref: 'Answer' }],
   },
@@ -56,14 +46,6 @@ const profileSchema: Schema = new Schema({
 
   answersUpvoted: {
     type: [{ type: Schema.Types.ObjectId, ref: 'Answer' }],
-  },
-
-  reputation: {
-    type: Number,
-  },
-  score: {
-    type: Number,
-    default: 0,
   },
   joinedWhen: {
     type: Date,
