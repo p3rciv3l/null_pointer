@@ -156,8 +156,6 @@ export interface Comment {
  * - 'username' - The username of the user.
  * - 'title' - The job title of the user.
  * - 'bio' - A short description about the user.
- * - 'numAnswers' - The number of answers the user has submitted.
- * - 'numQuestions' - The number of questions the user has submitted.
  * - 'reputation' - The rank of the user in the stack community.
  * - 'joinedWhen' - How long the user has created this Profile for.
  * - 'score' - An integer score calculated based on number of upvotes and downvotes receieved.
@@ -169,10 +167,12 @@ export interface Profile {
   username: string; 
   title: string;
   bio: string; 
-  numAnswers: number; 
-  numQuestions: number;
-  numDownvotes: number; 
-  numUpvotes: number;
+  numDownvotesReceived: number; 
+  numUpvotesReceived: number;
+  answersGiven: Answer[];
+  questionsAsked: Question[];
+  questionsUpvoted: Question[];
+  answersUpvoted: Answer[];
   reputation: number;
   score: number; 
   joinedWhen: Date;
