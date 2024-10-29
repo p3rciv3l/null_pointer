@@ -153,14 +153,15 @@ export interface Comment {
 
 /**
  * Interface representing a Profile, which contains:
+ *  * - _id - The unique identifier for the Profile. Optional field.
  * - 'username' - The username of the user.
  * - 'title' - The job title of the user.
  * - 'bio' - A short description about the user.
- * - 'reputation' - The rank of the user in the stack community.
- * - 'joinedWhen' - How long the user has created this Profile for.
- * - 'score' - An integer score calculated based on number of upvotes and downvotes receieved.
- * - 'numDownvotes' - The number of downvotes the user has ever recieved.
- * - 'numUpvotes' - The number of upvotes the user has ever recieved.
+ * - 'answersGiven' - The list of answers the user has submitted.
+ * - 'questionsAsked' - The list of questions the user has submitted.
+ * - 'questionsUpvoted' - The list of questions the user has upvoted.
+ * - 'answersUpvoted' - The list of answers the user has upvoted (When we add Answer upvote functionality).
+ * - 'joinedWhen' - A Date corresponding to when the User created a Profile (created an account).
  */
 export interface Profile {
   _id?: ObjectId; 
