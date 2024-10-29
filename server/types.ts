@@ -21,7 +21,7 @@ export type OrderType = 'newest' | 'unanswered' | 'active' | 'mostViewed';
 export interface Answer {
   _id?: ObjectId;
   text: string;
-  ansBy: Profile;
+  ansBy: string;
   ansDateTime: Date;
   comments: Comment[] | ObjectId[];
 }
@@ -73,12 +73,12 @@ export interface Question {
   title: string;
   text: string;
   tags: Tag[];
-  askedBy: Profile;
+  askedBy: string;
   askDateTime: Date;
   answers: Answer[] | ObjectId[];
   views: string[];
-  upVotes: Profile[];
-  downVotes: Profile[];
+  upVotes: string[];
+  downVotes: string[];
   comments: Comment[] | ObjectId[];
 }
 
@@ -146,7 +146,7 @@ export interface VoteRequest extends Request {
 export interface Comment {
   _id?: ObjectId;
   text: string;
-  commentBy: Profile;
+  commentBy: string;
   commentDateTime: Date;
 }
 

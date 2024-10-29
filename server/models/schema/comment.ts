@@ -15,8 +15,7 @@ const commentSchema: Schema = new Schema(
       type: String,
     },
     commentBy: {
-      type: Schema.Types.ObjectId,
-      ref: 'Profile',
+      type: String,
     },
     commentDateTime: {
       type: Date,

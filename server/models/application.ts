@@ -231,7 +231,7 @@ export const getQuestionsByOrder = async (order: OrderType): Promise<Question[]>
  * @returns Filtered Question objects.
  */
 export const filterQuestionsByAskedBy = (qlist: Question[], askedBy: string): Question[] =>
-  qlist.filter(q => q.askedBy.username === askedBy);
+  qlist.filter(q => q.askedBy === askedBy);
 
 /**
  * Filters questions based on a search string containing tags and/or keywords.
