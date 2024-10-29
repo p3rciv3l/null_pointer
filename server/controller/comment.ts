@@ -33,7 +33,7 @@ const commentController = (socket: FakeSOSocket) => {
     comment.text !== undefined &&
     comment.text !== '' &&
     comment.commentBy !== undefined &&
-    comment.commentBy !== '' &&
+    comment.commentBy !== null &&
     comment.commentDateTime !== undefined &&
     comment.commentDateTime !== null;
 

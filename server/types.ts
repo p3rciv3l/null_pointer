@@ -1,4 +1,5 @@
 import { Request } from 'express';
+import { Profiler } from 'inspector/promises';
 import { ObjectId } from 'mongodb';
 import { Server } from 'socket.io';
 
@@ -20,7 +21,7 @@ export type OrderType = 'newest' | 'unanswered' | 'active' | 'mostViewed';
 export interface Answer {
   _id?: ObjectId;
   text: string;
-  ansBy: string;
+  ansBy: Profile;
   ansDateTime: Date;
   comments: Comment[] | ObjectId[];
 }
@@ -72,12 +73,12 @@ export interface Question {
   title: string;
   text: string;
   tags: Tag[];
-  askedBy: string;
+  askedBy: Profile;
   askDateTime: Date;
   answers: Answer[] | ObjectId[];
   views: string[];
-  upVotes: string[];
-  downVotes: string[];
+  upVotes: Profile[];
+  downVotes: Profile[];
   comments: Comment[] | ObjectId[];
 }
 
@@ -145,8 +146,33 @@ export interface VoteRequest extends Request {
 export interface Comment {
   _id?: ObjectId;
   text: string;
-  commentBy: string;
+  commentBy: Profile;
   commentDateTime: Date;
+}
+
+
+/**
+ * Interface representing a Profile, which contains:
+ *  * - _id - The unique identifier for the Profile. Optional field.
+ * - 'username' - The username of the user.
+ * - 'title' - The job title of the user.
+ * - 'bio' - A short description about the user.
+ * - 'answersGiven' - The list of answers the user has submitted.
+ * - 'questionsAsked' - The list of questions the user has submitted.
+ * - 'questionsUpvoted' - The list of questions the user has upvoted.
+ * - 'answersUpvoted' - The list of answers the user has upvoted (When we add Answer upvote functionality).
+ * - 'joinedWhen' - A Date corresponding to when the User created a Profile (created an account).
+ */
+export interface Profile {
+  _id?: ObjectId; 
+  username: string; 
+  title: string;
+  bio: string; 
+  answersGiven: Answer[];
+  questionsAsked: Question[];
+  questionsUpvoted: Question[];
+  answersUpvoted: Answer[];
+  joinedWhen: Date;
 }
 
 /**

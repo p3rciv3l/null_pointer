@@ -110,7 +110,7 @@ const questionController = (socket: FakeSOSocket) => {
     question.tags !== undefined &&
     question.tags.length > 0 &&
     question.askedBy !== undefined &&
-    question.askedBy !== '' &&
+    question.askedBy !== null &&
     question.askDateTime !== undefined &&
     question.askDateTime !== null;
 
