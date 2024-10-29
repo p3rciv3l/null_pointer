@@ -7,9 +7,15 @@ import { User } from '../types';
  * - setUser - A function to update the current user in the context,
  *             which take User object representing the logged-in user or null
  *             to indicate no user is logged in.
+ * - login - A function to log in a user with email and password.
+ * - logout - A function to log out the current user.
+ * - signUp - A function to sign up a new user with email, password, and username.
  */
 export interface LoginContextType {
   setUser: (user: User | null) => void;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+  signUp: (email: string, password: string, username: string) => Promise<void>;
 }
 
 const LoginContext = createContext<LoginContextType | null>(null);
