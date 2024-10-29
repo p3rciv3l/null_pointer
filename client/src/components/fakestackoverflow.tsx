@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './layout';
 import Login from './login';
@@ -10,6 +10,7 @@ import TagPage from './main/tagPage';
 import NewQuestionPage from './main/newQuestion';
 import NewAnswerPage from './main/newAnswer';
 import AnswerPage from './main/answerPage';
+import { login, logout, signUp } from '../services/authService';
 
 const ProtectedRoute = ({
   user,
@@ -34,8 +35,23 @@ const ProtectedRoute = ({
 const FakeStackOverflow = ({ socket }: { socket: FakeSOSocket | null }) => {
   const [user, setUser] = useState<User | null>(null);
 
+  const handleLogin = useCallback(async (email: string, password: string) => {
+    const userData = await login(email, password);
+    setUser(userData);
+  }, []);
+
+  const handleSignUp = useCallback(async (email: string, password: string, username: string) => {
+    const userData = await signUp(email, password, username);
+    setUser(userData);
+  }, []);
+
+  const handleLogout = useCallback(async () => {
+    await logout();
+    setUser(null);
+  }, []);
+
   return (
-    <LoginContext.Provider value={{ setUser }}>
+    <LoginContext.Provider value={{ setUser, login: handleLogin, logout: handleLogout, signUp: handleSignUp }}>
       <Routes>
         {/* Public Route */}
         <Route path='/' element={<Login />} />
