@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { handleHyperlink } from '../../../../tool';
 import CommentSection from '../../commentSection';
 import './index.css';
 import { Comment } from '../../../../types';
+import UserProfileLink from '../../Profile/ProfileLink';
 
 /**
  * Interface representing the props for the AnswerView component.
@@ -38,16 +38,9 @@ const AnswerView = ({ text, ansBy, meta, comments, handleAddComment }: AnswerPro
       {handleHyperlink(text)}
     </div>
     <div className='answerAuthor'>
-      <div className='answer_author'>{ansBy}</div>
+      <UserProfileLink username={ansBy} className='answer_author' />
       <div className='answer_question_meta'>{meta}</div>
     </div>
-    <p>
-      Go to{' '}
-      <Link to='/profile' className='link_button'>
-        {' '}
-        Profile Page
-      </Link>
-    </p>
     <CommentSection comments={comments} handleAddComment={handleAddComment} />
   </div>
 );

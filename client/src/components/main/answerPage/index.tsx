@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { getMetaData } from '../../../tool';
 import AnswerView from './answer';
 import AnswerHeader from './header';
@@ -9,6 +8,7 @@ import QuestionBody from './questionBody';
 import VoteComponent from '../voteComponent';
 import CommentSection from '../commentSection';
 import useAnswerPage from '../../../hooks/useAnswerPage';
+import UserProfileLink from '../Profile/ProfileLink';
 
 /**
  * AnswerPage component that displays the full content of a question along with its answers.
@@ -28,16 +28,9 @@ const AnswerPage = () => {
       <QuestionBody
         views={question.views.length}
         text={question.text}
-        askby={question.askedBy}
+        askby={<UserProfileLink username={question.askedBy} className='user-link' />} // Use UserProfileLink here
         meta={getMetaData(new Date(question.askDateTime))}
       />
-      <p>
-        Go to{' '}
-        <Link to='/profile' className='link_button'>
-          {' '}
-          Profile Page
-        </Link>
-      </p>
       <CommentSection
         comments={question.comments}
         handleAddComment={(comment: Comment) => handleNewComment(comment, 'question', questionID)}
