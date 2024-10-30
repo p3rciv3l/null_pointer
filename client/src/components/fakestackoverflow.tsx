@@ -10,7 +10,8 @@ import TagPage from './main/tagPage';
 import NewQuestionPage from './main/newQuestion';
 import NewAnswerPage from './main/newAnswer';
 import AnswerPage from './main/answerPage';
-import ProfilePage from './main/Profile/ProfilePage';
+import ProfilePage from './main/profile/profilePage';
+import EditProfilePage from './main/profile/profileEditPage';
 
 const ProtectedRoute = ({
   user,
@@ -53,6 +54,7 @@ const FakeStackOverflow = ({ socket }: { socket: FakeSOSocket | null }) => {
             <Route path='tags' element={<TagPage />} />
             <Route path='/question/:qid' element={<AnswerPage />} />
             <Route path='/new/question' element={<NewQuestionPage />} />
+            <Route path='/update/profile' element={<EditProfilePage />} />
             <Route path='/new/answer/:qid' element={<NewAnswerPage />} />
             <Route path='/profile/:username' element={<ProfilePage />} />
           </Route>
