@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { handleHyperlink } from '../../../../tool';
 import CommentSection from '../../commentSection';
 import './index.css';
@@ -40,6 +41,13 @@ const AnswerView = ({ text, ansBy, meta, comments, handleAddComment }: AnswerPro
       <div className='answer_author'>{ansBy}</div>
       <div className='answer_question_meta'>{meta}</div>
     </div>
+    <p>
+      Go to{' '}
+      <Link to='/profile' className='link_button'>
+        {' '}
+        Profile Page
+      </Link>
+    </p>
     <CommentSection comments={comments} handleAddComment={handleAddComment} />
   </div>
 );
