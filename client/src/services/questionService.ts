@@ -1,7 +1,5 @@
 import { Question } from '../types';
 import api from './config';
-import { ref, get } from 'firebase/database';
-import { database } from '../config/firebase';
 
 const QUESTION_API_URL = `${process.env.REACT_APP_SERVER_URL}/question`;
 

@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import useLoginContext from '../../hooks/useLoginContext';
 
 /**
- * Login Component contains a form that allows the user to input their username, which is then submitted
- * to the application's context through the useLoginContext hook.
+ * Login Component contains a form that allows users to either sign in with existing credentials
+ * or create a new account through Firebase Authentication.
  */
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -27,9 +27,8 @@ const Login = () => {
         await login(email, password);
       }
       navigate('/home');
-    } catch (error) {
+    } catch (err) {
       setError('Authentication failed. Please try again.');
-      console.error('Authentication error:', error);
     }
   };
 
@@ -37,7 +36,7 @@ const Login = () => {
     <div className='container'>
       <h2>Welcome to FakeStackOverflow!</h2>
       <h4>{isSignUp ? 'Create an account' : 'Sign in to your account'}</h4>
-      {error && <div className="error-message">{error}</div>}
+      {error && <div className='error-message'>{error}</div>}
       <form onSubmit={handleSubmit}>
         <input
           type='email'

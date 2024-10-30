@@ -34,4 +34,4 @@ const app = initializeApp(firebaseConfig);
 // initialize database
 const database = getDatabase(app);
 
-export { database };
+export { app, database };
