@@ -1,6 +1,6 @@
 import './index.css';
-import useLogin from '../../hooks/useLogin';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useLoginContext from '../../hooks/useLoginContext';
 
 /**
@@ -12,17 +12,23 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const [isSignUp, setIsSignUp] = useState(false);
+  const [error, setError] = useState('');
   const { login, signUp } = useLoginContext();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
+    
     try {
       if (isSignUp) {
         await signUp(email, password, username);
       } else {
         await login(email, password);
       }
+      navigate('/home');
     } catch (error) {
+      setError('Authentication failed. Please try again.');
       console.error('Authentication error:', error);
     }
   };
@@ -30,7 +36,8 @@ const Login = () => {
   return (
     <div className='container'>
       <h2>Welcome to FakeStackOverflow!</h2>
-      <h4>Please enter your username.</h4>
+      <h4>{isSignUp ? 'Create an account' : 'Sign in to your account'}</h4>
+      {error && <div className="error-message">{error}</div>}
       <form onSubmit={handleSubmit}>
         <input
           type='email'
