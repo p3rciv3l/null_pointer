@@ -17,7 +17,7 @@ const ProfilePage = () => {
   // the skeleton for the HTML framework was there, so that later modifications wouldn't take too much
   // time.
   const user = {
-    name: 'mertyildiran',
+    name: username,
     title: 'Computer Engineer',
     location: 'Turkey',
     reputation: 2918,
