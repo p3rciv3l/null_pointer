@@ -3,12 +3,12 @@ import { getMetaData } from '../../../tool';
 import AnswerView from './answer';
 import AnswerHeader from './header';
 import { Comment } from '../../../types';
-import './index.css';
 import QuestionBody from './questionBody';
 import VoteComponent from '../voteComponent';
 import CommentSection from '../commentSection';
 import useAnswerPage from '../../../hooks/useAnswerPage';
-import UserProfileLink from '../profile/profileLink';
+import UserProfileLink from '../Profile/ProfileLink';
+import './index.css';
 
 /**
  * AnswerPage component that displays the full content of a question along with its answers.
