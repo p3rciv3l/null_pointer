@@ -177,3 +177,12 @@
   background-size: 1000px 100%;
   animation: shimmer 2s infinite linear;
 }
+
+.flex-container {
+  display: flex;
+  flex-direction: column; 
+}
+
+div {
+  margin-bottom: 0.5em; /* adds 2 units of spacing after each div */
+}

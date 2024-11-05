@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import './index.css';
-import { Answer, Tag, Comment, Question} from '../../../../types';
+import { Answer, Tag, Comment, Question } from '../../../../types';
 
 const ProfilePage = () => {
   const { username } = useParams();
@@ -135,15 +135,44 @@ const ProfilePage = () => {
     reputation: 2918,
     answers: 90,
     questions: 14,
-    joinedWhen: Date.now(),
+    joinedWhen: new Date(),
     questionsAsked: QUESTIONS,
-    answersGiven: [],
+    answersGiven: [ans1, ans2],
+    topTags: [
+      { name: 'python', score: 29, posts: 35, points: 34 },
+      { name: 'php', score: 10, posts: 16, points: 6 },
+      { name: 'mysql', score: 4, posts: 4, points: 10 },
+    ],
   };
+
+  const formattedDate = user.joinedWhen.toLocaleString('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
 
   return (
     <div className='profile-page-main-divider'>
       {/* Profile Header */}
       <div className='gap-between'>
+        {/* Profile Info */}
+        <div className='user-info'>
+          <h1 className='user name'>User: {user.name}</h1>
+          <h4 className='job-title'>Title: {user.title}</h4>
+          <div className='flex-container'>
+            <h4>About me: </h4>
+            <div className='flex-container'>{user.bio}</div>
+            <span className='flex items-center gap-1'>
+              <span className='font-medium'>{user.answers}</span> answers posted
+            </span>
+            <span className='flex items-center gap-1'>
+              <span className='font-medium'>{user.questions}</span> questions
+            </span>
+            <span className='flex items-center gap-1'>
+              <span className='font-medium'>Joined: {formattedDate}</span>
+            </span>
+          </div>
+        </div>
         {/* Avatar Section */}
         <div className='flex flex-col items-center gap-2'>
           <div className='text-center'>
@@ -155,33 +184,14 @@ const ProfilePage = () => {
             </div>
           </div>
           <div className='flex gap-2 text-sm'>
-            <span className='badge gold px-2 py-1 rounded' data-tooltip='Gold Badges'>
+            <span className='badge gold' data-tooltip='Gold Badges'>
               🏆 2
             </span>
-            <span className='badge silver px-2 py-1 rounded' data-tooltip='Silver Badges'>
+            <span className='badge silver' data-tooltip='Silver Badges'>
               ⚫ 11
             </span>
-            <span className='badge bronze px-2 py-1 rounded' data-tooltip='Bronze Badges'>
+            <span className='badge bronze' data-tooltip='Bronze Badges'>
               🥉 36
-            </span>
-          </div>
-        </div>
-
-        {/* Profile Info */}
-        <div className='flex-1'>
-          <h1 className='text-2xl font-bold mb-2'>{user.name}</h1>
-          <div className='text-gray-600 mb-4'>{user.title}</div>
-
-          <div className='flex items-center gap-4 text-sm text-gray-600 mb-6'>
-            <span>📍 {user.location}</span>
-            <span className='flex items-center gap-1'>
-              <span className='font-medium'>{user.answers}</span> answers
-            </span>
-            <span className='flex items-center gap-1'>
-              <span className='font-medium'>{user.questions}</span> questions
-            </span>
-            <span className='flex items-center gap-1'>
-              <span className='font-medium'>{user.peopleReached}</span> people reached
             </span>
           </div>
         </div>
@@ -189,26 +199,9 @@ const ProfilePage = () => {
 
       {/* Main Content */}
       <div className='profile-content flex gap-6'>
-        {/* Left Column */}
-        <div className='profile-sidebar w-48'>
-          <div className='mb-6'>
-            <h2 className='text-lg font-bold mb-3'>Communities</h2>
-            <div className='space-y-2'>
-              {user.communities.map((community, index) => (
-                <div key={index} className='community-item flex justify-between items-center'>
-                  <a href='#' className='community-link'>
-                    {community.name}
-                  </a>
-                  <span className='community-reputation'>{community.rep}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
         {/* Right Column */}
         <div className='flex-1'>
-          <h2 className='text-lg font-bold mb-3'>Top Tags</h2>
+          <h2 className='dic mb-3'>Top Tags</h2>
           <div className='space-y-4'>
             {user.topTags.map((tag, index) => (
               <div key={index} className='tag-container flex items-center gap-4'>
