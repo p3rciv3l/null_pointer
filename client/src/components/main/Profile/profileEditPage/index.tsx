@@ -1,7 +1,6 @@
-import React from 'react';
 import Form from '../../baseComponents/form';
-import Input from '../../baseComponents/input';
 import TextArea from '../../baseComponents/textarea';
+import useEditProfile from '../../../../hooks/useEditProfile';
 import './index.css';
 
 /**
@@ -9,10 +8,7 @@ import './index.css';
  * description, tags, and username.
  */
 const EditProfilePage = () => {
-  // const { text, setText, tagNames, setTagNames, textErr, tagErr, updateProfile } = useEditProfile();
-  const text = '';
-  const setText = () => {};
-  const textErr = '';
+  const { text, setText, textErr, updateProfile } = useEditProfile();
   return (
     <Form>
       <TextArea
@@ -27,7 +23,7 @@ const EditProfilePage = () => {
         <button
           className='form_postBtn'
           onClick={() => {
-            // updateProfile();
+            updateProfile();
           }}>
           Update Profile
         </button>
