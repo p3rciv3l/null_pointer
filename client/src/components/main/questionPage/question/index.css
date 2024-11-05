@@ -16,6 +16,7 @@
 
 .postTitle {
   color: cornflowerblue;
+  cursor: pointer;
 }
 
 .question_tags {
@@ -43,6 +44,7 @@
 
 .question_author {
   color: red;
+  cursor: pointer;
 }
 
 .question_meta {
