@@ -107,4 +107,4 @@ server/node_modules/
 server/package-lock.json
 .stryker-tmp/
 server/reports
-
+server/.env
