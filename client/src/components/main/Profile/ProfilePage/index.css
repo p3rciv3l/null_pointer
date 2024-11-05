@@ -15,11 +15,34 @@
   margin-bottom: 20px;
 }
 
+.profile-header-main {
+  display: flex;
+  align-items: center;
+}
+
 .profile-info h1 {
   font-size: 2em;
   font-weight: bold;
   margin: 0;
   color: #444;
+}
+
+.follow-button {
+  padding: 8px 16px;
+  font-size: 0.9em;
+  font-weight: bold;
+  color: #fff;
+  background-color: #0073e6;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 20px; 
+}
+
+
+
+.follow-button:hover {
+  background-color: #005bb5;
 }
 
 .profile-info h3 {

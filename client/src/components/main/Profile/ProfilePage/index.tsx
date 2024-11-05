@@ -67,7 +67,10 @@ const ProfilePage = () => {
     <div className='profile-page'>
       <div className='profile-header'>
         <div className='profile-info'>
-          <h1>{user.name}</h1>
+          <div className='profile-header-main'>
+            <h1>{user.name}</h1>
+            <button className='follow-button'>Follow</button>
+          </div>
           <h3>{user.title}</h3>
           <p>{user.bio}</p>
           <p>
