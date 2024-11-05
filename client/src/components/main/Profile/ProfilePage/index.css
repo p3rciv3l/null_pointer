@@ -1,188 +1,108 @@
-/* ProfilePage.css */
-
-/* General page layout */
 .profile-page {
-  background-color: #fff;
-  min-height: 100vh;
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  color: #333;
 }
 
-/* Reputation score animation */
-.reputation-score {
-  transition: color 0.2s;
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
 }
 
-/* Badge styles */
+.profile-info h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin: 0;
+  color: #444;
+}
+
+.profile-info h3 {
+  font-size: 1.2em;
+  color: #777;
+  margin-top: 5px;
+}
+
+.profile-info p {
+  margin: 10px 0;
+}
+
+.profile-stats {
+  text-align: center;
+}
+
+.reputation {
+  font-size: 1em;
+  color: #333;
+  font-weight: bold;
+}
+
+.badges {
+  margin-top: 10px;
+}
+
 .badge {
-  font-size: 11px;
-  transition: transform 0.1s ease;
+  font-size: 1.2em;
+  margin: 0 5px;
 }
 
-.badge:hover {
-  transform: translateY(-1px);
+.gold {
+  color: gold;
 }
 
-.badge.gold {
-  background-color: #fff4d1;
-  color: #735c0f;
+.silver {
+  color: silver;
 }
 
-.badge.silver {
-  background-color: #e8e8e8;
-  color: #6a737c;
+.bronze {
+  color: #cd7f32;
 }
 
-.badge.bronze {
-  background-color: #f2e9e1;
-  color: #8a4f26;
+.profile-content {
+  margin-top: 20px;
 }
 
-/* Community list styles */
-.community-item {
-  padding: 6px 0;
-  border-bottom: 1px solid #f1f2f3;
+.tags-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
-.community-item:last-child {
-  border-bottom: none;
-}
-
-.community-link {
-  color: #0074cc;
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.community-link:hover {
-  color: #0a95ff;
-}
-
-.community-reputation {
-  font-size: 12px;
-  color: #6a737c;
-}
-
-/* Tag styles */
 .tag-container {
-  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  background-color: #f8f8f8;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .tag-name {
-  background-color: #e1ecf4;
-  color: #39739d;
-  font-size: 12px;
-  transition: all 0.2s;
+  font-weight: bold;
+  color: #0073e6;
+  padding: 5px 10px;
+  background-color: #e6f7ff;
+  border-radius: 5px;
+  margin-right: 20px;
 }
 
-.tag-name:hover {
-  background-color: #d0e3f1;
-  color: #2c5877;
-}
-
-/* Tag statistics */
-.tag-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  color: #6a737c;
+.tag-details {
+  display: flex;
+  gap: 15px;
 }
 
 .stat-value {
-  font-weight: 700;
-  color: #0c0d0e;
+  font-weight: bold;
+  color: #333;
 }
 
 .stat-label {
-  font-size: 11px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .profile-content {
-    flex-direction: column;
-  }
-  
-  .profile-sidebar {
-    width: 100%;
-    margin-bottom: 2rem;
-  }
-  
-  .tag-stats {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* Custom scrollbar */
-.profile-page::-webkit-scrollbar {
-  width: 8px;
-}
-
-.profile-page::-webkit-scrollbar-track {
-  background: #f1f2f3;
-}
-
-.profile-page::-webkit-scrollbar-thumb {
-  background: #bbc0c4;
-  border-radius: 4px;
-}
-
-.profile-page::-webkit-scrollbar-thumb:hover {
-  background: #9fa6ad;
-}
-
-/* Tooltips */
-[data-tooltip] {
-  position: relative;
-}
-
-[data-tooltip]:before {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 4px 8px;
-  background-color: #3c4146;
-  color: white;
-  font-size: 11px;
-  border-radius: 3px;
-  white-space: nowrap;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.2s;
-}
-
-[data-tooltip]:hover:before {
-  opacity: 1;
-  visibility: visible;
-}
-
-/* Animation for loading states */
-@keyframes shimmer {
-  0% {
-    background-position: -1000px 0;
-  }
-  100% {
-    background-position: 1000px 0;
-  }
-}
-
-.loading {
-  background: linear-gradient(
-    to right,
-    #f6f7f8 0%,
-    #edeef1 20%,
-    #f6f7f8 40%,
-    #f6f7f8 100%
-  );
-  background-size: 1000px 100%;
-  animation: shimmer 2s infinite linear;
-}
-
-.flex-container {
-  display: flex;
-  flex-direction: column; 
-}
-
-div {
-  margin-bottom: 0.5em; /* adds 2 units of spacing after each div */
+  font-size: 0.85em;
+  color: #777;
+  margin-left: 5px;
 }
