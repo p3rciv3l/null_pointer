@@ -1,16 +1,38 @@
 // ProfilePage.js
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import ProfileHeader from './ProfileHeader';
+import TagDisplay from './tagDisplay';
+import QuestionDisplay from './questionDisplay';
 import './index.css';
+import { Tag } from '../../../../types';
 
 const ProfilePage = () => {
   const { username } = useParams();
+  const tag1: Tag = {
+    _id: '507f191e810c19729de860ea',
+    name: 'react',
+    description: 'T1_DESC',
+  };
+
+  const tag2: Tag = {
+    _id: '65e9a5c2b26199dbcc3e6dc8',
+    name: 'javascript',
+    description: 'T2_DESC',
+  };
+
+  const tag3: Tag = {
+    _id: '65e9b4b1766fca9451cba653',
+    name: 'android',
+    description: 'T3_DESC',
+  };
 
   const user = {
     name: username,
     title: 'Computer Engineer',
     bio: 'Hello, I am a software developer simply trying to learn more on this platform! I specialize in Ubuntu, Information Security, and Software Engineering!',
     reputation: 2918,
+    badgesEarned: { gold: 20, silver: 15, bronze: 5 },
     answers: 90,
     questions: 14,
     joinedWhen: new Date(),
@@ -23,13 +45,13 @@ const ProfilePage = () => {
       {
         _id: '65e9b58910afe6e94fc6e6dc',
         title: 'Quick question about storage on android',
-        tags: ['android', 'javascript'],
+        tags: [tag2, tag3],
         askDateTime: new Date('2023-11-16T09:24:00'),
       },
       {
         _id: '65e9b5a995b6c7045a30d823',
         title: 'Object storage for a web application',
-        tags: ['react', 'javascript'],
+        tags: [tag1, tag2],
         askDateTime: new Date('2023-11-17T09:24:00'),
       },
       {
@@ -65,61 +87,21 @@ const ProfilePage = () => {
 
   return (
     <div className='profile-page'>
-      <div className='profile-header'>
-        <div className='profile-info'>
-          <div className='profile-header-main'>
-            <h1>{user.name}</h1>
-            <button className='follow-button'>Follow</button>
-          </div>
-          <h3>{user.title}</h3>
-          <p>{user.bio}</p>
-          <p>
-            <strong>Joined:</strong> {formattedDate}
-          </p>
-        </div>
-        <div className='profile-stats'>
-          <div className='reputation'>
-            <p>Reputation</p>
-            <h2>{user.reputation}</h2>
-          </div>
-          <div className='badges'>
-            <span className='badge gold'>🥇 2</span>
-            <span className='badge silver'>🥈 11</span>
-            <span className='badge bronze'>🥉 36</span>
-          </div>
-        </div>
-      </div>
-
+      <ProfileHeader
+        username={user.name}
+        title={user.title}
+        bio={user.bio}
+        date={formattedDate}
+        reputation={user.reputation}
+        goldBadge={user.badgesEarned.gold}
+        silverBadge={user.badgesEarned.silver}
+        bronzeBadge={user.badgesEarned.bronze}
+      />
       <div className='profile-content'>
-        <h2>Top Tags</h2>
-        <div className='tags-list'>
-          {user.topTags.map((tag, index) => (
-            <div key={index} className='tag-container'>
-              <span className='tag-name'>{tag.name}</span>
-              <div className='tag-details'>
-                <div>
-                  <span className='stat-value'>{tag.score}</span>
-                  <span className='stat-label'>score</span>
-                </div>
-                <div>
-                  <span className='stat-value'>{tag.posts}</span>
-                  <span className='stat-label'>posts</span>
-                </div>
-                <div>
-                  <span className='stat-value'>{tag.points}</span>
-                  <span className='stat-label'>points</span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
+        <TagDisplay topTags={user.topTags} />
         {/* Stats Section */}
         <div className='profile-stats-section'>
-          <h2>Stats</h2>
-          <div className='stats-item'>
-            <strong>Reputation Score:</strong> {user.reputation}
-          </div>
+          <h2>Activity</h2>
           <div className='stats-item'>
             <strong>Questions Answered:</strong> {user.questionsAnswered.length}
           </div>
@@ -129,29 +111,7 @@ const ProfilePage = () => {
         </div>
 
         {/* Questions Section */}
-        <div className='profile-questions-section'>
-          <h2>Questions Asked</h2>
-          {user.questionsAnswered.map(question => (
-            <div key={question._id} className='question-item'>
-              <h3 className='question-title'>{question.title}</h3>
-              <div className='question-tags'>
-                {question.tags.map((tag, index) => (
-                  <span key={index} className='question-tag'>
-                    {tag}
-                  </span>
-                ))}
-              </div>
-              <p className='question-date'>
-                Asked on:{' '}
-                {question.askDateTime.toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </p>
-            </div>
-          ))}
-        </div>
+        <QuestionDisplay questionsPosted={user.questionsAnswered} />
       </div>
     </div>
   );
