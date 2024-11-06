@@ -3,7 +3,7 @@ import { handleHyperlink } from '../../../../tool';
 import CommentSection from '../../commentSection';
 import './index.css';
 import { Comment } from '../../../../types';
-import UserProfileLink from '../../Profile/ProfileLink';
+import UserProfileLink from '../../profile/profileLink';
 
 /**
  * Interface representing the props for the AnswerView component.

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './index.css';
 import { getMetaData } from '../../../../tool';
 import { Question } from '../../../../types';
-import UserProfileLink from '../../Profile/ProfileLink';
+import UserProfileLink from '../../profile/profileLink';
 
 /**
  * Interface representing the props for the Question component.

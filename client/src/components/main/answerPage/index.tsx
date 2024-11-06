@@ -7,7 +7,7 @@ import QuestionBody from './questionBody';
 import VoteComponent from '../voteComponent';
 import CommentSection from '../commentSection';
 import useAnswerPage from '../../../hooks/useAnswerPage';
-import UserProfileLink from '../Profile/ProfileLink';
+import UserProfileLink from '../profile/profileLink';
 import './index.css';
 
 /**

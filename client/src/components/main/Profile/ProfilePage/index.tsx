@@ -1,7 +1,7 @@
 // ProfilePage.js
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import ProfileHeader from './ProfileHeader';
+import ProfileHeader from './profileHeader';
 import TagDisplay from './tagDisplay';
 import QuestionDisplay from './questionDisplay';
 import './index.css';
