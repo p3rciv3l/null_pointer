@@ -13,7 +13,7 @@ import { handleHyperlink } from '../../../../tool';
 interface QuestionBodyProps {
   views: number;
   text: string;
-  askby: string;
+  askby: React.ReactNode;
   meta: string;
 }
 

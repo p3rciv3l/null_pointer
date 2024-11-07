@@ -75,6 +75,30 @@ export interface VoteData {
 }
 
 /**
+ * Interface representing a Profile, which contains:
+ *  * - _id - The unique identifier for the Profile. Optional field.
+ * - 'username' - The username of the user.
+ * - 'title' - The job title of the user.
+ * - 'bio' - A short description about the user.
+ * - 'answersGiven' - The list of answers the user has submitted.
+ * - 'questionsAsked' - The list of questions the user has submitted.
+ * - 'questionsUpvoted' - The list of questions the user has upvoted.
+ * - 'answersUpvoted' - The list of answers the user has upvoted (When we add Answer upvote functionality).
+ * - 'joinedWhen' - A Date corresponding to when the User created a Profile (created an account).
+ */
+export interface Profile {
+  _id?: string;
+  username: string;
+  title: string;
+  bio: string;
+  answersGiven: Answer[];
+  questionsAsked: Question[];
+  questionsUpvoted: Question[];
+  answersUpvoted: Answer[];
+  joinedWhen: Date;
+}
+
+/**
  * Interface representing an Answer document, which contains:
  * - _id - The unique identifier for the answer. Optional field
  * - text - The content of the answer

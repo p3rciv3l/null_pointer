@@ -44,6 +44,10 @@ const QuestionView = ({ q }: QuestionProps) => {
     navigate(`/question/${questionID}`);
   };
 
+  const handleAuthorClick = (username: string) => {
+    navigate(`/profile/${username}`);
+  };
+
   return (
     <div
       className='question right_padding'
@@ -73,7 +77,14 @@ const QuestionView = ({ q }: QuestionProps) => {
         </div>
       </div>
       <div className='lastActivity'>
-        <div className='question_author'>{q.askedBy}</div>
+        <div
+          className='question_author'
+          onClick={e => {
+            e.stopPropagation();
+            handleAuthorClick(q.askedBy);
+          }}>
+          {q.askedBy}
+        </div>
         <div>&nbsp;</div>
         <div className='question_meta'>asked {getMetaData(new Date(q.askDateTime))}</div>
       </div>
