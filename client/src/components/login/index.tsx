@@ -19,15 +19,24 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    
+
     try {
       if (isSignUp) {
+        if (!email || !password || !username) {
+          setError('All fields are required');
+          return;
+        }
         await signUp(email, password, username);
       } else {
+        if (!email || !password) {
+          setError('Email and password are required');
+          return;
+        }
         await login(email, password);
       }
-      navigate('/home');
+      navigate('/questions');
     } catch (err) {
+      console.error('Auth error:', err);
       setError('Authentication failed. Please try again.');
     }
   };
@@ -64,8 +73,16 @@ const Login = () => {
             required
           />
         )}
-        <button type='submit'>{isSignUp ? 'Sign Up' : 'Login'}</button>
-        <button type='button' onClick={() => setIsSignUp(!isSignUp)}>
+        <button type='submit' className='submit-button'>
+          {isSignUp ? 'Sign Up' : 'Login'}
+        </button>
+        <button
+          type='button'
+          className='toggle-auth-mode'
+          onClick={() => {
+            setIsSignUp(!isSignUp);
+            setError('');
+          }}>
           {isSignUp ? 'Already have an account? Login' : 'Need an account? Sign Up'}
         </button>
       </form>

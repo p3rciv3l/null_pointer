@@ -1,14 +1,13 @@
-import { ref, set, get, push, update, query, orderByChild, DatabaseReference } from 'firebase/database';
-import { database } from '../config/firebase';
+import axios from 'axios';
 import { Question, Answer, Comment, Tag, TagData } from '../types';
 
-// Questions
+const API_URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:8000';
+
+// questions
 export const addQuestion = async (question: Question): Promise<Question> => {
   try {
-    const newQuestionRef = push(ref(database, 'questions'));
-    const questionWithId = { ...question, _id: newQuestionRef.key ?? '' };
-    await set(newQuestionRef, questionWithId);
-    return questionWithId;
+    const response = await axios.post(`${API_URL}/api/questions`, question);
+    return response.data;
   } catch (error) {
     throw new Error('Error while creating a new question');
   }
@@ -19,203 +18,82 @@ export const getQuestionsByFilter = async (
   search: string = '',
 ): Promise<Question[]> => {
   try {
-    const questionsRef = ref(database, 'questions');
-    const snapshot = await get(questionsRef);
-    
-    if (!snapshot.exists()) return [];
-    
-    let questions = Object.entries(snapshot.val()).map(([key, value]) => ({
-      ...(value as Question),
-      _id: key,
-    }));
-
-    // Apply search filter
-    if (search) {
-      const searchLower = search.toLowerCase();
-      questions = questions.filter(q => 
-        q.title.toLowerCase().includes(searchLower) ||
-        q.text.toLowerCase().includes(searchLower)
-      );
-    }
-
-    // Apply ordering
-    switch (order) {
-      case 'newest':
-        questions.sort((a, b) => 
-          new Date(b.askDateTime).getTime() - new Date(a.askDateTime).getTime()
-        );
-        break;
-      case 'active':
-        questions.sort((a, b) => b.answers.length - a.answers.length);
-        break;
-      case 'unanswered':
-        questions = questions.filter(q => q.answers.length === 0);
-        break;
-      case 'mostViewed':
-        questions.sort((a, b) => b.views.length - a.views.length);
-        break;
-    }
-
-    return questions;
+    const response = await axios.get(`${API_URL}/api/questions`, {
+      params: { order, search }
+    });
+    return response.data;
   } catch (error) {
     throw new Error('Error when fetching or filtering questions');
   }
 };
 
-export const getQuestionById = async (qid: string, username: string): Promise<Question> => {
+// answers
+export const addAnswer = async (questionId: string, answer: Answer): Promise<Answer> => {
   try {
-    const questionRef = ref(database, `questions/${qid}`);
-    const snapshot = await get(questionRef);
-    
-    if (!snapshot.exists()) {
-      throw new Error('Question not found');
-    }
-    
-    const question = { ...snapshot.val(), _id: qid } as Question;
-    
-    // Add view if not already viewed
-    if (!question.views.includes(username)) {
-      question.views.push(username);
-      await update(questionRef, { views: question.views });
-    }
-    
-    return question;
-  } catch (error) {
-    throw new Error('Error when fetching question by id');
-  }
-};
-
-// Answers
-export const addAnswer = async (qid: string, answer: Answer): Promise<Answer> => {
-  try {
-    const questionRef = ref(database, `questions/${qid}`);
-    const newAnswerRef = push(ref(database, `questions/${qid}/answers`));
-    const answerWithId = { ...answer, _id: newAnswerRef.key ?? '' };
-    
-    await set(newAnswerRef, answerWithId);
-    return answerWithId;
+    const response = await axios.post(`${API_URL}/api/questions/${questionId}/answers`, answer);
+    return response.data;
   } catch (error) {
     throw new Error('Error while creating a new answer');
   }
 };
 
-// Comments
+export const getAnswers = async (questionId: string): Promise<Answer[]> => {
+  try {
+    const response = await axios.get(`${API_URL}/api/questions/${questionId}/answers`);
+    return response.data;
+  } catch (error) {
+    throw new Error('Error fetching answers');
+  }
+};
+
+// comments
 export const addComment = async (
-  id: string,
-  type: 'question' | 'answer',
-  comment: Comment,
+  questionId: string, 
+  answerId: string | null, 
+  comment: Comment
 ): Promise<Comment> => {
   try {
-    const path = type === 'question' 
-      ? `questions/${id}/comments`
-      : `questions/${id}/answers/${id}/comments`;
-      
-    const newCommentRef = push(ref(database, path));
-    const commentWithId = { ...comment, _id: newCommentRef.key ?? '' };
-    
-    await set(newCommentRef, commentWithId);
-    return commentWithId;
+    const endpoint = answerId 
+      ? `/api/questions/${questionId}/answers/${answerId}/comments`
+      : `/api/questions/${questionId}/comments`;
+    const response = await axios.post(`${API_URL}${endpoint}`, comment);
+    return response.data;
   } catch (error) {
     throw new Error('Error while creating a new comment');
   }
 };
 
-// Votes
-export const upvoteQuestion = async (qid: string, username: string): Promise<void> => {
+// tags
+export const getTags = async (): Promise<Tag[]> => {
   try {
-    const questionRef = ref(database, `questions/${qid}`);
-    const snapshot = await get(questionRef);
-    
-    if (!snapshot.exists()) {
-      throw new Error('Question not found');
-    }
-    
-    const question = snapshot.val() as Question;
-    
-    if (!question.upVotes.includes(username)) {
-      const updates = {
-        upVotes: [...question.upVotes, username],
-        downVotes: question.downVotes.filter(u => u !== username),
-      };
-      await update(questionRef, updates);
-    }
+    const response = await axios.get(`${API_URL}/api/tags`);
+    return response.data;
   } catch (error) {
-    throw new Error('Error while upvoting the question');
+    throw new Error('Error fetching tags');
   }
 };
 
-export const downvoteQuestion = async (qid: string, username: string): Promise<void> => {
+// votes
+export const addVote = async (
+  questionId: string,
+  answerId: string | null,
+  voteType: 'up' | 'down'
+): Promise<void> => {
   try {
-    const questionRef = ref(database, `questions/${qid}`);
-    const snapshot = await get(questionRef);
-    
-    if (!snapshot.exists()) {
-      throw new Error('Question not found');
-    }
-    
-    const question = snapshot.val() as Question;
-    
-    if (!question.downVotes.includes(username)) {
-      const updates = {
-        downVotes: [...question.downVotes, username],
-        upVotes: question.upVotes.filter(u => u !== username),
-      };
-      await update(questionRef, updates);
-    }
+    const endpoint = answerId 
+      ? `/api/questions/${questionId}/answers/${answerId}/vote`
+      : `/api/questions/${questionId}/vote`;
+    await axios.post(`${API_URL}${endpoint}`, { voteType });
   } catch (error) {
-    throw new Error('Error while downvoting the question');
+    throw new Error('Error while voting');
   }
 };
 
-// Tags
-export const getTagsWithQuestionNumber = async (): Promise<TagData[]> => {
+// views
+export const addView = async (questionId: string): Promise<void> => {
   try {
-    const questionsRef = ref(database, 'questions');
-    const snapshot = await get(questionsRef);
-    
-    if (!snapshot.exists()) return [];
-    
-    const questions = Object.values(snapshot.val()) as Question[];
-    const tagCounts = new Map<string, number>();
-    const tagDescriptions = new Map<string, string>();
-    
-    questions.forEach(question => {
-      question.tags.forEach(tag => {
-        tagCounts.set(tag.name, (tagCounts.get(tag.name) || 0) + 1);
-        tagDescriptions.set(tag.name, tag.description);
-      });
-    });
-    
-    return Array.from(tagCounts.entries()).map(([name, count]) => ({
-      name,
-      description: tagDescriptions.get(name) || '',
-      qcnt: count,
-    }));
+    await axios.post(`${API_URL}/api/questions/${questionId}/view`);
   } catch (error) {
-    throw new Error('Error when fetching tags with question number');
+    throw new Error('Error while adding view');
   }
 };
-
-export const getTagByName = async (name: string): Promise<Tag> => {
-  try {
-    const questionsRef = ref(database, 'questions');
-    const snapshot = await get(questionsRef);
-    
-    if (!snapshot.exists()) {
-      throw new Error('Tag not found');
-    }
-    
-    const questions = Object.values(snapshot.val()) as Question[];
-    const tag = questions
-      .flatMap(q => q.tags)
-      .find(t => t.name === name);
-    
-    if (!tag) {
-      throw new Error('Tag not found');
-    }
-    
-    return tag;
-  } catch (error) {
-    throw new Error(`Error when fetching tag: ${name}`);
-  }
-}; 
