@@ -4,7 +4,7 @@ import './index.css';
 import { io } from 'socket.io-client';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import FakeStackOverflow from './components/fakestackoverflow';
+import FakeStackOverflow from './components/fakestackoverflow/index';
 import { FakeSOSocket, User } from './types';
 import LoginContext, { LoginContextType } from './contexts/LoginContext';
 import {

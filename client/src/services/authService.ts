@@ -15,7 +15,6 @@ export const signUp = async (email: string, password: string, username: string) 
       username,
     };
   } catch (error) {
-    console.error('Sign up error:', error);
     if (!(error instanceof Error)) {
       throw new Error('Unknown error occurred');
     }
@@ -43,7 +42,6 @@ export const login = async (email: string, password: string) => {
       username: email.split('@')[0],
     };
   } catch (error) {
-    console.error('Login error:', error);
     if (
       (error as FirebaseAuthError).code === 'auth/user-not-found' ||
       (error as FirebaseAuthError).code === 'auth/wrong-password'
@@ -58,7 +56,6 @@ export const logout = async () => {
   try {
     await signOut(auth);
   } catch (error) {
-    console.error('Logout error:', error);
     throw new Error('Error logging out');
   }
 };

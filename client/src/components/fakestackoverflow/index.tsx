@@ -16,9 +16,6 @@ const FakeStackOverflow = ({ socket }: FakeStackOverflowProps) => {
     return <div>Loading...</div>;
   }
 
-  console.log('Current user:', currentUser);
-  console.log('Socket:', socket);
-
   return (
     <div className='fake-so'>
       <Routes>
