@@ -24,7 +24,8 @@ const EditProfilePage = () => {
           className='form_postBtn'
           onClick={() => {
             updateProfile();
-          }}>
+          }}
+        >
           Update Profile
         </button>
         <div className='mandatory_indicator'>* indicates mandatory fields</div>

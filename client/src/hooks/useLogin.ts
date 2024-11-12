@@ -11,7 +11,7 @@ import useLoginContext from './useLoginContext';
  */
 const useLogin = () => {
   const [username, setUsername] = useState<string>('');
-  const { setUser } = useLoginContext();
+  const { login } = useLoginContext();
   const navigate = useNavigate();
 
   /**
@@ -30,7 +30,7 @@ const useLogin = () => {
    */
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setUser({ username });
+    login(username);
     navigate('/home');
   };
 

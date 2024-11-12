@@ -35,9 +35,36 @@ const ProtectedRoute = ({
  */
 const FakeStackOverflow = ({ socket }: { socket: FakeSOSocket | null }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const login = (username: string) => {
+    setLoading(true);
+    try {
+      setUser({ username });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const logout = () => {
+    setUser(null);
+  };
+
+  const signUp = (username: string) => {
+    login(username);
+  };
 
   return (
-    <LoginContext.Provider value={{ setUser }}>
+    <LoginContext.Provider
+      value={{
+        setUser,
+        currentUser: user,
+        loading,
+        login,
+        logout,
+        signUp,
+      }}
+    >
       <Routes>
         {/* Public Route */}
         <Route path='/' element={<Login />} />
@@ -49,7 +76,8 @@ const FakeStackOverflow = ({ socket }: { socket: FakeSOSocket | null }) => {
               <ProtectedRoute user={user} socket={socket}>
                 <Layout />
               </ProtectedRoute>
-            }>
+            }
+          >
             <Route path='/home' element={<QuestionPage />} />
             <Route path='tags' element={<TagPage />} />
             <Route path='/question/:qid' element={<AnswerPage />} />
