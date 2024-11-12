@@ -8,22 +8,31 @@ import { useState } from 'react';
  * @returns context - the context value for managing login state, including the `setUser` function.
  */
 const useEditProfile = () => {
-  const [text, setText] = useState('');
-  const [textErr, setTextErr] = useState('');
+  const [bioText, setBioText] = useState('');
+  const [bioTextErr, setBioTextErr] = useState('');
+
+  const [titleText, setTitleText] = useState('');
+  const [titleTextErr, setTitleTextErr] = useState('');
 
   const updateProfile = () => {
-    if (text.length === 0) {
-      setTextErr('Bio is required');
+    if (bioText.length === 0) {
+      setBioTextErr('Bio is required');
+    }
+
+    if (titleText.length === 0) {
+      setTitleTextErr('Title is required');
     }
 
     // Update the user's profile
-    // ...
   };
 
   return {
-    text,
-    setText,
-    textErr,
+    bioText,
+    setBioText,
+    bioTextErr,
+    titleText,
+    setTitleText,
+    titleTextErr,
     updateProfile,
   };
 };

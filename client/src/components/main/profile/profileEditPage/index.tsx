@@ -8,16 +8,24 @@ import './index.css';
  * description, tags, and username.
  */
 const EditProfilePage = () => {
-  const { text, setText, textErr, updateProfile } = useEditProfile();
+  const { bioText, setBioText, bioTextErr, titleText, setTitleText, titleTextErr, updateProfile } = useEditProfile();
   return (
     <Form>
+      <Input
+        title={'Title'}
+        hint={'Add your title'}
+        id={'formTextInput'}
+        val={titleText}
+        setState={setTitleText}
+        err={titleTextErr}
+      />
       <TextArea
         title={'Bio'}
         hint={'Add details about yourself'}
         id={'formTextInput'}
-        val={text}
-        setState={setText}
-        err={textErr}
+        val={bioText}
+        setState={setBioText}
+        err={bioTextErr}
       />
       <div className='btn_indicator_container'>
         <button
