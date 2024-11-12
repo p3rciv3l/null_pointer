@@ -1,5 +1,5 @@
 import Form from '../../baseComponents/form';
-import Input from '../../baseComponents/input'; 
+import Input from '../../baseComponents/input';
 import TextArea from '../../baseComponents/textarea';
 import useEditProfile from '../../../../hooks/useEditProfile';
 import './index.css';
