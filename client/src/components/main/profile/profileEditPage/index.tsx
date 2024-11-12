@@ -9,15 +9,8 @@ import './index.css';
  * description, tags, and username.
  */
 const EditProfilePage = () => {
-  const { 
-    bioText, 
-    setBioText, 
-    bioTextErr, 
-    titleText, 
-    setTitleText, 
-    titleTextErr, 
-    updateProfile 
-  } = useEditProfile();
+  const { bioText, setBioText, bioTextErr, titleText, setTitleText, titleTextErr, updateProfile } =
+    useEditProfile();
   return (
     <Form>
       <Input
@@ -41,7 +34,8 @@ const EditProfilePage = () => {
           className='form_postBtn'
           onClick={() => {
             updateProfile();
-          }}>
+          }}
+        >
           Update Profile
         </button>
         <div className='mandatory_indicator'>* indicates mandatory fields</div>

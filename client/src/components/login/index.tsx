@@ -82,7 +82,8 @@ const Login = () => {
           onClick={() => {
             setIsSignUp(!isSignUp);
             setError('');
-          }}>
+          }}
+        >
           {isSignUp ? 'Already have an account? Login' : 'Need an account? Sign Up'}
         </button>
       </form>

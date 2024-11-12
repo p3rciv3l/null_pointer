@@ -83,11 +83,11 @@ button:hover {
   background-color: #0066b3;
 }
 
-button[type="button"] {
+button[type='button'] {
   background-color: transparent;
   color: #0077cc;
 }
 
-button[type="button"]:hover {
+button[type='button']:hover {
   background-color: #f0f0f0;
 }

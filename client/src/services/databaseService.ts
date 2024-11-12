@@ -19,7 +19,7 @@ export const getQuestionsByFilter = async (
 ): Promise<Question[]> => {
   try {
     const response = await axios.get(`${API_URL}/api/questions`, {
-      params: { order, search }
+      params: { order, search },
     });
     return response.data;
   } catch (error) {
@@ -48,12 +48,12 @@ export const getAnswers = async (questionId: string): Promise<Answer[]> => {
 
 // comments
 export const addComment = async (
-  questionId: string, 
-  answerId: string | null, 
-  comment: Comment
+  questionId: string,
+  answerId: string | null,
+  comment: Comment,
 ): Promise<Comment> => {
   try {
-    const endpoint = answerId 
+    const endpoint = answerId
       ? `/api/questions/${questionId}/answers/${answerId}/comments`
       : `/api/questions/${questionId}/comments`;
     const response = await axios.post(`${API_URL}${endpoint}`, comment);
@@ -77,10 +77,10 @@ export const getTags = async (): Promise<Tag[]> => {
 export const addVote = async (
   questionId: string,
   answerId: string | null,
-  voteType: 'up' | 'down'
+  voteType: 'up' | 'down',
 ): Promise<void> => {
   try {
-    const endpoint = answerId 
+    const endpoint = answerId
       ? `/api/questions/${questionId}/answers/${answerId}/vote`
       : `/api/questions/${questionId}/vote`;
     await axios.post(`${API_URL}${endpoint}`, { voteType });
