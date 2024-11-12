@@ -9,7 +9,15 @@ import './index.css';
  * description, tags, and username.
  */
 const EditProfilePage = () => {
-  const { bioText, setBioText, bioTextErr, titleText, setTitleText, titleTextErr, updateProfile } = useEditProfile();
+  const { 
+    bioText, 
+    setBioText, 
+    bioTextErr, 
+    titleText, 
+    setTitleText, 
+    titleTextErr, 
+    updateProfile 
+  } = useEditProfile();
   return (
     <Form>
       <Input
