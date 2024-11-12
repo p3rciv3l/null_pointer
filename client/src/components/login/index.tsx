@@ -36,7 +36,6 @@ const Login = () => {
       }
       navigate('/questions');
     } catch (err) {
-      console.error('Auth error:', err);
       setError('Authentication failed. Please try again.');
     }
   };
