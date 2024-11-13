@@ -12,6 +12,8 @@ import NewAnswerPage from './main/newAnswer';
 import AnswerPage from './main/answerPage';
 import ProfilePage from './main/profile/profilePage';
 import EditProfilePage from './main/profile/profileEditPage';
+import { useLogin } from '../hooks/useLogin';
+import SignUp from './signup/index';
 
 const ProtectedRoute = ({
   user,
@@ -34,59 +36,34 @@ const ProtectedRoute = ({
  * It manages the state for search terms and the main title.
  */
 const FakeStackOverflow = ({ socket }: { socket: FakeSOSocket | null }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const { currentUser } = useLogin();
 
-  const login = (username: string) => {
-    setLoading(true);
-    try {
-      setUser({ username });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const logout = () => {
-    setUser(null);
-  };
-
-  const signUp = (username: string) => {
-    login(username);
-  };
+  if (!currentUser) {
+    return <Login />;
+  }
 
   return (
-    <LoginContext.Provider
-      value={{
-        setUser,
-        currentUser: user,
-        loading,
-        login,
-        logout,
-        signUp,
-      }}>
-      <Routes>
-        {/* Public Route */}
-        <Route path='/' element={<Login />} />
+    <Routes>
+      {/* Public Routes */}
+      <Route path='/' element={<Login />} />
+      <Route path='/signup' element={<SignUp />} />
 
-        {/* Protected Routes */}
-        {
-          <Route
-            element={
-              <ProtectedRoute user={user} socket={socket}>
-                <Layout />
-              </ProtectedRoute>
-            }>
-            <Route path='/home' element={<QuestionPage />} />
-            <Route path='tags' element={<TagPage />} />
-            <Route path='/question/:qid' element={<AnswerPage />} />
-            <Route path='/new/question' element={<NewQuestionPage />} />
-            <Route path='/update/profile' element={<EditProfilePage />} />
-            <Route path='/new/answer/:qid' element={<NewAnswerPage />} />
-            <Route path='/profile/:username' element={<ProfilePage />} />
-          </Route>
-        }
-      </Routes>
-    </LoginContext.Provider>
+      {/* Protected Routes */}
+      <Route
+        element={
+          <ProtectedRoute user={currentUser} socket={socket}>
+            <Layout />
+          </ProtectedRoute>
+        }>
+        <Route path='/home' element={<QuestionPage />} />
+        <Route path='tags' element={<TagPage />} />
+        <Route path='/question/:qid' element={<AnswerPage />} />
+        <Route path='/new/question' element={<NewQuestionPage />} />
+        <Route path='/update/profile' element={<EditProfilePage />} />
+        <Route path='/new/answer/:qid' element={<NewAnswerPage />} />
+        <Route path='/profile/:username' element={<ProfilePage />} />
+      </Route>
+    </Routes>
   );
 };
 

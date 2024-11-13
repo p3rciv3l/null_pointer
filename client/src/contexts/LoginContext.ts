@@ -14,14 +14,19 @@ import { User } from '../types';
  * - signUp - A function to sign up a new user.
  */
 export interface LoginContextType {
-  setUser: (user: User | null) => void;
   currentUser: User | null;
   loading: boolean;
-  login: (username: string) => void;
-  logout: () => void;
-  signUp: (username: string) => void;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+  signUp: (email: string, password: string, username: string) => Promise<void>;
 }
 
-const LoginContext = createContext<LoginContextType | null>(null);
+const LoginContext = createContext<LoginContextType>({
+  currentUser: null,
+  loading: false,
+  login: async () => {},
+  logout: async () => {},
+  signUp: async () => {},
+});
 
 export default LoginContext;
