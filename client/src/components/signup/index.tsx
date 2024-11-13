@@ -13,7 +13,7 @@ const SignUp = () => {
     e.preventDefault();
     try {
       await signUp(email, password, username);
-      navigate('/');  // Redirect to login after successful signup
+      navigate('/'); // Redirect to login after successful signup
     } catch (error) {
       console.error('Signup error:', error);
     }

@@ -1,11 +1,11 @@
 import { ReactNode, useEffect, useState } from 'react';
-import { auth } from '../firebase/config';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
 } from 'firebase/auth';
+import { auth } from '../firebase/config';
 import LoginContext from './LoginContext';
 import { User } from '../types';
 
@@ -13,7 +13,7 @@ interface LoginProviderProps {
   children: ReactNode;
 }
 
-export const LoginProvider = ({ children }: LoginProviderProps) => {
+const LoginProvider = ({ children }: LoginProviderProps) => {
   console.log('LoginProvider initialized');
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -57,3 +57,5 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
     </LoginContext.Provider>
   );
 };
+
+export default LoginProvider;
