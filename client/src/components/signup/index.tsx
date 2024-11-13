@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useLogin } from '../../hooks/useLogin';
+import useLogin from '../../hooks/useLogin';
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
@@ -58,4 +58,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp; 
+export default SignUp;

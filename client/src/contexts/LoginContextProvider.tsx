@@ -51,11 +51,9 @@ const LoginProvider = ({ children }: LoginProviderProps) => {
     // Here you might want to store additional user data in your backend
   };
 
-  return (
-    <LoginContext.Provider value={{ currentUser, loading, login, logout, signUp }}>
-      {!loading && children}
-    </LoginContext.Provider>
-  );
+  const value = { currentUser, loading, login, logout, signUp };
+
+  return <LoginContext.Provider value={value}>{children}</LoginContext.Provider>;
 };
 
 export default LoginProvider;

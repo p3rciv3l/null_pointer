@@ -12,7 +12,7 @@ import NewAnswerPage from './main/newAnswer';
 import AnswerPage from './main/answerPage';
 import ProfilePage from './main/profile/profilePage';
 import EditProfilePage from './main/profile/profileEditPage';
-import { useLogin } from '../hooks/useLogin';
+import useLogin from '../hooks/useLogin';
 import SignUp from './signup/index';
 
 const ProtectedRoute = ({
