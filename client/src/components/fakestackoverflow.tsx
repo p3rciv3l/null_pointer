@@ -37,30 +37,41 @@ const ProtectedRoute = ({
  */
 const FakeStackOverflow = ({ socket }: { socket: FakeSOSocket | null }) => {
   const { currentUser } = useLogin();
+  console.log('FakeStackOverflow rendering, currentUser:', currentUser);
 
-  return (
-    <Routes>
-      {/* Public Routes */}
-      <Route path='/' element={!currentUser ? <Login /> : <Navigate to='/home' />} />
-      <Route path='/signup' element={!currentUser ? <SignUp /> : <Navigate to='/home' />} />
+  const login = (username: string) => {
+    return (
+      <Routes>
+        {/* Public Routes */}
+        <Route
+          path='/'
+          element={(() => {
+            console.log('Rendering root route, currentUser:', currentUser);
+            return !currentUser ? <Login /> : <Navigate to='/home' />;
+          })()}
+        />
+        <Route path='/signup' element={!currentUser ? <SignUp /> : <Navigate to='/home' />} />
 
-      {/* Protected Routes */}
-      <Route
-        element={
-          <ProtectedRoute user={currentUser} socket={socket}>
-            <Layout />
-          </ProtectedRoute>
-        }>
-        <Route path='/home' element={<QuestionPage />} />
-        <Route path='tags' element={<TagPage />} />
-        <Route path='/question/:qid' element={<AnswerPage />} />
-        <Route path='/new/question' element={<NewQuestionPage />} />
-        <Route path='/update/profile' element={<EditProfilePage />} />
-        <Route path='/new/answer/:qid' element={<NewAnswerPage />} />
-        <Route path='/profile/:username' element={<ProfilePage />} />
-      </Route>
-    </Routes>
-  );
+        {/* Protected Routes */}
+        <Route
+          element={
+            <ProtectedRoute user={currentUser} socket={socket}>
+              <Layout />
+            </ProtectedRoute>
+          }>
+          <Route path='/home' element={<QuestionPage />} />
+          <Route path='tags' element={<TagPage />} />
+          <Route path='/question/:qid' element={<AnswerPage />} />
+          <Route path='/new/question' element={<NewQuestionPage />} />
+          <Route path='/update/profile' element={<EditProfilePage />} />
+          <Route path='/new/answer/:qid' element={<NewAnswerPage />} />
+          <Route path='/profile/:username' element={<ProfilePage />} />
+        </Route>
+      </Routes>
+    );
+  };
+
+  return login(currentUser?.username || '');
 };
 
 export default FakeStackOverflow;

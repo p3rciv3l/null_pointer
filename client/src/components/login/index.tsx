@@ -3,16 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import { useLogin } from '../../hooks/useLogin';
 
 const Login = () => {
+  console.log('Login component rendering');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { login, loading } = useLogin();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
+    console.log('Login form submitted');
     e.preventDefault();
     try {
       await login(email, password);
-      navigate('/home');  // Redirect to feed after successful login
+      navigate('/home');
     } catch (error) {
       console.error('Login error:', error);
     }

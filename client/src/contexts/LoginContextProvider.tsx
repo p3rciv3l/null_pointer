@@ -1,6 +1,11 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { auth } from '../firebase/config';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+} from 'firebase/auth';
 import LoginContext from './LoginContext';
 import { User } from '../types';
 
@@ -9,17 +14,20 @@ interface LoginProviderProps {
 }
 
 export const LoginProvider = ({ children }: LoginProviderProps) => {
+  console.log('LoginProvider initialized');
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    console.log('LoginProvider useEffect running');
+    const unsubscribe = onAuthStateChanged(auth, user => {
+      console.log('Auth state changed:', user);
       if (user) {
         // Set user data from Firebase
         setCurrentUser({
           uid: user.uid,
           email: user.email!,
-          username: user.displayName || 'Anonymous'
+          username: user.displayName || 'Anonymous',
         });
       } else {
         setCurrentUser(null);
@@ -48,4 +56,4 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
       {!loading && children}
     </LoginContext.Provider>
   );
-}; 
+};
