@@ -20,8 +20,9 @@ describe('Cypress Tests repeated from React assignment', () => {
   it('1.1 | Adds three questions and one answer, then click "Questions", then click unanswered button, verifies the sequence', () => {
     cy.visit('http://localhost:3000');
     cy.contains('Welcome to FakeStackOverflow!');
-    cy.get('#usernameInput').type('testuser');
-    cy.contains('Submit').click();
+    cy.get('input[type="email"]').type('test@example.com');
+    cy.get('input[type="password"]').type('password123');
+    cy.get('.login-button').click();
 
     // add a question
     cy.contains('Ask a Question').click();
