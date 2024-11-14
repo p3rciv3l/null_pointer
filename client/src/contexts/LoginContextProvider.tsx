@@ -51,7 +51,7 @@ const LoginProvider = ({ children }: LoginProviderProps) => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     // Set the display name
     await updateProfile(userCredential.user, {
-      displayName: username
+      displayName: username,
     });
     // Sign out immediately after signup
     await signOut(auth);
@@ -62,4 +62,4 @@ const LoginProvider = ({ children }: LoginProviderProps) => {
   return <LoginContext.Provider value={value}>{children}</LoginContext.Provider>;
 };
 
-export default LoginProvider; 
+export default LoginProvider;
