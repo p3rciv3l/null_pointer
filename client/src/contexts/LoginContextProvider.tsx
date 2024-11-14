@@ -32,7 +32,7 @@ const LoginProvider = ({ children }: LoginProviderProps) => {
         });
       } else {
         setCurrentUser(null);
-        }
+      }
       setLoading(false);
     });
 
