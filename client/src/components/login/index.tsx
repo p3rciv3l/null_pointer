@@ -24,6 +24,7 @@ const Login = () => {
     <div className='auth-container'>
       <div className='auth-box'>
         <h2>Welcome to HuskyFlow</h2>
+        {error && <div className='error-message'>{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className='form-group'>
             <label>Email</label>
