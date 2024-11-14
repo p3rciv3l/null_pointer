@@ -7,15 +7,26 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
+  const [error, setError] = useState('');
   const { signUp, loading } = useLogin();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
     try {
       await signUp(email, password, username);
       navigate('/');
-    } catch (error) {
+    } catch (error: any) {
+      if (error.code === 'auth/email-already-in-use') {
+        setError('This email is already registered. Please try logging in instead.');
+      } else if (error.code === 'auth/weak-password') {
+        setError('Password should be at least 6 characters long.');
+      } else if (error.code === 'auth/invalid-email') {
+        setError('Please enter a valid email address.');
+      } else {
+        setError('Failed to create account. Please try again.');
+      }
       console.error('Signup error:', error);
     }
   };
