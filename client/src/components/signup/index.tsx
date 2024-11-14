@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import useLogin from '../../hooks/useLogin';
 
 const SignUp = () => {
@@ -52,7 +52,7 @@ const SignUp = () => {
         </button>
       </form>
       <p>
-        Already have an account? <a href='/'>Log in</a>
+        Already have an account? <Link to='/'>Log in</Link>
       </p>
     </div>
   );
