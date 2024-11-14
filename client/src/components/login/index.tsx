@@ -15,7 +15,7 @@ const Login = () => {
     try {
       await login(email, password);
       navigate('/home');
-    } catch (error) {
+    } catch (err) {
       setError('Invalid email or password');
     }
   };

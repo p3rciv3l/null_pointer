@@ -40,12 +40,7 @@ const FakeStackOverflow = ({ socket }: { socket: FakeSOSocket | null }) => {
   const login = () => (
     <Routes>
       {/* Public Routes */}
-      <Route
-        path='/'
-        element={(() => {
-          return !currentUser ? <Login /> : <Navigate to='/home' />;
-        })()}
-      />
+      <Route path='/' element={(() => (!currentUser ? <Login /> : <Navigate to='/home' />))()} />
       <Route path='/signup' element={!currentUser ? <SignUp /> : <Navigate to='/home' />} />
 
       {/* Protected Routes */}
