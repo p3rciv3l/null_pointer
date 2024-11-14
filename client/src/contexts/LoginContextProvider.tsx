@@ -32,29 +32,39 @@ const LoginProvider = ({ children }: LoginProviderProps) => {
         });
       } else {
         setCurrentUser(null);
-      }
+        }
       setLoading(false);
     });
 
     return unsubscribe;
   }, []);
 
-  const login = async (email: string, password: string) => {
-    await signInWithEmailAndPassword(auth, email, password);
+  const login = async (email: string, password: string): Promise<void> => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (error: any) {
+      console.error('Login error:', error);
+      throw error;
+    }
   };
 
-  const logout = async () => {
+  const logout = async (): Promise<void> => {
     await signOut(auth);
   };
 
-  const signUp = async (email: string, password: string, username: string) => {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    // Set the display name
-    await updateProfile(userCredential.user, {
-      displayName: username,
-    });
-    // Sign out immediately after signup
-    await signOut(auth);
+  const signUp = async (email: string, password: string, username: string): Promise<void> => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      // Set the display name
+      await updateProfile(userCredential.user, {
+        displayName: username,
+      });
+      // Sign out immediately after signup
+      await signOut(auth);
+    } catch (error: any) {
+      console.error('Signup error:', error);
+      throw error;
+    }
   };
 
   const value = { currentUser, loading, login, logout, signUp };
