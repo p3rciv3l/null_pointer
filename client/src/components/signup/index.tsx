@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import useLogin from '../../hooks/useLogin';
+import './index.css';
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
@@ -13,47 +14,56 @@ const SignUp = () => {
     e.preventDefault();
     try {
       await signUp(email, password, username);
-      navigate('/'); // Redirect to login after successful signup
+      navigate('/');
     } catch (error) {
       console.error('Signup error:', error);
     }
   };
 
   return (
-    <div className='container'>
-      <h2>Create your FakeStackOverflow Account</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type='email'
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          placeholder='Email'
-          required
-          className='input-text'
-        />
-        <input
-          type='text'
-          value={username}
-          onChange={e => setUsername(e.target.value)}
-          placeholder='Username'
-          required
-          className='input-text'
-        />
-        <input
-          type='password'
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          placeholder='Password'
-          required
-          className='input-text'
-        />
-        <button type='submit' className='signup-button' disabled={loading}>
-          Sign Up
-        </button>
-      </form>
-      <p>
-        Already have an account? <Link to='/'>Log in</Link>
-      </p>
+    <div className='auth-container'>
+      <div className='auth-box'>
+        <h2>Join HuskyFlow</h2>
+        <form onSubmit={handleSubmit}>
+          <div className='form-group'>
+            <label>Email</label>
+            <input
+              type='email'
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              required
+              className='auth-input'
+            />
+          </div>
+          <div className='form-group'>
+            <label>Username</label>
+            <input
+              type='text'
+              value={username}
+              onChange={e => setUsername(e.target.value)}
+              required
+              className='auth-input'
+            />
+          </div>
+          <div className='form-group'>
+            <label>Password</label>
+            <input
+              type='password'
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              placeholder='8+ characters (at least 1 letter & 1 number)'
+              required
+              className='auth-input'
+            />
+          </div>
+          <button type='submit' className='auth-button' disabled={loading}>
+            Sign up
+          </button>
+        </form>
+        <p className='auth-footer'>
+          Already have an account? <Link to='/'>Log in</Link>
+        </p>
+      </div>
     </div>
   );
 };

@@ -4,6 +4,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
+  updateProfile,
 } from 'firebase/auth';
 import auth from '../firebase/config';
 import LoginContext from './LoginContext';
@@ -48,7 +49,12 @@ const LoginProvider = ({ children }: LoginProviderProps) => {
 
   const signUp = async (email: string, password: string, username: string) => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    // Here you might want to store additional user data in your backend
+    // Set the display name
+    await updateProfile(userCredential.user, {
+      displayName: username
+    });
+    // Sign out immediately after signup
+    await signOut(auth);
   };
 
   const value = { currentUser, loading, login, logout, signUp };
@@ -56,4 +62,4 @@ const LoginProvider = ({ children }: LoginProviderProps) => {
   return <LoginContext.Provider value={value}>{children}</LoginContext.Provider>;
 };
 
-export default LoginProvider;
+export default LoginProvider; 
