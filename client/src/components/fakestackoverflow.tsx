@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './layout';
 import Login from './login/index';
 import { FakeSOSocket, User } from '../types';
-import LoginContext from '../contexts/LoginContext';
 import UserContext from '../contexts/UserContext';
 import QuestionPage from './main/questionPage';
 import TagPage from './main/tagPage';
@@ -37,7 +36,6 @@ const ProtectedRoute = ({
  */
 const FakeStackOverflow = ({ socket }: { socket: FakeSOSocket | null }) => {
   const { currentUser } = useLogin();
-  console.log('FakeStackOverflow rendering, currentUser:', currentUser);
 
   const login = () => (
     <Routes>
@@ -45,7 +43,6 @@ const FakeStackOverflow = ({ socket }: { socket: FakeSOSocket | null }) => {
       <Route
         path='/'
         element={(() => {
-          console.log('Rendering root route, currentUser:', currentUser);
           return !currentUser ? <Login /> : <Navigate to='/home' />;
         })()}
       />

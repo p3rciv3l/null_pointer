@@ -29,7 +29,6 @@ const SignUp = () => {
         } else {
           setError('Failed to create account. Please try again.');
         }
-        console.error('Signup error:', err);
       }
     }
   };
@@ -38,6 +37,7 @@ const SignUp = () => {
     <div className='auth-container'>
       <div className='auth-box'>
         <h2>Join HuskyFlow</h2>
+        {error && <div className='error-message'>{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className='form-group'>
             <label>Email</label>

@@ -16,16 +16,12 @@ interface LoginProviderProps {
 }
 
 const LoginProvider = ({ children }: LoginProviderProps) => {
-  console.log('LoginProvider initialized');
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log('LoginProvider useEffect running');
     const unsubscribe = onAuthStateChanged(auth, user => {
-      console.log('Auth state changed:', user);
       if (user) {
-        // Set user data from Firebase
         setCurrentUser({
           uid: user.uid,
           email: user.email!,
@@ -45,7 +41,7 @@ const LoginProvider = ({ children }: LoginProviderProps) => {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error: unknown) {
       if (error instanceof FirebaseError) {
-        console.error('Login error:', error.message);
+        throw new Error(error.message);
       }
       throw error;
     }
@@ -58,15 +54,13 @@ const LoginProvider = ({ children }: LoginProviderProps) => {
   const signUp = async (email: string, password: string, username: string): Promise<void> => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      // Set the display name
       await updateProfile(userCredential.user, {
         displayName: username,
       });
-      // Sign out immediately after signup
       await signOut(auth);
     } catch (error: unknown) {
       if (error instanceof FirebaseError) {
-        console.error('Signup error:', error.message);
+        throw new Error(error.message);
       }
       throw error;
     }

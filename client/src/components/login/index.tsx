@@ -8,6 +8,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const { login, loading } = useLogin();
   const navigate = useNavigate();
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -15,7 +16,7 @@ const Login = () => {
       await login(email, password);
       navigate('/home');
     } catch (error) {
-      console.error('Login error:', error);
+      setError('Invalid email or password');
     }
   };
 
