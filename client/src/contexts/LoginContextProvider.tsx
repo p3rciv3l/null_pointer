@@ -6,6 +6,7 @@ import {
   onAuthStateChanged,
   updateProfile,
 } from 'firebase/auth';
+import { FirebaseError } from 'firebase/app';
 import auth from '../firebase/config';
 import LoginContext from './LoginContext';
 import { User } from '../types';
@@ -42,8 +43,10 @@ const LoginProvider = ({ children }: LoginProviderProps) => {
   const login = async (email: string, password: string): Promise<void> => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-    } catch (error: any) {
-      console.error('Login error:', error);
+    } catch (error: unknown) {
+      if (error instanceof FirebaseError) {
+        console.error('Login error:', error.message);
+      }
       throw error;
     }
   };
@@ -61,8 +64,10 @@ const LoginProvider = ({ children }: LoginProviderProps) => {
       });
       // Sign out immediately after signup
       await signOut(auth);
-    } catch (error: any) {
-      console.error('Signup error:', error);
+    } catch (error: unknown) {
+      if (error instanceof FirebaseError) {
+        console.error('Signup error:', error.message);
+      }
       throw error;
     }
   };
