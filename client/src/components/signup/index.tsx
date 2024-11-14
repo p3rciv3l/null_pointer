@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { FirebaseError } from 'firebase/app';
 import useLogin from '../../hooks/useLogin';
 import './index.css';
 
@@ -17,17 +18,19 @@ const SignUp = () => {
     try {
       await signUp(email, password, username);
       navigate('/');
-    } catch (error: any) {
-      if (error.code === 'auth/email-already-in-use') {
-        setError('This email is already registered. Please try logging in instead.');
-      } else if (error.code === 'auth/weak-password') {
-        setError('Password should be at least 6 characters long.');
-      } else if (error.code === 'auth/invalid-email') {
-        setError('Please enter a valid email address.');
-      } else {
-        setError('Failed to create account. Please try again.');
+    } catch (err: unknown) {
+      if (err instanceof FirebaseError) {
+        if (err.code === 'auth/email-already-in-use') {
+          setError('This email is already registered. Please try logging in instead.');
+        } else if (err.code === 'auth/weak-password') {
+          setError('Password should be at least 6 characters long.');
+        } else if (err.code === 'auth/invalid-email') {
+          setError('Please enter a valid email address.');
+        } else {
+          setError('Failed to create account. Please try again.');
+        }
+        console.error('Signup error:', err);
       }
-      console.error('Signup error:', error);
     }
   };
 
