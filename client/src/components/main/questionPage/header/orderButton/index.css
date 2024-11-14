@@ -1,6 +1,9 @@
 .btn {
   background: #ffffff;
+  color: #000000; /* Set text color to black */
   border: #000000 1px solid;
+  margin: 5px;
+  padding: 8px 16px;
 }
 
 .btn:hover {
