@@ -22,10 +22,16 @@ const LoginProvider = ({ children }: LoginProviderProps) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
       if (user) {
+        const displayName = user.displayName || user.email?.split('@')[0];
+
+        if (!displayName) {
+          throw new Error('User has no displayName or email');
+        }
+
         setCurrentUser({
           uid: user.uid,
           email: user.email!,
-          username: user.displayName || 'Anonymous',
+          username: displayName,
         });
       } else {
         setCurrentUser(null);
@@ -57,7 +63,7 @@ const LoginProvider = ({ children }: LoginProviderProps) => {
       await updateProfile(userCredential.user, {
         displayName: username,
       });
-      await signOut(auth);
+      await userCredential.user.reload();
     } catch (error: unknown) {
       if (error instanceof FirebaseError) {
         throw new Error(error.message);

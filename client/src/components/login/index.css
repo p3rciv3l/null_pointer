@@ -43,7 +43,7 @@
 .auth-input:focus {
   border-color: #0077cc;
   outline: none;
-  box-shadow: 0 0 0 4px rgba(0,119,204,0.1);
+  box-shadow: 0 0 0 4px rgba(0, 119, 204, 0.1);
 }
 
 .auth-button {
@@ -120,4 +120,13 @@ button[type='button'] {
 
 button[type='button']:hover {
   background-color: #f0f0f0;
+}
+
+.success-message {
+  background-color: #e6ffe6;
+  color: #006600;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  text-align: center;
 }
