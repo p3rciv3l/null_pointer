@@ -15,15 +15,23 @@ const SignUp = () => {
     e.preventDefault();
     try {
       await signUp(email, password, username);
-      navigate('/');
+      navigate('/', {
+        state: {
+          message: 'Account created successfully! Please sign in.',
+        },
+      });
     } catch (err: unknown) {
       if (err instanceof FirebaseError) {
         const input = document.querySelector('input[type="email"]') as HTMLInputElement;
         if (err.code === 'auth/email-already-in-use') {
-          input.setCustomValidity('This email is already registered. Please try logging in instead.');
+          input.setCustomValidity(
+            'This email is already registered. Please try logging in instead.',
+          );
           input.reportValidity();
         } else if (err.code === 'auth/weak-password') {
-          const passwordInput = document.querySelector('input[type="password"]') as HTMLInputElement;
+          const passwordInput = document.querySelector(
+            'input[type="password"]',
+          ) as HTMLInputElement;
           passwordInput.setCustomValidity('Password should be at least 6 characters long.');
           passwordInput.reportValidity();
         } else if (err.code === 'auth/invalid-email') {
