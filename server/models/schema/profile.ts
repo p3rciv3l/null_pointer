@@ -26,24 +26,30 @@ const profileSchema: Schema = new Schema({
   title: {
     type: String,
     trim: true,
+    default: '',
   },
   bio: {
     type: String,
     maxlength: 500,
+    default: '',
   },
   answersGiven: {
     type: [{ type: Schema.Types.ObjectId, ref: 'Answer' }],
+    default: [],
   },
   questionsAsked: {
     type: [{ type: Schema.Types.ObjectId, ref: 'Question' }],
+    default: [],
   },
 
   questionsUpvoted: {
     type: [{ type: Schema.Types.ObjectId, ref: 'Question' }],
+    default: [],
   },
 
   answersUpvoted: {
     type: [{ type: Schema.Types.ObjectId, ref: 'Answer' }],
+    default: [],
   },
   joinedWhen: {
     type: Date,
