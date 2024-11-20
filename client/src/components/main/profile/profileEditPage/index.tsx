@@ -9,31 +9,30 @@ import './index.css';
  * description, tags, and username.
  */
 const EditProfilePage = () => {
-  const { bioText, setBioText, bioTextErr, titleText, setTitleText, titleTextErr, updateProfile } =
-    useEditProfile();
+  const { bio, setBio, title, setTitle, modifyProfile, bioErr, titleErr } = useEditProfile();
   return (
     <Form>
       <Input
         title={'Title'}
         hint={'Add your title'}
         id={'formTextInput'}
-        val={titleText}
-        setState={setTitleText}
-        err={titleTextErr}
+        val={title}
+        setState={setTitle}
+        err={titleErr}
       />
       <TextArea
         title={'Bio'}
         hint={'Add details about yourself'}
         id={'formTextInput'}
-        val={bioText}
-        setState={setBioText}
-        err={bioTextErr}
+        val={bio}
+        setState={setBio}
+        err={bioErr}
       />
       <div className='btn_indicator_container'>
         <button
           className='form_postBtn'
           onClick={() => {
-            updateProfile();
+            modifyProfile();
           }}>
           Update Profile
         </button>

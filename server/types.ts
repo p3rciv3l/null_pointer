@@ -1,6 +1,7 @@
 import { Request } from 'express';
 import { Profiler } from 'inspector/promises';
 import { ObjectId } from 'mongodb';
+import { Types } from 'mongoose';
 import { Server } from 'socket.io';
 
 export type FakeSOSocket = Server<ServerToClientEvents>;
@@ -123,6 +124,14 @@ export interface AddQuestionRequest extends Request {
 }
 
 /**
+ * Interface for the request body when adding a new question.
+ * - body - The question being added.
+ */
+export interface AddProfileRequest extends Request {
+  body: Profile;
+}
+
+/**
  * Interface for the request body when upvoting or downvoting a question.
  * - body - The question ID and the username of the user voting.
  *  - qid - The unique identifier of the question.
@@ -162,6 +171,7 @@ export interface Comment {
  * - 'questionsUpvoted' - The list of questions the user has upvoted.
  * - 'answersUpvoted' - The list of answers the user has upvoted (When we add Answer upvote functionality).
  * - 'joinedWhen' - A Date corresponding to when the User created a Profile (created an account).
+ * - 'following' - A list of usernames who the user is currently following.
  */
 export interface Profile {
   _id?: ObjectId; 
@@ -173,6 +183,21 @@ export interface Profile {
   questionsUpvoted: Question[];
   answersUpvoted: Answer[];
   joinedWhen: Date;
+  following: Types.ObjectId[] 
+
+}
+
+/**
+ * Interface for the request parameters when finding a Profile by its username.
+ * - username - The unique identifier of the question.
+ */
+export interface FindProfileByUsernameRequest extends Request {
+  params: {
+    username: string;
+  };
+  query: {
+    username: string;
+  };
 }
 
 /**
@@ -235,4 +260,10 @@ export interface ServerToClientEvents {
   viewsUpdate: (question: QuestionResponse) => void;
   voteUpdate: (vote: VoteUpdatePayload) => void;
   commentUpdate: (comment: CommentUpdatePayload) => void;
+  profileUpdate: (profile: ProfileResponse) => void;
 }
+
+/**
+ * Type representing the possible responses for a Profile-related operation.
+ */
+export type ProfileResponse = Profile | { error: string };

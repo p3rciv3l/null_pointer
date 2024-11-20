@@ -1,8 +1,8 @@
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 import AnswerModel from './models/answers';
 import QuestionModel from './models/questions';
 import TagModel from './models/tags';
-import { Answer, Comment, Question, Tag } from './types';
+import { Answer, Comment, Profile, Question, Tag } from './types';
 import {
   Q1_DESC,
   Q1_TXT,
@@ -44,8 +44,33 @@ import {
   C10_TEXT,
   C11_TEXT,
   C12_TEXT,
+  P1_BIO, 
+  P2_BIO, 
+  P3_BIO, 
+  P4_BIO, 
+  P5_BIO, 
+  P6_BIO,
+  P7_BIO,
+  P8_BIO,
+  P9_BIO,
+  P10_BIO,
+  P11_BIO,
+  P1_TITLE,
+  P2_TITLE,
+  P3_TITLE,
+  P4_TITLE,
+  P5_TITLE,
+  P6_TITLE,
+  P7_TITLE,
+  P8_TITLE,
+  P9_TITLE,
+  P10_TITLE,
+  P11_TITLE,
+  P12_TITLE,
+  P12_BIO,
 } from './data/posts_strings';
 import CommentModel from './models/comments';
+import ProfileModel from './models/profile';
 
 // Pass URL of your mongoDB instance as first argument(e.g., mongodb://127.0.0.1:27017/fake_so)
 const userArgs = process.argv.slice(2);
@@ -174,6 +199,55 @@ async function questionCreate(
 }
 
 /**
+ * Creates a new Profile document in the database.
+ */
+
+async function profileCreate(
+  username: string,
+  joinedWhen?: Date,
+  title?: string,
+  bio?: string,
+  answersGiven?: Answer[],
+  questionsAsked?: Question[],
+  questionsUpvoted?: Question[],
+  answersUpvoted?: Answer[],
+  following?: Types.ObjectId[]
+): Promise<Profile> {
+  if (username === '' || joinedWhen == null)
+    throw new Error('Invalid Profile Format');
+
+  // First, create all the profiles that this profile will follow
+  // We'll collect their ObjectIds
+  const followingIds = following 
+    ? await Promise.all(
+        following.map(async (username) => {
+          const followedProfile = await ProfileModel.findOne({ username });
+          if (!followedProfile) {
+            throw new Error(`Profile with username ${username} not found`);
+          }
+          return followedProfile._id;
+        })
+      )
+    : [];
+
+  const profileDetail: Profile = {
+    username: username,
+    title: title || '', // Default to empty string if not provided
+    bio: bio || '', // Default to empty string if not provided
+    answersGiven: answersGiven || [], // Default to empty array
+    questionsAsked: questionsAsked || [], // Default to empty array
+    questionsUpvoted: questionsUpvoted || [], // Default to empty array
+    answersUpvoted: answersUpvoted || [], // Default to empty array
+    joinedWhen: joinedWhen || new Date(), // Default to current date
+    following: followingIds, // Default to empty array
+  };
+
+  return await ProfileModel.create(profileDetail);
+} 
+
+
+
+/**
  * Populates the database with predefined data.
  * Logs the status of the operation to the console.
  */
@@ -208,7 +282,7 @@ const populate = async () => {
     const a7 = await answerCreate(A7_TXT, 'mackson3332', new Date('2023-02-22T17:19:00'), [c7]);
     const a8 = await answerCreate(A8_TXT, 'ihba001', new Date('2023-03-22T21:17:53'), [c8]);
 
-    await questionCreate(
+    const q1 = await questionCreate(
       Q1_DESC,
       Q1_TXT,
       [t1, t2],
@@ -218,7 +292,7 @@ const populate = async () => {
       ['sana', 'abaya', 'alia'],
       [c9],
     );
-    await questionCreate(
+    const q2 = await questionCreate(
       Q2_DESC,
       Q2_TXT,
       [t3, t4, t2],
@@ -228,7 +302,7 @@ const populate = async () => {
       ['mackson3332'],
       [c10],
     );
-    await questionCreate(
+    const q3 = await questionCreate(
       Q3_DESC,
       Q3_TXT,
       [t5, t6],
@@ -238,7 +312,7 @@ const populate = async () => {
       ['monkeyABC', 'elephantCDE'],
       [c11],
     );
-    await questionCreate(
+    const q4 = await questionCreate(
       Q4_DESC,
       Q4_TXT,
       [t3, t4, t5],
@@ -249,6 +323,170 @@ const populate = async () => {
       [c12],
     );
 
+    const profile1 = await profileCreate(
+      'sana',
+      new Date('2023-01-01'),
+      P1_TITLE,
+      P1_BIO,
+      [a5],
+      [],
+      [],
+      [],
+      [],
+    );
+
+    const profile2 = await profileCreate(
+      'ihba001',
+      new Date('2023-02-01'),
+      P2_TITLE,
+      P2_BIO,
+      [a8],
+      [],
+      [],
+      [],
+      [],
+    );
+
+    const profile3 = await profileCreate(
+      'saltyPeter',
+      new Date('2023-03-01'),
+      P3_TITLE,
+      P3_BIO,
+      [],
+      [q2],
+      [],
+      [],
+      [],
+    );
+
+    const profile4 = await profileCreate(
+      'monkeyABC',
+      new Date('2023-04-01'),
+      P4_TITLE,
+      P4_BIO,
+      [],
+      [q3],
+      [],
+      [],
+      [],
+    );
+
+    const profile5 = await profileCreate(
+      'hamkalo',
+      new Date('2023-05-01'),
+      P5_TITLE,
+      P5_BIO,
+      [a1],
+      [],
+      [],
+      [],
+      [],
+    );
+
+    const profile6 = await profileCreate(
+      'azad',
+      new Date('2023-06-01'),
+      P6_TITLE,
+      P6_BIO,
+      [a2],
+      [],
+      [],
+      [],
+      [],
+    );
+
+    const profile7 = await profileCreate(
+      'alia',
+      new Date('2023-07-01'),
+      P7_TITLE,
+      P7_BIO,
+      [a4],
+      [],
+      [],
+      [],
+      [],
+    );
+
+    const profile8 = await profileCreate(
+      'abhi3241',
+      new Date('2023-08-01'),
+      P8_TITLE,
+      P8_BIO,
+      [a6],
+      [],
+      [],
+      [],
+      [],
+    );
+
+    const profile9 = await profileCreate(
+      'Joji John',
+      new Date('2023-09-01'),
+      P9_TITLE,
+      P9_BIO,
+      [],
+      [q1],
+      [],
+      [],
+      [],
+    );
+
+    const profile10 = await profileCreate(
+      'abaya',
+      new Date('2023-10-01'),
+      P10_TITLE,
+      P10_BIO,
+      [a3],
+      [],
+      [],
+      [],
+      [],
+    );
+
+    const profile11 = await profileCreate(
+      'mackson3332',
+      new Date('2023-11-01'),
+      P11_TITLE,
+      P11_BIO,
+      [a7],
+      [],
+      [],
+      [],
+      [],
+    );
+    
+    const profile12 = await profileCreate(
+      'elephantCDE',
+      new Date('2023-9-11'),
+      P12_TITLE,
+      P12_BIO,
+      [],
+      [q4],
+      [],
+      [],
+      [],
+    );
+
+
+    // Update following relationships after all profiles are created
+    await ProfileModel.findOneAndUpdate(
+      { username: 'sana' },
+      { following: await getProfileIds(['ihba001', 'alia']) }
+    );
+
+    await ProfileModel.findOneAndUpdate(
+      { username: 'ihba001' },
+      { following: await getProfileIds(['sana', 'Joji John']) }
+    );
+
+
+    // Helper function to get profile IDs from usernames
+    async function getProfileIds(usernames: string[]): Promise<Types.ObjectId[]> {
+      const profiles = await ProfileModel.find({ username: { $in: usernames } });
+      return profiles.map(profile => profile._id);
+    }
+
+    
     console.log('Database populated');
   } catch (err) {
     console.log('ERROR: ' + err);
