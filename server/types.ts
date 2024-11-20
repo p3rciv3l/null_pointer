@@ -1,6 +1,7 @@
 import { Request } from 'express';
 import { Profiler } from 'inspector/promises';
 import { ObjectId } from 'mongodb';
+import { Types } from 'mongoose';
 import { Server } from 'socket.io';
 
 export type FakeSOSocket = Server<ServerToClientEvents>;
@@ -170,6 +171,7 @@ export interface Comment {
  * - 'questionsUpvoted' - The list of questions the user has upvoted.
  * - 'answersUpvoted' - The list of answers the user has upvoted (When we add Answer upvote functionality).
  * - 'joinedWhen' - A Date corresponding to when the User created a Profile (created an account).
+ * - 'following' - A list of usernames who the user is currently following.
  */
 export interface Profile {
   _id?: ObjectId; 
@@ -181,6 +183,8 @@ export interface Profile {
   questionsUpvoted: Question[];
   answersUpvoted: Answer[];
   joinedWhen: Date;
+  following: Types.ObjectId[] 
+
 }
 
 /**

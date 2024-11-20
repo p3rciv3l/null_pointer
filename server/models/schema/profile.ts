@@ -55,6 +55,9 @@ const profileSchema: Schema = new Schema({
     type: Date,
     default: Date.now,
   },
+  following: {
+    type: [{ type: Schema.Types.ObjectId, ref: 'Profile' }],
+  },
 });
 
 export default profileSchema;
