@@ -5,7 +5,10 @@ import {
   AnswerResponse,
   Comment,
   CommentResponse,
+  FindProfileByUsernameRequest,
   OrderType,
+  Profile,
+  ProfileResponse,
   Question,
   QuestionResponse,
   Tag,
@@ -14,6 +17,7 @@ import AnswerModel from './answers';
 import QuestionModel from './questions';
 import TagModel from './tags';
 import CommentModel from './comments';
+import ProfileModel from './profile';
 
 /**
  * Parses tags from a search string.
@@ -266,6 +270,48 @@ export const filterQuestionsBySearch = (qlist: Question[], search: string): Ques
 };
 
 /**
+ * Fetches and populates a profile based on the provided username.
+ *
+ * @param id - The id of the profile to fetch.
+ *
+ * @returns {Promise<ProfileResponse>} - Promise that resolves to the
+ *          populated profile, or an error message if the operation fails
+ */
+export const populateProfile = async (id: string | undefined): Promise<ProfileResponse> => {
+  try {
+    if (!id) {
+      throw new Error('Provided question ID is undefined.');
+    }
+
+    let result = null;
+    result = await ProfileModel.findOne({ _id: id }).populate([
+      {
+        path: 'answersGiven',
+        model: AnswerModel,
+      },
+      {
+        path: 'questionsAsked',
+        model: QuestionModel,
+      },
+      {
+        path: 'questionsUpvoted',
+        model: QuestionModel,
+      },
+      {
+        path: 'answersUpvoted',
+        model: AnswerModel,
+      },
+    ]);
+    if (!result) {
+      throw new Error(`Failed to fetch and populate profile`);
+    }
+    return result;
+  } catch (error) {
+    return { error: `Error when fetching and populating a document: ${(error as Error).message}` };
+  }
+};
+
+/**
  * Fetches and populates a question or answer document based on the provided ID and type.
  *
  * @param {string | undefined} id - The ID of the question or answer to fetch.
@@ -393,6 +439,21 @@ export const saveComment = async (comment: Comment): Promise<CommentResponse> =>
     return result;
   } catch (error) {
     return { error: 'Error when saving a comment' };
+  }
+};
+
+/**
+ * Saves a new profile to the database.
+ *
+ * @param {Profile} profile - The profile to save
+ * @returns {Promise<ProfileResponse>} - The saved profile, or error message
+ */
+export const saveProfile = async (profile: Profile): Promise<ProfileResponse> => {
+  try {
+    const result = await ProfileModel.create(profile);
+    return result;
+  } catch (error) {
+    return { error: 'Error when saving a profile' };
   }
 };
 

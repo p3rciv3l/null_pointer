@@ -123,6 +123,14 @@ export interface AddQuestionRequest extends Request {
 }
 
 /**
+ * Interface for the request body when adding a new question.
+ * - body - The question being added.
+ */
+export interface AddProfileRequest extends Request {
+  body: Profile;
+}
+
+/**
  * Interface for the request body when upvoting or downvoting a question.
  * - body - The question ID and the username of the user voting.
  *  - qid - The unique identifier of the question.
@@ -173,6 +181,19 @@ export interface Profile {
   questionsUpvoted: Question[];
   answersUpvoted: Answer[];
   joinedWhen: Date;
+}
+
+/**
+ * Interface for the request parameters when finding a Profile by its username.
+ * - username - The unique identifier of the question.
+ */
+export interface FindProfileByUsernameRequest extends Request {
+  params: {
+    username: string;
+  };
+  query: {
+    username: string;
+  };
 }
 
 /**
@@ -235,4 +256,10 @@ export interface ServerToClientEvents {
   viewsUpdate: (question: QuestionResponse) => void;
   voteUpdate: (vote: VoteUpdatePayload) => void;
   commentUpdate: (comment: CommentUpdatePayload) => void;
+  profileUpdate: (profile: ProfileResponse) => void;
 }
+
+/**
+ * Type representing the possible responses for a Profile-related operation.
+ */
+export type ProfileResponse = Profile | { error: string };
