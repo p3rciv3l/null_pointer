@@ -107,10 +107,10 @@ const ProfilePage = () => {
         <div className='profile-stats-section'>
           <h2>Activity</h2>
           <div className='stats-item'>
-            <strong>Questions Answered:</strong> {profile.questionsAsked.length}
+            <strong>Questions Posted:</strong> {profile.questionsAsked.length}
           </div>
           <div className='stats-item'>
-            <strong>Answers Given:</strong> {profile.answersGiven.length}
+            <strong>Questions Answered:</strong> {profile.answersGiven.length}
           </div>
         </div>
 
