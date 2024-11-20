@@ -54,14 +54,18 @@ const profileController = (socket: FakeSOSocket) => {
    */
   const getProfile = async (req: FindProfileByUsernameRequest, res: Response): Promise<void> => {
     const { username } = req.params;
+    console.log('Backend received request for username:', username);
     try {
       const profile = await ProfileModel.findOne({ username });
+      console.log('Database query result:', profile);
       if (profile) {
         res.status(200).json(profile);
       } else {
+        console.log('No profile found for username:', username);
         res.status(404).json({ message: 'Profile not found' });
       }
     } catch (error) {
+      console.error('Backend error:', error);
       res.status(500).json({ message: 'Server error', error });
     }
   };
@@ -69,6 +73,9 @@ const profileController = (socket: FakeSOSocket) => {
   // add appropriate HTTP verbs and their endpoints to the router.
   router.post('/addProfile', addProfile);
   router.get('/getProfile/:username', getProfile);
+  router.get('/test', (req, res) => {
+    res.send('test route');
+  });
   return router;
 };
 
