@@ -76,3 +76,31 @@ export const C11_TEXT =
   'I found the discussion on SharedPreferences vs apply() very useful. Great explanation of the differences!';
 export const C12_TEXT =
   "I feel like there's so much more to Android Studio that I'm just scratching the surface of. Thanks for sharing your experience!";
+
+// Adding the strings for the Profile datatype here.
+export const P1_BIO = 'Passionate about solving complex problems with clean, efficient code.';
+export const P2_BIO = 'A lifelong learner exploring web development and cloud computing.';
+export const P3_BIO = 'A lifelong learner exploring web development and cloud computing.';
+export const P4_BIO = 'Data scientist specializing in machine learning and predictive modeling.';
+export const P5_BIO = 'Backend engineer focused on building scalable and secure systems.';
+export const P6_BIO = 'Mobile app developer bringing ideas to life through Android and iOS apps.';
+export const P7_BIO = 'Tech enthusiast exploring the intersection of AI and game development.';
+export const P8_BIO = 'Database expert with a passion for optimizing storage solutions.';
+export const P9_BIO = 'Seasoned software engineer with a love for open-source contributions.';
+export const P10_BIO =
+  'Product-focused developer ensuring the perfect blend of design and functionality.';
+export const P11_BIO = 'Frontend wizard transforming designs into seamless user experiences.';
+export const P12_BIO = 'Just a student trying to learn more for personal knowledge expansion!';
+
+export const P1_TITLE = 'Full-Stack Developer';
+export const P2_TITLE = 'Software Engineer';
+export const P3_TITLE = 'Data Scientist';
+export const P4_TITLE = 'Machine Learning Engineer';
+export const P5_TITLE = 'Backend Developer';
+export const P6_TITLE = 'Mobile App Developer';
+export const P7_TITLE = 'DevOps Engineer';
+export const P8_TITLE = 'Cloud Architect';
+export const P9_TITLE = 'UI/UX Specialist';
+export const P10_TITLE = 'Product Manager';
+export const P11_TITLE = 'Technical Lead';
+export const P12_TITLE = 'Student at Northeastern';
