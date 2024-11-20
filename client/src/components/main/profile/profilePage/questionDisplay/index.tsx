@@ -1,9 +1,9 @@
 import React from 'react';
 import './index.css';
-import { Question } from '../../../../../types';
+import { Question, Tag } from '../../../../../types';
 
 interface QuestionDisplayProps {
-  questionsPosted?: Question[]; // Optional prop to handle undefined
+  questionsPosted: Question[];
 }
 
 const QuestionDisplay = ({ questionsPosted = [] }: QuestionDisplayProps) => (

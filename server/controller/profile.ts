@@ -56,7 +56,11 @@ const profileController = (socket: FakeSOSocket) => {
     const { username } = req.params;
     console.log('Backend received request for username:', username);
     try {
-      const profile = await ProfileModel.findOne({ username });
+      const profile = await ProfileModel.findOne({ username }).populate({
+        path: 'questionsAsked', // Field to populate
+        model: 'Question', // Reference to the Question model
+        populate: { path: 'tags', model: 'Tag' }, // Nested populate for tags
+      });
       console.log('Database query result:', profile);
       if (profile) {
         res.status(200).json(profile);
