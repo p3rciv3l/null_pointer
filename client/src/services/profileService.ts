@@ -35,4 +35,14 @@ const getProfile = async (username: string): Promise<Profile> => {
   return res.data;
 };
 
-export { getProfile, updateProfile };
+const addProfile = async (p: Profile): Promise<Profile> => {
+  const res = await api.post(`${PROFILE_API_URL}/addProfile`, p);
+
+  if (res.status !== 200) {
+    throw new Error('Error while creating a new profile');
+  }
+
+  return res.data;
+};
+
+export { getProfile, updateProfile, addProfile };
