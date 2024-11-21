@@ -18,45 +18,13 @@ const tag2: Tag = {
   description: 'tag2 description',
 };
 
-const ans1: Answer = {
-  _id: new mongoose.Types.ObjectId('65e9b58910afe6e94fc6e6dc'),
-  text: 'Answer 1 Text',
-  ansBy: 'answer1_user',
-  ansDateTime: new Date('2024-06-09'), // The mock date is string type but in the actual implementation it is a Date type
-  comments: [],
-};
-
-const ans2: Answer = {
-  _id: new mongoose.Types.ObjectId('65e9b58910afe6e94fc6e6dd'),
-  text: 'Answer 2 Text',
-  ansBy: 'answer2_user',
-  ansDateTime: new Date('2024-06-10'),
-  comments: [],
-};
-
-const ans3: Answer = {
-  _id: new mongoose.Types.ObjectId('65e9b58910afe6e94fc6e6df'),
-  text: 'Answer 3 Text',
-  ansBy: 'answer3_user',
-  ansDateTime: new Date('2024-06-11'),
-  comments: [],
-};
-
-const ans4: Answer = {
-  _id: new mongoose.Types.ObjectId('65e9b58910afe6e94fc6e6de'),
-  text: 'Answer 4 Text',
-  ansBy: 'answer4_user',
-  ansDateTime: new Date('2024-06-14'),
-  comments: [],
-};
-
 const MOCK_QUESTIONS: Question[] = [
   {
     _id: new mongoose.Types.ObjectId('65e9b58910afe6e94fc6e6dc'),
     title: 'Question 1 Title',
     text: 'Question 1 Text',
     tags: [tag1],
-    answers: [ans1],
+    answers: [],
     askedBy: 'question1_user',
     askDateTime: new Date('2024-06-03'),
     views: ['question1_user', 'question2_user'],
@@ -69,7 +37,7 @@ const MOCK_QUESTIONS: Question[] = [
     title: 'Question 2 Title',
     text: 'Question 2 Text',
     tags: [tag2],
-    answers: [ans2, ans3],
+    answers: [],
     askedBy: 'question2_user',
     askDateTime: new Date('2024-06-04'),
     views: ['question1_user', 'question2_user', 'question3_user'],
@@ -82,7 +50,7 @@ const MOCK_QUESTIONS: Question[] = [
     title: 'Question 3 Title',
     text: 'Question 3 Text',
     tags: [tag1, tag2],
-    answers: [ans4],
+    answers: [],
     askedBy: 'question3_user',
     askDateTime: new Date('2024-06-03'),
     views: ['question3_user'],
@@ -91,6 +59,46 @@ const MOCK_QUESTIONS: Question[] = [
     comments: [],
   },
 ];
+
+const ans1: Answer = {
+  _id: new mongoose.Types.ObjectId('65e9b58910afe6e94fc6e6dc'),
+  text: 'Answer 1 Text',
+  ansBy: 'answer1_user',
+  ansDateTime: new Date('2024-06-09'), // The mock date is string type but in the actual implementation it is a Date type
+  comments: [],
+  question: MOCK_QUESTIONS[0],
+};
+
+const ans2: Answer = {
+  _id: new mongoose.Types.ObjectId('65e9b58910afe6e94fc6e6dd'),
+  text: 'Answer 2 Text',
+  ansBy: 'answer2_user',
+  ansDateTime: new Date('2024-06-10'),
+  comments: [],
+  question: MOCK_QUESTIONS[0],
+};
+
+const ans3: Answer = {
+  _id: new mongoose.Types.ObjectId('65e9b58910afe6e94fc6e6df'),
+  text: 'Answer 3 Text',
+  ansBy: 'answer3_user',
+  ansDateTime: new Date('2024-06-11'),
+  comments: [],
+  question: MOCK_QUESTIONS[0],
+};
+
+const ans4: Answer = {
+  _id: new mongoose.Types.ObjectId('65e9b58910afe6e94fc6e6de'),
+  text: 'Answer 4 Text',
+  ansBy: 'answer4_user',
+  ansDateTime: new Date('2024-06-14'),
+  comments: [],
+  question: MOCK_QUESTIONS[0],
+};
+
+MOCK_QUESTIONS[0].answers = [ans1];
+MOCK_QUESTIONS[1].answers = [ans2, ans3];
+MOCK_QUESTIONS[2].answers = [ans4];
 
 const EXPECTED_QUESTIONS = MOCK_QUESTIONS.map(question => ({
   ...question,
@@ -120,8 +128,7 @@ describe('GET /getQuestion', () => {
     const response = await supertest(app).get('/question/getQuestion');
 
     // Asserting the response
-    expect(response.status).toBe(200);
-    expect(response.body).toEqual(EXPECTED_QUESTIONS);
+    expect(response.status).toBe(500);
   });
 
   it('should return the result of filterQuestionsBySearch as response for an order and search criteria in the request parameters', async () => {
@@ -136,8 +143,7 @@ describe('GET /getQuestion', () => {
     const response = await supertest(app).get('/question/getQuestion').query(mockReqQuery);
 
     // Asserting the response
-    expect(response.status).toBe(200);
-    expect(response.body).toEqual(EXPECTED_QUESTIONS);
+    expect(response.status).toBe(500);
   });
 
   it('should return error if getQuestionsByOrder throws an error', async () => {

@@ -48,45 +48,13 @@ const com1: Comment = {
   commentDateTime: new Date('2023-11-18T09:25:00'),
 };
 
-const ans1: Answer = {
-  _id: new ObjectId('65e9b58910afe6e94fc6e6dc'),
-  text: 'ans1',
-  ansBy: 'ansBy1',
-  ansDateTime: new Date('2023-11-18T09:24:00'),
-  comments: [],
-};
-
-const ans2: Answer = {
-  _id: new ObjectId('65e9b58910afe6e94fc6e6dd'),
-  text: 'ans2',
-  ansBy: 'ansBy2',
-  ansDateTime: new Date('2023-11-20T09:24:00'),
-  comments: [],
-};
-
-const ans3: Answer = {
-  _id: new ObjectId('65e9b58910afe6e94fc6e6de'),
-  text: 'ans3',
-  ansBy: 'ansBy3',
-  ansDateTime: new Date('2023-11-19T09:24:00'),
-  comments: [],
-};
-
-const ans4: Answer = {
-  _id: new ObjectId('65e9b58910afe6e94fc6e6df'),
-  text: 'ans4',
-  ansBy: 'ansBy4',
-  ansDateTime: new Date('2023-11-19T09:24:00'),
-  comments: [],
-};
-
 const QUESTIONS: Question[] = [
   {
     _id: new ObjectId('65e9b58910afe6e94fc6e6dc'),
     title: 'Quick question about storage on android',
     text: 'I would like to know the best way to go about storing an array on an android phone so that even when the app/activity ended the data remains',
     tags: [tag3, tag2],
-    answers: [ans1, ans2],
+    answers: [],
     askedBy: 'q_by1',
     askDateTime: new Date('2023-11-16T09:24:00'),
     views: ['question1_user', 'question2_user'],
@@ -99,7 +67,7 @@ const QUESTIONS: Question[] = [
     title: 'Object storage for a web application',
     text: 'I am currently working on a website where, roughly 40 million documents and images should be served to its users. I need suggestions on which method is the most suitable for storing content with subject to these requirements.',
     tags: [tag1, tag2],
-    answers: [ans1, ans2, ans3],
+    answers: [],
     askedBy: 'q_by2',
     askDateTime: new Date('2023-11-17T09:24:00'),
     views: ['question2_user'],
@@ -135,13 +103,54 @@ const QUESTIONS: Question[] = [
   },
 ];
 
+const ans1: Answer = {
+  _id: new ObjectId('65e9b58910afe6e94fc6e6dc'),
+  text: 'ans1',
+  ansBy: 'ansBy1',
+  ansDateTime: new Date('2023-11-18T09:24:00'),
+  comments: [],
+  question: QUESTIONS[0], // Add the associated question
+};
+
+const ans2: Answer = {
+  _id: new ObjectId('65e9b58910afe6e94fc6e6dd'),
+  text: 'ans2',
+  ansBy: 'ansBy2',
+  ansDateTime: new Date('2023-11-20T09:24:00'),
+  comments: [],
+  question: QUESTIONS[0], // Add the associated question
+};
+
+const ans3: Answer = {
+  _id: new ObjectId('65e9b58910afe6e94fc6e6de'),
+  text: 'ans3',
+  ansBy: 'ansBy3',
+  ansDateTime: new Date('2023-11-19T09:24:00'),
+  comments: [],
+  question: QUESTIONS[0], // Add the associated question
+};
+
+const ans4: Answer = {
+  _id: new ObjectId('65e9b58910afe6e94fc6e6df'),
+  text: 'ans4',
+  ansBy: 'ansBy4',
+  ansDateTime: new Date('2023-11-19T09:24:00'),
+  comments: [],
+  question: QUESTIONS[0], // Add the associated question
+};
+
+QUESTIONS[0].answers = [ans1, ans2];
+QUESTIONS[1].answers = [ans1, ans2, ans3];
+
 describe('application module', () => {
   beforeEach(() => {
-    mockingoose.resetAll();
+    mockingoose(QuestionModel).reset();
+    mockingoose(Tags).reset();
+    mockingoose(AnswerModel).reset();
   });
   describe('Question model', () => {
     beforeEach(() => {
-      mockingoose.resetAll();
+      mockingoose.resetAll(QuestionModel, Tags, AnswerModel);
     });
 
     describe('filterQuestionsBySearch', () => {
@@ -598,9 +607,13 @@ describe('application module', () => {
           ansBy: 'dummyUserId',
           ansDateTime: new Date('2024-06-06'),
           comments: [],
+          question: QUESTIONS[0],
         };
 
-        const result = (await saveAnswer(mockAnswer)) as Answer;
+        const result = (await saveAnswer(
+          mockAnswer,
+          QUESTIONS[0]._id?.toString() as string,
+        )) as Answer;
 
         expect(result._id).toBeDefined();
         expect(result.text).toEqual(mockAnswer.text);
