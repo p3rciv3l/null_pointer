@@ -138,6 +138,7 @@ async function answerCreate(
   ansBy: string,
   ansDateTime: Date,
   comments: Comment[],
+  question: Question,
 ): Promise<Answer> {
   if (text === '' || ansBy === '' || ansDateTime == null || comments == null)
     throw new Error('Invalid Answer Format');
@@ -146,6 +147,7 @@ async function answerCreate(
     ansBy: ansBy,
     ansDateTime: ansDateTime,
     comments: comments,
+    question: question
   };
   return await AnswerModel.create(answerDetail);
 }
@@ -273,20 +275,12 @@ const populate = async () => {
     const c11 = await commentCreate(C11_TEXT, 'Joji John', new Date('2023-03-18T01:02:15'));
     const c12 = await commentCreate(C12_TEXT, 'abaya', new Date('2023-04-10T14:28:01'));
 
-    const a1 = await answerCreate(A1_TXT, 'hamkalo', new Date('2023-11-20T03:24:42'), [c1]);
-    const a2 = await answerCreate(A2_TXT, 'azad', new Date('2023-11-23T08:24:00'), [c2]);
-    const a3 = await answerCreate(A3_TXT, 'abaya', new Date('2023-11-18T09:24:00'), [c3]);
-    const a4 = await answerCreate(A4_TXT, 'alia', new Date('2023-11-12T03:30:00'), [c4]);
-    const a5 = await answerCreate(A5_TXT, 'sana', new Date('2023-11-01T15:24:19'), [c5]);
-    const a6 = await answerCreate(A6_TXT, 'abhi3241', new Date('2023-02-19T18:20:59'), [c6]);
-    const a7 = await answerCreate(A7_TXT, 'mackson3332', new Date('2023-02-22T17:19:00'), [c7]);
-    const a8 = await answerCreate(A8_TXT, 'ihba001', new Date('2023-03-22T21:17:53'), [c8]);
-
+    // Create questions first to associate them with answers
     const q1 = await questionCreate(
       Q1_DESC,
       Q1_TXT,
       [t1, t2],
-      [a1, a2],
+      [],
       'Joji John',
       new Date('2022-01-20T03:00:00'),
       ['sana', 'abaya', 'alia'],
@@ -296,7 +290,7 @@ const populate = async () => {
       Q2_DESC,
       Q2_TXT,
       [t3, t4, t2],
-      [a3, a4, a5],
+      [],
       'saltyPeter',
       new Date('2023-01-10T11:24:30'),
       ['mackson3332'],
@@ -306,7 +300,7 @@ const populate = async () => {
       Q3_DESC,
       Q3_TXT,
       [t5, t6],
-      [a6, a7],
+      [],
       'monkeyABC',
       new Date('2023-02-18T01:02:15'),
       ['monkeyABC', 'elephantCDE'],
@@ -316,156 +310,44 @@ const populate = async () => {
       Q4_DESC,
       Q4_TXT,
       [t3, t4, t5],
-      [a8],
+      [],
       'elephantCDE',
       new Date('2023-03-10T14:28:01'),
       [],
       [c12],
     );
 
-    const profile1 = await profileCreate(
-      'sana',
-      new Date('2023-01-01'),
-      P1_TITLE,
-      P1_BIO,
-      [a5],
-      [],
-      [],
-      [],
-      [],
-    );
+    // Create answers associated with specific questions
+    const a1 = await answerCreate(A1_TXT, 'hamkalo', new Date('2023-11-20T03:24:42'), [c1], q1);
+    const a2 = await answerCreate(A2_TXT, 'azad', new Date('2023-11-23T08:24:00'), [c2], q1);
+    const a3 = await answerCreate(A3_TXT, 'abaya', new Date('2023-11-18T09:24:00'), [c3], q2);
+    const a4 = await answerCreate(A4_TXT, 'alia', new Date('2023-11-12T03:30:00'), [c4], q2);
+    const a5 = await answerCreate(A5_TXT, 'sana', new Date('2023-11-01T15:24:19'), [c5], q2);
+    const a6 = await answerCreate(A6_TXT, 'abhi3241', new Date('2023-02-19T18:20:59'), [c6], q3);
+    const a7 = await answerCreate(A7_TXT, 'mackson3332', new Date('2023-02-22T17:19:00'), [c7], q3);
+    const a8 = await answerCreate(A8_TXT, 'ihba001', new Date('2023-03-22T21:17:53'), [c8], q4);
 
-    const profile2 = await profileCreate(
-      'ihba001',
-      new Date('2023-02-01'),
-      P2_TITLE,
-      P2_BIO,
-      [a8],
-      [],
-      [],
-      [],
-      [],
-    );
+    // Update questions with their answers
+    await QuestionModel.findByIdAndUpdate(q1._id, { answers: [a1, a2] });
+    await QuestionModel.findByIdAndUpdate(q2._id, { answers: [a3, a4, a5] });
+    await QuestionModel.findByIdAndUpdate(q3._id, { answers: [a6, a7] });
+    await QuestionModel.findByIdAndUpdate(q4._id, { answers: [a8] });
 
-    const profile3 = await profileCreate(
-      'saltyPeter',
-      new Date('2023-03-01'),
-      P3_TITLE,
-      P3_BIO,
-      [],
-      [q2],
-      [],
-      [],
-      [],
-    );
+    // Profiles creation logic (unchanged from your provided script)
+    // Each profile will have their `answersGiven` properly associated with their corresponding questions
+    const profile1 = await profileCreate('sana', new Date('2023-01-01'), P1_TITLE, P1_BIO, [a5], [], [], [], []);
+    const profile2 = await profileCreate('ihba001', new Date('2023-02-01'), P2_TITLE, P2_BIO, [a8], [], [], [], []);
+    const profile3 = await profileCreate('saltyPeter', new Date('2023-03-01'), P3_TITLE, P3_BIO, [], [q2], [], [], []);
+    const profile4 = await profileCreate('monkeyABC', new Date('2023-04-01'), P4_TITLE, P4_BIO, [], [q3], [], [], []);
+    const profile5 = await profileCreate('hamkalo', new Date('2023-05-01'), P5_TITLE, P5_BIO, [a1], [], [], [], []);
+    const profile6 = await profileCreate('azad', new Date('2023-06-01'), P6_TITLE, P6_BIO, [a2], [], [], [], []);
+    const profile7 = await profileCreate('alia', new Date('2023-07-01'), P7_TITLE, P7_BIO, [a4], [], [], [], []);
+    const profile8 = await profileCreate('abhi3241', new Date('2023-08-01'), P8_TITLE, P8_BIO, [a6], [], [], [], []);
+    const profile9 = await profileCreate('Joji John', new Date('2023-09-01'), P9_TITLE, P9_BIO, [], [q1], [], [], []);
+    const profile10 = await profileCreate('abaya', new Date('2023-10-01'), P10_TITLE, P10_BIO, [a3], [], [], [], []);
+    const profile11 = await profileCreate('mackson3332', new Date('2023-11-01'), P11_TITLE, P11_BIO, [a7], [], [], [], []);
+    const profile12 = await profileCreate('elephantCDE', new Date('2023-09-11'), P12_TITLE, P12_BIO, [], [q4], [], [], []);
 
-    const profile4 = await profileCreate(
-      'monkeyABC',
-      new Date('2023-04-01'),
-      P4_TITLE,
-      P4_BIO,
-      [],
-      [q3],
-      [],
-      [],
-      [],
-    );
-
-    const profile5 = await profileCreate(
-      'hamkalo',
-      new Date('2023-05-01'),
-      P5_TITLE,
-      P5_BIO,
-      [a1],
-      [],
-      [],
-      [],
-      [],
-    );
-
-    const profile6 = await profileCreate(
-      'azad',
-      new Date('2023-06-01'),
-      P6_TITLE,
-      P6_BIO,
-      [a2],
-      [],
-      [],
-      [],
-      [],
-    );
-
-    const profile7 = await profileCreate(
-      'alia',
-      new Date('2023-07-01'),
-      P7_TITLE,
-      P7_BIO,
-      [a4],
-      [],
-      [],
-      [],
-      [],
-    );
-
-    const profile8 = await profileCreate(
-      'abhi3241',
-      new Date('2023-08-01'),
-      P8_TITLE,
-      P8_BIO,
-      [a6],
-      [],
-      [],
-      [],
-      [],
-    );
-
-    const profile9 = await profileCreate(
-      'Joji John',
-      new Date('2023-09-01'),
-      P9_TITLE,
-      P9_BIO,
-      [],
-      [q1],
-      [],
-      [],
-      [],
-    );
-
-    const profile10 = await profileCreate(
-      'abaya',
-      new Date('2023-10-01'),
-      P10_TITLE,
-      P10_BIO,
-      [a3],
-      [],
-      [],
-      [],
-      [],
-    );
-
-    const profile11 = await profileCreate(
-      'mackson3332',
-      new Date('2023-11-01'),
-      P11_TITLE,
-      P11_BIO,
-      [a7],
-      [],
-      [],
-      [],
-      [],
-    );
-    
-    const profile12 = await profileCreate(
-      'elephantCDE',
-      new Date('2023-9-11'),
-      P12_TITLE,
-      P12_BIO,
-      [],
-      [q4],
-      [],
-      [],
-      [],
-    );
 
 
     // Update following relationships after all profiles are created
