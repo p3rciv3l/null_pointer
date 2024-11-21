@@ -117,7 +117,7 @@ const ProfilePage = () => {
 
         {/* Questions Section */}
         <QuestionDisplay questionsPosted={profile.questionsAsked} />
-        <AnswerDisplay answersGiven={profile.answersGiven} />
+        <AnswerDisplay answersGiven={profile.answersGiven} username={username} />
       </div>
     </div>
   );
