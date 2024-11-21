@@ -5,7 +5,6 @@ import {
   AnswerResponse,
   Comment,
   CommentResponse,
-  FindProfileByUsernameRequest,
   OrderType,
   Profile,
   ProfileResponse,

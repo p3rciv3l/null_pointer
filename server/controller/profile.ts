@@ -2,7 +2,6 @@ import express, { Response } from 'express';
 import { AddProfileRequest, FakeSOSocket, FindProfileByUsernameRequest, Profile } from '../types';
 import { populateProfile, saveProfile } from '../models/application';
 import ProfileModel from '../models/profile';
-import AnswerModel from '../models/answers';
 
 const profileController = (socket: FakeSOSocket) => {
   const router = express.Router();

@@ -38,7 +38,6 @@ const answerController = (socket: FakeSOSocket) => {
    * @returns A Promise that resolves to void.
    */
   const addAnswer = async (req: AnswerRequest, res: Response): Promise<void> => {
-    console.log('Reached addAnswer controller call');
     if (!isRequestValid(req)) {
       res.status(400).send('Invalid request');
       return;
@@ -67,12 +66,6 @@ const answerController = (socket: FakeSOSocket) => {
       // Refine the type of populatedAns
       if ('error' in populatedAns) {
         throw new Error(populatedAns.error as string);
-      }
-      // Safely access `question` now that the type is refined
-      if ('question' in populatedAns && populatedAns.question) {
-        console.log('Populated Answer Question ID:', populatedAns.question._id);
-        console.log('Populated Answer Question Title:', populatedAns.question.title);
-        console.log('Populated Answer Question Title:', populatedAns.question.askDateTime);
       }
       if (populatedAns && 'error' in populatedAns) {
         throw new Error(populatedAns.error as string);

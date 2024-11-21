@@ -81,7 +81,7 @@ const ProfilePage = () => {
     ],
   };
 
-  const { profile, loading, error } = useViewProfile(username);
+  const { profile } = useViewProfile(username);
   if (!profile) return <div>Profile not found</div>;
 
   const formattedDate = new Date(profile.joinedWhen).toLocaleDateString('en-US', {
