@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import ProfileHeader from './profileHeader';
 import TagDisplay from './tagDisplay';
 import QuestionDisplay from './questionDisplay';
+import AnswerDisplay from './answerDisplay';
 import './index.css';
 import { Tag } from '../../../../types';
 import useViewProfile from '../../../../hooks/useViewProfile';
@@ -116,6 +117,7 @@ const ProfilePage = () => {
 
         {/* Questions Section */}
         <QuestionDisplay questionsPosted={profile.questionsAsked} />
+        <AnswerDisplay answersGiven={profile.answersGiven} />
       </div>
     </div>
   );

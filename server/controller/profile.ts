@@ -2,6 +2,7 @@ import express, { Response } from 'express';
 import { AddProfileRequest, FakeSOSocket, FindProfileByUsernameRequest, Profile } from '../types';
 import { populateProfile, saveProfile } from '../models/application';
 import ProfileModel from '../models/profile';
+import AnswerModel from '../models/answers';
 
 const profileController = (socket: FakeSOSocket) => {
   const router = express.Router();
@@ -54,22 +55,21 @@ const profileController = (socket: FakeSOSocket) => {
    */
   const getProfile = async (req: FindProfileByUsernameRequest, res: Response): Promise<void> => {
     const { username } = req.params;
-    console.log('Backend received request for username:', username);
     try {
-      const profile = await ProfileModel.findOne({ username }).populate({
-        path: 'questionsAsked', // Field to populate
-        model: 'Question', // Reference to the Question model
-        populate: { path: 'tags', model: 'Tag' }, // Nested populate for tags
-      });
-      console.log('Database query result:', profile);
+      const profile = await ProfileModel.findOne({ username }).populate([
+        {
+          path: 'questionsAsked', // Field to populate
+          model: 'Question', // Reference to the Question model
+          populate: { path: 'tags', model: 'Tag' }, // Nested populate for tags
+        },
+        { path: 'answersGiven', model: AnswerModel },
+      ]);
       if (profile) {
         res.status(200).json(profile);
       } else {
-        console.log('No profile found for username:', username);
         res.status(404).json({ message: 'Profile not found' });
       }
     } catch (error) {
-      console.error('Backend error:', error);
       res.status(500).json({ message: 'Server error', error });
     }
   };
