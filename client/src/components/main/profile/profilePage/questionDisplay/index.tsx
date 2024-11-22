@@ -16,7 +16,7 @@ const QuestionDisplay = ({ questionsPosted = [] }: QuestionDisplayProps) => {
 
   return (
     <div className='profile-questions-section'>
-      <h2>Questions Asked</h2>
+      <h2>Questions Posted</h2>
       {questionsPosted.length > 0 ? (
         questionsPosted.map(question => (
           <div

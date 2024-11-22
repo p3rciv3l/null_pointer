@@ -17,7 +17,7 @@ const AnswerDisplay = ({ answersGiven = [], username = 'Anonymous' }: AnswerDisp
 
   return (
     <div className='profile-answers-section'>
-      <h2>Answers Given</h2>
+      <h2>Questions Answered</h2>
       {answersGiven.length > 0 ? (
         answersGiven.map(answer => (
           <div
