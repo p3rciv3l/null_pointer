@@ -36,6 +36,7 @@ const getProfile = async (username: string): Promise<Profile> => {
 
     return res.data;
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Error in getProfile:', error);
     throw error;
   }
