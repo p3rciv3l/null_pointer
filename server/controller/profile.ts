@@ -88,9 +88,6 @@ const profileController = (socket: FakeSOSocket) => {
   // add appropriate HTTP verbs and their endpoints to the router.
   router.post('/addProfile', addProfile);
   router.get('/getProfile/:username', getProfile);
-  router.get('/test', (req, res) => {
-    res.send('test route');
-  });
   return router;
 };
 
