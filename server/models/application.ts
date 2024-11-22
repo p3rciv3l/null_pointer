@@ -5,7 +5,6 @@ import {
   AnswerResponse,
   Comment,
   CommentResponse,
-  FindProfileByUsernameRequest,
   OrderType,
   Profile,
   ProfileResponse,
@@ -340,13 +339,17 @@ export const populateDocument = async (
         {
           path: 'answers',
           model: AnswerModel,
-          populate: { path: 'comments', model: CommentModel },
+          populate: [
+            { path: 'comments', model: CommentModel }, // Populate comments of answers
+            { path: 'question', model: QuestionModel, select: '_id title askDateTime' }, // Populate associated question (likely redundant here)
+          ],
         },
         { path: 'comments', model: CommentModel },
       ]);
     } else if (type === 'answer') {
       result = await AnswerModel.findOne({ _id: id }).populate([
         { path: 'comments', model: CommentModel },
+        { path: 'question', model: QuestionModel, select: '_id title askDateTime' }, // Populate associated question with the id and title of the question.
       ]);
     }
     if (!result) {
@@ -374,8 +377,8 @@ export const fetchAndIncrementQuestionViewsById = async (
   try {
     const q = await QuestionModel.findOneAndUpdate(
       { _id: new ObjectId(qid) },
-      { $addToSet: { views: username } },
-      { new: true },
+      { $addToSet: { views: username } }, // Add username to the views array (no duplicates)
+      { new: true }, // Return the updated document
     ).populate([
       {
         path: 'tags',
@@ -384,10 +387,14 @@ export const fetchAndIncrementQuestionViewsById = async (
       {
         path: 'answers',
         model: AnswerModel,
-        populate: { path: 'comments', model: CommentModel },
+        populate: [
+          { path: 'comments', model: CommentModel }, // Populate comments on the answer
+          { path: 'question', model: QuestionModel, select: '_id title askDateTime' }, // Populate associated question
+        ],
       },
-      { path: 'comments', model: CommentModel },
+      { path: 'comments', model: CommentModel }, // Populate comments on the question
     ]);
+
     return q;
   } catch (error) {
     return { error: 'Error when fetching and updating a question' };
@@ -414,15 +421,29 @@ export const saveQuestion = async (question: Question): Promise<QuestionResponse
  * Saves a new answer to the database.
  *
  * @param {Answer} answer - The answer to save
+ * @param {string} questionId - The ID of the associated question
  *
  * @returns {Promise<AnswerResponse>} - The saved answer, or an error message if the save failed
  */
-export const saveAnswer = async (answer: Answer): Promise<AnswerResponse> => {
+export const saveAnswer = async (answer: Answer, questionId: string): Promise<AnswerResponse> => {
   try {
-    const result = await AnswerModel.create(answer);
+    // Validate the answer object
+    if (!answer || !answer.text || !answer.ansBy || !answer.ansDateTime) {
+      throw new Error('Invalid answer');
+    }
+
+    // Ensure the question field is set
+    const answerToSave = {
+      ...answer,
+      question: new ObjectId(questionId),
+    };
+
+    // Save the answer to the database
+    const result = await AnswerModel.create(answerToSave);
+
     return result;
   } catch (error) {
-    return { error: 'Error when saving an answer' };
+    return { error: `Error when saving an answer: ${(error as Error).message}` };
   }
 };
 
@@ -610,6 +631,7 @@ export const addVoteToQuestion = async (
  *
  * @returns Promise<QuestionResponse> - The updated question or an error message
  */
+// This isn't modified because we already added the qid to the answer in the saveAnswer function!
 export const addAnswerToQuestion = async (qid: string, ans: Answer): Promise<QuestionResponse> => {
   try {
     if (!ans || !ans.text || !ans.ansBy || !ans.ansDateTime) {

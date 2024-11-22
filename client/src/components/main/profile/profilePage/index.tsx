@@ -4,8 +4,10 @@ import { useParams } from 'react-router-dom';
 import ProfileHeader from './profileHeader';
 import TagDisplay from './tagDisplay';
 import QuestionDisplay from './questionDisplay';
+import AnswerDisplay from './answerDisplay';
 import './index.css';
 import { Tag } from '../../../../types';
+import useViewProfile from '../../../../hooks/useViewProfile';
 
 const ProfilePage = () => {
   const { username } = useParams();
@@ -79,7 +81,10 @@ const ProfilePage = () => {
     ],
   };
 
-  const formattedDate = user.joinedWhen.toLocaleDateString('en-US', {
+  const { profile } = useViewProfile(username);
+  if (!profile) return <div>Profile not found</div>;
+
+  const formattedDate = new Date(profile.joinedWhen).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -88,9 +93,9 @@ const ProfilePage = () => {
   return (
     <div className='profile-page'>
       <ProfileHeader
-        username={user.name}
-        title={user.title}
-        bio={user.bio}
+        username={username}
+        title={profile.title}
+        bio={profile.bio}
         date={formattedDate}
         reputation={user.reputation}
         goldBadge={user.badgesEarned.gold}
@@ -103,15 +108,16 @@ const ProfilePage = () => {
         <div className='profile-stats-section'>
           <h2>Activity</h2>
           <div className='stats-item'>
-            <strong>Questions Answered:</strong> {user.questionsAnswered.length}
+            <strong>Questions Posted:</strong> {profile.questionsAsked.length}
           </div>
           <div className='stats-item'>
-            <strong>Answers Given:</strong> {user.answersAsked.length}
+            <strong>Questions Answered:</strong> {profile.answersGiven.length}
           </div>
         </div>
 
         {/* Questions Section */}
-        <QuestionDisplay questionsPosted={user.questionsAnswered} />
+        <QuestionDisplay questionsPosted={profile.questionsAsked} />
+        <AnswerDisplay answersGiven={profile.answersGiven} username={username} />
       </div>
     </div>
   );

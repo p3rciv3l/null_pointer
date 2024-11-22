@@ -49,22 +49,24 @@ const answerController = (socket: FakeSOSocket) => {
 
     const { qid } = req.body;
     const ansInfo: Answer = req.body.ans;
-
     try {
-      const ansFromDb = await saveAnswer(ansInfo);
+      // Adding the question id to the saveAnswer function.
+      const ansFromDb = await saveAnswer(ansInfo, qid);
 
       if ('error' in ansFromDb) {
         throw new Error(ansFromDb.error as string);
       }
 
       const status = await addAnswerToQuestion(qid, ansFromDb);
-
       if (status && 'error' in status) {
         throw new Error(status.error as string);
       }
 
       const populatedAns = await populateDocument(ansFromDb._id?.toString(), 'answer');
-
+      // Refine the type of populatedAns
+      if ('error' in populatedAns) {
+        throw new Error(populatedAns.error as string);
+      }
       if (populatedAns && 'error' in populatedAns) {
         throw new Error(populatedAns.error as string);
       }
