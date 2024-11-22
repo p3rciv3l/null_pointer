@@ -13,32 +13,3 @@
     background-color: #f9fafb; /* Tailwind's hover:bg-gray-50 equivalent */
     color: #111827; /* Tailwind's hover:text-gray-900 equivalent */
   }
-  
-  .menu_button {
-    display: flex;
-    align-items: center;
-    gap: 1rem; /* Increased spacing between icon and text */
-    padding: 0.75rem 1.25rem; /* Slightly increased padding */
-    border-radius: 0.5rem; /* Tailwind's rounded-lg equivalent */
-    color: #111827; /* White text for your black-themed app */
-    text-decoration: none;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  .menu_button:hover {
-    background-color: #A71F35; /* Red fill on hover */
-    color: #ffffff; /* Ensure text remains white on hover */
-  }
-  
-  .menu_selected {
-    background-color: #A71F35; /* Active red background */
-    color: #ffffff; /* White text for active state */
-    font-weight: bold;
-  }
-  
-  #sideBarNav {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem; /* Increased spacing between menu items */
-    padding: 1rem; /* Padding around the sidebar */
-  }
