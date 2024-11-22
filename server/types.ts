@@ -24,7 +24,8 @@ export interface Answer {
   text: string;
   ansBy: string;
   ansDateTime: Date;
-  comments: Comment[] | ObjectId[];
+  comments: Comment[];
+  question: Question; // The Object ID of the associated question, or the question object if populated.
 }
 
 /**
