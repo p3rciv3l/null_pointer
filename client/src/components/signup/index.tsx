@@ -10,6 +10,7 @@ const SignUp = () => {
   const [username, setUsername] = useState('');
   const { signUp, loading } = useLogin();
   const navigate = useNavigate();
+  const [passwordError, setPasswordError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,8 +53,25 @@ const SignUp = () => {
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.target.setCustomValidity('');
-    setPassword(e.target.value);
+    const newPassword = e.target.value;
+    const passwordInput = e.target as HTMLInputElement;
+    
+    if (newPassword) {
+      if (newPassword.length < 8) {
+        passwordInput.setCustomValidity('Password must be at least 8 characters long');
+      } else if (!/[A-Za-z]/.test(newPassword)) {
+        passwordInput.setCustomValidity('Password must contain at least one letter');
+      } else if (!/[0-9]/.test(newPassword)) {
+        passwordInput.setCustomValidity('Password must contain at least one number');
+      } else {
+        passwordInput.setCustomValidity('');
+      }
+    } else {
+      passwordInput.setCustomValidity('');
+    }
+    
+    passwordInput.reportValidity();
+    setPassword(newPassword);
   };
 
   return (
@@ -92,7 +110,11 @@ const SignUp = () => {
               className='auth-input'
             />
           </div>
-          <button type='submit' className='auth-button' disabled={loading}>
+          <button 
+            type='submit' 
+            className='auth-button' 
+            disabled={loading || !!passwordError}
+          >
             Sign up
           </button>
         </form>
