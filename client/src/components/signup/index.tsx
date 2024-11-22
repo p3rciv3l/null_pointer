@@ -59,7 +59,10 @@ const SignUp = () => {
   return (
     <div className='auth-container'>
       <div className='auth-box'>
-        <h2>Join HuskyFlow</h2>
+        <div className='logo-container'>
+          <img src='/assets/alternate_full_logo_1.png' alt='NullPointer Logo' />
+        </div>
+        <h2>Join NullPointer</h2>
         <form onSubmit={handleSubmit}>
           <div className='form-group'>
             <label>Email</label>

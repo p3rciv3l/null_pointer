@@ -13,7 +13,6 @@ const Login = () => {
   const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
-    // show success message if redirected from signup
     const state = location.state as { message?: string };
     if (state?.message) {
       setSuccessMessage(state.message);
@@ -33,7 +32,9 @@ const Login = () => {
   return (
     <div className='auth-container'>
       <div className='auth-box'>
-        <h2>Welcome to HuskyFlow</h2>
+        <div className='logo-container'>
+          <img src='/assets/alternate_full_logo_1.png' alt='NullPointer Logo' />
+        </div>
         {successMessage && <div className='success-message'>{successMessage}</div>}
         {error && <div className='error-message'>{error}</div>}
         <form onSubmit={handleSubmit}>
@@ -45,6 +46,7 @@ const Login = () => {
               onChange={e => setEmail(e.target.value)}
               required
               className='auth-input'
+              placeholder='Enter your email'
             />
           </div>
           <div className='form-group'>
@@ -55,10 +57,11 @@ const Login = () => {
               onChange={e => setPassword(e.target.value)}
               required
               className='auth-input'
+              placeholder='Enter your password'
             />
           </div>
           <button type='submit' className='auth-button' disabled={loading}>
-            Log in
+            {loading ? 'Logging in...' : 'Log in'}
           </button>
         </form>
         <p className='auth-footer'>
