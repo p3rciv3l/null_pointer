@@ -100,18 +100,6 @@ MOCK_QUESTIONS[0].answers = [ans1];
 MOCK_QUESTIONS[1].answers = [ans2, ans3];
 MOCK_QUESTIONS[2].answers = [ans4];
 
-const EXPECTED_QUESTIONS = MOCK_QUESTIONS.map(question => ({
-  ...question,
-  _id: question._id?.toString(), // Converting ObjectId to string
-  tags: question.tags.map(tag => ({ ...tag, _id: tag._id?.toString() })), // Converting tag ObjectId
-  answers: question.answers.map(answer => ({
-    ...answer,
-    _id: answer._id?.toString(),
-    ansDateTime: (answer as Answer).ansDateTime.toISOString(),
-  })), // Converting answer ObjectId
-  askDateTime: question.askDateTime.toISOString(),
-}));
-
 describe('GET /getQuestion', () => {
   afterEach(async () => {
     await mongoose.connection.close(); // Ensure the connection is properly closed
