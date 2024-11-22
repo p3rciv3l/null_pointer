@@ -48,14 +48,14 @@ form {
 .auth-input {
   width: 100%;
   padding: 12px;
-  border: 2px solid #E5D4CE;
+  border: 2px solid #e5d4ce;
   border-radius: 8px;
   font-size: 16px;
   transition: all 0.3s ease;
 }
 
 .auth-input:focus {
-  border-color: #A71F35;
+  border-color: #a71f35;
   outline: none;
   box-shadow: 0 0 0 3px rgba(167, 31, 53, 0.1);
 }
@@ -64,7 +64,7 @@ form {
   width: 100%;
   max-width: 320px;
   padding: 14px;
-  background-color: #A71F35;
+  background-color: #a71f35;
   color: white;
   border: none;
   border-radius: 8px;
@@ -80,7 +80,7 @@ form {
 }
 
 .auth-button:disabled {
-  background-color: #E5D4CE;
+  background-color: #e5d4ce;
   cursor: not-allowed;
 }
 
@@ -91,7 +91,7 @@ form {
 }
 
 .auth-footer a {
-  color: #A71F35;
+  color: #a71f35;
   text-decoration: none;
   font-weight: 500;
 }
@@ -101,7 +101,7 @@ form {
 }
 
 .error-message {
-  color: #A71F35;
+  color: #a71f35;
   margin-bottom: 16px;
   text-align: center;
   font-size: 14px;
@@ -125,7 +125,7 @@ h2 {
   justify-content: center;
   gap: 8px;
   margin-bottom: 24px;
-  color: #A71F35;
+  color: #a71f35;
   font-size: 24px;
   font-weight: 600;
 }

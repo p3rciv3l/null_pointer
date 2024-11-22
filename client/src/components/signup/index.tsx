@@ -55,7 +55,7 @@ const SignUp = () => {
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
     const passwordInput = e.target as HTMLInputElement;
-    
+
     if (newPassword) {
       if (newPassword.length < 8) {
         passwordInput.setCustomValidity('Password must be at least 8 characters long');
@@ -69,7 +69,7 @@ const SignUp = () => {
     } else {
       passwordInput.setCustomValidity('');
     }
-    
+
     passwordInput.reportValidity();
     setPassword(newPassword);
   };
@@ -77,7 +77,14 @@ const SignUp = () => {
   return (
     <div className='auth-container'>
       <div className='auth-box'>
-        <h2>Join <img src={process.env.PUBLIC_URL + '/assets/text_logo.png'} alt='Null Pointer' className='inline-logo' /></h2>
+        <h2>
+          Join{' '}
+          <img
+            src={`${process.env.PUBLIC_URL}/assets/text_logo.png`}
+            alt='Null Pointer'
+            className='inline-logo'
+          />
+        </h2>
         <form onSubmit={handleSubmit}>
           <div className='form-group'>
             <label>Email</label>
@@ -110,11 +117,10 @@ const SignUp = () => {
               className='auth-input'
             />
           </div>
-          <button 
-            type='submit' 
-            className='auth-button' 
-            disabled={loading || !!passwordError}
-          >
+          <button
+            type='submit'
+            className='auth-button'
+            disabled={loading || !!passwordError}>
             Sign up
           </button>
         </form>

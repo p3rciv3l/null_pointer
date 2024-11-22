@@ -33,7 +33,10 @@ const Login = () => {
     <div className='auth-container'>
       <div className='auth-box'>
         <div className='logo-container'>
-          <img src={process.env.PUBLIC_URL + '/assets/alternate_full_logo_1.png'} alt='NullPointer Logo' />
+          <img
+            src={`${process.env.PUBLIC_URL}/assets/alternate_full_logo_1.png`}
+            alt='NullPointer Logo'
+          />
         </div>
         {successMessage && <div className='success-message'>{successMessage}</div>}
         {error && <div className='error-message'>{error}</div>}
