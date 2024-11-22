@@ -117,10 +117,7 @@ const SignUp = () => {
               className='auth-input'
             />
           </div>
-          <button
-            type='submit'
-            className='auth-button'
-            disabled={loading || !!passwordError}>
+          <button type='submit' className='auth-button' disabled={loading || !!passwordError}>
             Sign up
           </button>
         </form>
