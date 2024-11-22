@@ -1,26 +1,54 @@
+/* General Sidebar Styling */
 .sideBarNav {
+  background-color: #000; /* Black background for sidebar */
+  color: #fff; /* White text for readability */
+  padding: 20px;
+  height: 100vh; /* Full height sidebar */
+  width: 250px; /* Fixed width */
   display: flex;
   flex-direction: column;
-  width: 15%;
-  border-right: dashed;
-  padding: 4% 0 4% 0;
-  align-items: center;
+  border-right: 3px solid #ff0000; /* Red border for accent */
+  font-family: 'Arial', sans-serif;
 }
 
-.menu_button:first-child {
-  margin-top: 0;
+/* Title Styling */
+.sidebar-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ff0000; /* Red for title */
+  margin-bottom: 15px;
+  border-bottom: 2px solid #fff; /* White underline */
+  padding-bottom: 10px;
 }
 
-.menu_button {
-  height: 40px;
-  width: 80%;
-  margin-top: 20px;
-  border-radius: 5px;
+/* Tag List Styling */
+.tag-list {
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
+}
+
+.tag-item {
+  font-size: 18px;
+  margin: 10px 0;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px; /* Slightly rounded corners */
+  background-color: #fff; /* White background */
+  color: #000; /* Black text */
   text-align: center;
-  line-height: 40px;
-  color: cornflowerblue;
+  transition: all 0.3s ease; /* Smooth hover effect */
 }
 
-.menu_selected {
-  background: #cccccc;
+/* Hover and Active State for Tags */
+.tag-item:hover {
+  background-color: #ff0000; /* Red background on hover */
+  color: #fff; /* White text on hover */
+  transform: scale(1.05); /* Slight zoom effect */
+}
+
+/* Active Page Highlight */
+.tag-item.active {
+  background-color: #ff0000; /* Red background */
+  color: #fff; /* White text */
 }
