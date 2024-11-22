@@ -59,10 +59,7 @@ const SignUp = () => {
   return (
     <div className='auth-container'>
       <div className='auth-box'>
-        <div className='logo-container'>
-          <img src='/assets/alternate_full_logo_1.png' alt='NullPointer Logo' />
-        </div>
-        <h2>Join NullPointer</h2>
+        <h2>Join <img src={process.env.PUBLIC_URL + '/assets/text_logo.png'} alt='Null Pointer' className='inline-logo' /></h2>
         <form onSubmit={handleSubmit}>
           <div className='form-group'>
             <label>Email</label>

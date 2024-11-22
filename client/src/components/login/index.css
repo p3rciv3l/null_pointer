@@ -13,35 +13,29 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .logo-container {
   text-align: center;
   margin-bottom: 24px;
-  width: 100%;
 }
 
 .logo-container img {
   max-width: 200px;
   height: auto;
-  display: block;
-  margin: 0 auto;
 }
 
-.auth-box h2 {
-  margin: 0 0 24px;
-  text-align: center;
-  color: #A71F35;
-  font-size: 24px;
-  font-weight: 600;
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .form-group {
-  margin-bottom: 20px;
   width: 100%;
+  max-width: 320px;
+  margin-bottom: 20px;
 }
 
 .form-group label {
@@ -68,6 +62,7 @@
 
 .auth-button {
   width: 100%;
+  max-width: 320px;
   padding: 14px;
   background-color: #A71F35;
   color: white;
@@ -122,4 +117,20 @@
   border-radius: 4px;
   margin-bottom: 16px;
   text-align: center;
+}
+
+h2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+  color: #A71F35;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.inline-logo {
+  height: 24px;
+  width: auto;
 }
