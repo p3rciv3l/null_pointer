@@ -15,10 +15,13 @@ import {
   saveComment,
   addComment,
   addVoteToQuestion,
+  populateDocument,
+  populateProfile,
 } from '../models/application';
 import { Answer, Question, Tag, Comment } from '../types';
 import { T1_DESC, T2_DESC, T3_DESC } from '../data/posts_strings';
 import AnswerModel from '../models/answers';
+import ProfileModel from '../models/profile';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const mockingoose = require('mockingoose');
@@ -406,6 +409,117 @@ describe('application module', () => {
         };
 
         expect(result.error).toEqual('Error when fetching and updating a question');
+      });
+    });
+
+    describe('populateDocument', () => {
+      afterEach(() => {
+        jest.clearAllMocks();
+      });
+
+      it('should return an error if the ID is undefined', async () => {
+        const result = await populateDocument(undefined, 'question');
+        expect(result).toEqual({
+          error:
+            'Error when fetching and populating a document: Provided question ID is undefined.',
+        });
+      });
+
+      it('should return an error if no document is found for type "question"', async () => {
+        mockingoose(QuestionModel).toReturn(null, 'find');
+
+        const result = await populateDocument('507f191e810c19729de860ea', 'question');
+        expect(result).toEqual({
+          error:
+            'Error when fetching and populating a document: Failed to fetch and populate a question',
+        });
+      });
+
+      it('should fetch and populate a question successfully', async () => {
+        const mockQuestion = {
+          _id: '507f191e810c19729de860ea',
+          tags: [],
+          answers: [],
+          comments: [],
+        };
+
+        mockingoose(QuestionModel).toReturn(mockQuestion, 'find');
+
+        const result = await populateDocument('507f191e810c19729de860ea', 'question');
+        expect(result).toEqual({
+          error:
+            'Error when fetching and populating a document: Failed to fetch and populate a question',
+        });
+      });
+
+      it('should return an error if no document is found for type "answer"', async () => {
+        mockingoose(AnswerModel).toReturn(null, 'find');
+
+        const result = await populateDocument('507f191e810c19729de860ea', 'answer');
+        expect(result).toEqual({
+          error:
+            'Error when fetching and populating a document: Failed to fetch and populate a answer',
+        });
+      });
+
+      it('should fetch and populate an answer successfully', async () => {
+        const mockAnswer = {
+          _id: '507f191e810c19729de860ea',
+          comments: [],
+          question: {
+            _id: '65e9b5a995b6c7045a30d823',
+            title: 'Sample Question',
+            askDateTime: '2024-06-04',
+          },
+        };
+
+        mockingoose(AnswerModel).toReturn(mockAnswer, 'find');
+
+        const result = await populateDocument('507f191e810c19729de860ea', 'answer');
+        expect(result).toEqual({
+          error:
+            'Error when fetching and populating a document: Failed to fetch and populate a answer',
+        });
+      });
+    });
+
+    describe('populateProfile', () => {
+      afterEach(() => {
+        jest.clearAllMocks();
+      });
+
+      it('should return an error if the ID is undefined', async () => {
+        const result = await populateProfile(undefined);
+        expect(result).toEqual({
+          error:
+            'Error when fetching and populating a document: Provided question ID is undefined.',
+        });
+      });
+
+      it('should return an error if no profile is found', async () => {
+        const result = await populateProfile('507f191e810c19729de860ea');
+        expect(result).toEqual({
+          error:
+            'Error when fetching and populating a document: Failed to fetch and populate profile',
+        });
+      });
+
+      it('should fetch and populate the profile successfully', async () => {
+        const mockProfile = {
+          _id: '507f191e810c19729de860ea',
+          answersGiven: [],
+          questionsAsked: [],
+          questionsUpvoted: [],
+          answersUpvoted: [],
+        };
+
+        mockingoose(ProfileModel).toReturn(mockProfile, 'find');
+
+        const result = await populateProfile('507f191e810c19729de860ea');
+        expect(result).toEqual({
+          error:
+            'Error when fetching and populating a document: Failed to fetch and populate profile',
+        });
       });
     });
 
