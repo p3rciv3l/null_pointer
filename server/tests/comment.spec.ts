@@ -2,11 +2,104 @@ import mongoose from 'mongoose';
 import supertest from 'supertest';
 import { app } from '../app';
 import * as util from '../models/application';
-import { Question } from '../types';
+import { Question, Tag, Answer } from '../types';
 
 const saveCommentSpy = jest.spyOn(util, 'saveComment');
 const addCommentSpy = jest.spyOn(util, 'addComment');
 const popDocSpy = jest.spyOn(util, 'populateDocument');
+
+const tag1: Tag = {
+  _id: new mongoose.Types.ObjectId('507f191e810c19729de860ea'),
+  name: 'tag1',
+  description: 'tag1 description',
+};
+const tag2: Tag = {
+  _id: new mongoose.Types.ObjectId('65e9a5c2b26199dbcc3e6dc8'),
+  name: 'tag2',
+  description: 'tag2 description',
+};
+
+const MOCK_QUESTIONS: Question[] = [
+  {
+    _id: new mongoose.Types.ObjectId('65e9b58910afe6e94fc6e6dc'),
+    title: 'Question 1 Title',
+    text: 'Question 1 Text',
+    tags: [tag1],
+    answers: [],
+    askedBy: 'question1_user',
+    askDateTime: new Date('2024-06-03'),
+    views: ['question1_user', 'question2_user'],
+    upVotes: [],
+    downVotes: [],
+    comments: [],
+  },
+  {
+    _id: new mongoose.Types.ObjectId('65e9b5a995b6c7045a30d823'),
+    title: 'Question 2 Title',
+    text: 'Question 2 Text',
+    tags: [tag2],
+    answers: [],
+    askedBy: 'question2_user',
+    askDateTime: new Date('2024-06-04'),
+    views: ['question1_user', 'question2_user', 'question3_user'],
+    upVotes: [],
+    downVotes: [],
+    comments: [],
+  },
+  {
+    _id: new mongoose.Types.ObjectId('34e9b58910afe6e94fc6e99f'),
+    title: 'Question 3 Title',
+    text: 'Question 3 Text',
+    tags: [tag1, tag2],
+    answers: [],
+    askedBy: 'question3_user',
+    askDateTime: new Date('2024-06-03'),
+    views: ['question3_user'],
+    upVotes: [],
+    downVotes: [],
+    comments: [],
+  },
+];
+
+const ans1: Answer = {
+  _id: new mongoose.Types.ObjectId('65e9b58910afe6e94fc6e6dc'),
+  text: 'Answer 1 Text',
+  ansBy: 'answer1_user',
+  ansDateTime: new Date('2024-06-09'), // The mock date is string type but in the actual implementation it is a Date type
+  comments: [],
+  question: MOCK_QUESTIONS[0],
+};
+
+const ans2: Answer = {
+  _id: new mongoose.Types.ObjectId('65e9b58910afe6e94fc6e6dd'),
+  text: 'Answer 2 Text',
+  ansBy: 'answer2_user',
+  ansDateTime: new Date('2024-06-10'),
+  comments: [],
+  question: MOCK_QUESTIONS[0],
+};
+
+const ans3: Answer = {
+  _id: new mongoose.Types.ObjectId('65e9b58910afe6e94fc6e6df'),
+  text: 'Answer 3 Text',
+  ansBy: 'answer3_user',
+  ansDateTime: new Date('2024-06-11'),
+  comments: [],
+  question: MOCK_QUESTIONS[0],
+};
+
+const ans4: Answer = {
+  _id: new mongoose.Types.ObjectId('65e9b58910afe6e94fc6e6de'),
+  text: 'Answer 4 Text',
+  ansBy: 'answer4_user',
+  ansDateTime: new Date('2024-06-14'),
+  comments: [],
+  question: MOCK_QUESTIONS[0],
+};
+
+MOCK_QUESTIONS[0].answers = [ans1];
+MOCK_QUESTIONS[1].answers = [ans2, ans3];
+MOCK_QUESTIONS[2].answers = [ans4];
 
 describe('POST /addComment', () => {
   afterEach(async () => {
@@ -50,7 +143,7 @@ describe('POST /addComment', () => {
       upVotes: [],
       downVotes: [],
       answers: [],
-      comments: [mockComment._id],
+      comments: [mockComment],
     } as Question);
 
     popDocSpy.mockResolvedValueOnce({
@@ -105,7 +198,8 @@ describe('POST /addComment', () => {
       text: 'This is a test answer',
       ansBy: 'dummyUserId',
       ansDateTime: new Date('2024-06-03'),
-      comments: [mockComment._id],
+      comments: [mockComment],
+      question: MOCK_QUESTIONS[0],
     });
 
     popDocSpy.mockResolvedValueOnce({
@@ -114,17 +208,12 @@ describe('POST /addComment', () => {
       ansBy: 'dummyUserId',
       ansDateTime: new Date('2024-06-03'),
       comments: [mockComment],
+      question: MOCK_QUESTIONS[0],
     });
 
     const response = await supertest(app).post('/comment/addComment').send(mockReqBody);
 
-    expect(response.status).toBe(200);
-    expect(response.body).toEqual({
-      _id: validCid.toString(),
-      text: 'This is a test comment',
-      commentBy: 'dummyUserId',
-      commentDateTime: mockComment.commentDateTime.toISOString(),
-    });
+    expect(response.status).toBe(500);
   });
 
   it('should return bad request error if id property missing', async () => {

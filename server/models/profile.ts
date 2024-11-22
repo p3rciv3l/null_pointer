@@ -1,5 +1,4 @@
 import mongoose, { Model } from 'mongoose';
-import answerSchema from './schema/answer';
 import { Profile } from '../types';
 import profileSchema from './schema/profile';
 

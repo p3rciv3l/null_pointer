@@ -55,7 +55,26 @@ const profileController = (socket: FakeSOSocket) => {
   const getProfile = async (req: FindProfileByUsernameRequest, res: Response): Promise<void> => {
     const { username } = req.params;
     try {
-      const profile = await ProfileModel.findOne({ username });
+      const profile = await ProfileModel.findOne({ username }).populate([
+        {
+          path: 'questionsAsked', // Populate questions asked by the user
+          model: 'Question',
+          populate: { path: 'tags', model: 'Tag' }, // Nested populate for tags in questions
+        },
+        {
+          path: 'answersGiven', // Populate answers given by the user
+          model: 'Answer',
+          populate: [
+            {
+              path: 'question', // Populate associated question for each answer
+              model: 'Question',
+              select: '_id title askDateTime tags', // Select specific fields from the associated question
+              populate: { path: 'tags', model: 'Tag' }, // Nested populate for tags in the associated question
+            },
+            { path: 'comments', model: 'Comment' }, // Populate comments for each answer
+          ],
+        },
+      ]);
       if (profile) {
         res.status(200).json(profile);
       } else {

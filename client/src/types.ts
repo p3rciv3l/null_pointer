@@ -116,6 +116,7 @@ export interface Answer {
   ansBy: string;
   ansDateTime: Date;
   comments: Comment[];
+  question?: Question; // Adding the question the Answer is associated with as optional field.
 }
 
 /**
