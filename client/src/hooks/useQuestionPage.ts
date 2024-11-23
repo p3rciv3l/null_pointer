@@ -33,11 +33,21 @@ const useQuestionPage = () => {
     } else if (tagQuery) {
       pageTitle = tagQuery;
       searchString = `[${tagQuery}]`;
+    } else {
+      // Update title based on questionOrder
+      const orderMapping: { [key in OrderType]: string } = {
+        newest: 'Newest Questions',
+        active: 'Active Questions',
+        unanswered: 'Unanswered Questions',
+        mostViewed: 'Most Viewed Questions',
+      };
+
+      pageTitle = orderMapping[questionOrder] || 'All Questions';
     }
 
     setTitleText(pageTitle);
     setSearch(searchString);
-  }, [searchParams]);
+  }, [questionOrder, searchParams]);
 
   useEffect(() => {
     /**

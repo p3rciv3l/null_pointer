@@ -1,11 +1,32 @@
-.btn {
-  background: #ffffff;
-  color: #000000; /* Set text color to black */
-  border: #000000 1px solid;
-  margin: 5px;
-  padding: 8px 16px;
+/* Filter buttons container */
+.filter-buttons {
+  display: flex; /* Align buttons horizontally */
+  gap: 1rem; /* Add space between buttons */
+  margin-bottom: 2rem; /* Spacing below the buttons */
 }
 
-.btn:hover {
-  background-color: #007bff;
+/* Individual filter button styles */
+.filter-button {
+  padding: 0.5rem 1.5rem; /* More padding for a larger button size */
+  border-radius: 0.5rem; /* Slightly more rounded corners */
+  background-color: #f3f4f6; /* Light gray background */
+  border: 1px solid #d1d5db; /* Subtle border for separation */
+  color: #374151; /* Gray text for inactive state */
+  font-weight: 500; /* Medium font weight for better visibility */
+  font-size: 1rem; /* Slightly larger font size */
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for hover and active states */
+}
+
+/* Hover effect for filter buttons */
+.filter-button:hover {
+  background-color: #A71F35; /* Red fill on hover */
+  color: #ffffff; /* Ensure text remains white on hover */
+}
+
+/* Active filter button styling */
+.filter-button.active {
+  background-color: #A71F35; /* Active red background */
+  color: #ffffff; /* White text for active state */
+  font-weight: bold;
 }
