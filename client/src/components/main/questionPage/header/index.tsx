@@ -2,8 +2,6 @@ import React from 'react';
 import './index.css';
 import OrderButton from './orderButton';
 import { OrderType, orderTypeDisplayName } from '../../../../types';
-import AskQuestionButton from '../../askQuestionButton';
-
 /**
  * Interface representing the props for the QuestionHeader component.
  *
@@ -30,7 +28,6 @@ const QuestionHeader = ({ titleText, qcnt, setQuestionOrder }: QuestionHeaderPro
   <div>
     <div className='space_between right_padding'>
       <div className='bold_title'>{titleText}</div>
-      <AskQuestionButton />
     </div>
     <div className='space_between right_padding'>
       <div id='question_count'>{qcnt} questions</div>

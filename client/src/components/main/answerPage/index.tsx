@@ -46,7 +46,7 @@ const AnswerPage = () => {
         />
       ))}
       <button
-        className='bluebtn ansButton'
+        className='redbtn ansButton'
         onClick={() => {
           handleNewAnswer();
         }}>

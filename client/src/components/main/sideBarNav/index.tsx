@@ -1,8 +1,7 @@
 import React from 'react';
 import './index.css';
-import { NavLink } from 'react-router-dom';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { MessageSquare, Tag, User, Users } from 'lucide-react';
+import { MessageSquare, Tag, User } from 'lucide-react';
 import SideBarLink from './sidebarLink';
 import useUserContext from '../../../hooks/useUserContext';
 /**

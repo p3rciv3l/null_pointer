@@ -42,7 +42,6 @@
   flex-direction: column;
   gap: 1.5rem; /* Increased spacing between menu items */
   padding: 1rem; /* Padding around the sidebar */
-  border: 1px solid #6b7280; /* Subtle medium-gray border */
-  border-radius: 8px; /* Rounded corners for a cleaner look */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08); /* Softer shadow for subtle depth */
+  border-right: 1px solid #d1d5db;
 }
