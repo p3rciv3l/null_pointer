@@ -1,6 +1,6 @@
 import express, { Response } from 'express';
 import { ObjectId } from 'mongodb';
-import { Comment, AddCommentRequest, FakeSOSocket } from '../types';
+import { Comment, AddCommentRequest, FakeSOSocket, Question, Answer } from '../types';
 import { addComment, populateDocument, saveComment } from '../models/application';
 
 const commentController = (socket: FakeSOSocket) => {
@@ -68,22 +68,31 @@ const commentController = (socket: FakeSOSocket) => {
     }
 
     try {
-      const comFromDb = await saveComment(comment);
+      // Get the original document to find its author
+      const originalDoc = await populateDocument(id, type);
+      if (!originalDoc || 'error' in originalDoc) {
+        throw new Error('Original document not found');
+      }
 
+      // Type guard for Question and Answer
+      const isQuestion = (doc: any): doc is Question => 'title' in doc && 'askedBy' in doc;
+      const isAnswer = (doc: any): doc is Answer => 'ansBy' in doc && 'question' in doc;
+
+      if (!isQuestion(originalDoc) && !isAnswer(originalDoc)) {
+        throw new Error('Invalid document type');
+      }
+
+      const comFromDb = await saveComment(comment);
       if ('error' in comFromDb) {
         throw new Error(comFromDb.error);
       }
 
       const status = await addComment(id, type, comFromDb);
-
       if (status && 'error' in status) {
         throw new Error(status.error);
       }
 
-      // Populates the fields of the question or answer that this comment
-      // was added to, and emits the updated object
       const populatedDoc = await populateDocument(id, type);
-
       if (populatedDoc && 'error' in populatedDoc) {
         throw new Error(populatedDoc.error);
       }
@@ -92,9 +101,27 @@ const commentController = (socket: FakeSOSocket) => {
         result: populatedDoc,
         type,
       });
+
+      // Emit notification to the appropriate user
+      socket.emit('notificationUpdate', {
+        id: new ObjectId().toString(),
+        type: 'reply',
+        message: isQuestion(originalDoc)
+          ? `${comment.commentBy} commented on your question "${originalDoc.title}"`
+          : `${comment.commentBy} commented on your answer to "${originalDoc.question.title}"`,
+        timestamp: new Date(),
+        read: false,
+        userId: isQuestion(originalDoc) ? originalDoc.askedBy : originalDoc.ansBy,
+        relatedId: id,
+      });
+
       res.json(comFromDb);
     } catch (err: unknown) {
-      res.status(500).send(`Error when adding comment: ${(err as Error).message}`);
+      if (err instanceof Error) {
+        res.status(500).send(`Error when adding comment: ${err.message}`);
+      } else {
+        res.status(500).send('Error when adding comment');
+      }
     }
   };
 

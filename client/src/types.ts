@@ -177,4 +177,17 @@ export interface ServerToClientEvents {
   voteUpdate: (vote: VoteUpdatePayload) => void;
   commentUpdate: (update: CommentUpdatePayload) => void;
   profileUpdate: (profile: Profile) => void;
+  notificationUpdate: (notification: Notification) => void;
+}
+
+export interface Notification {
+  id: string;
+  type: 'reply' | 'vote' | 'question';
+  message: string;
+  timestamp: Date;
+  read: boolean;
+  userId: string;
+
+  // questionId or answerId
+  relatedId: string;
 }
