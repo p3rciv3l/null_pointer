@@ -1,8 +1,8 @@
 /* Wrapper for the question header */
 .question-header {
-    margin-left: 16rem; /* Adjust based on layout */
-    margin-top: 4rem; /* Adjust based on layout */
-    padding: 2rem;
+    margin-left: 5rem; /* Adjust based on layout */
+    margin-top: 0rem; /* Adjust based on layout */
+    padding: 1rem;
     max-width: 112rem; /* Matches max-w-7xl */
   }
   
@@ -11,7 +11,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: 0rem;
   }
   
   /* Title styling */
