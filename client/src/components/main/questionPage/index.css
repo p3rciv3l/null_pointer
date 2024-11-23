@@ -1,21 +1,6 @@
-/* Wrapper for the question header */
-.question-header {
-  margin-left: 16rem; /* Adjust based on layout */
-  margin-top: 4rem; /* Adjust based on layout */
-  padding: 2rem;
-  max-width: 112rem; /* Matches max-w-7xl */
-}
-
-/* Header section styles */
-.header-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-}
 
 /* Title styling */
-.header-title {
+.tag-title {
   font-size: 2rem; /* Matches text-3xl */
   font-weight: bold;
 }

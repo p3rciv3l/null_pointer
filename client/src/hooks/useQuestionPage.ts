@@ -41,7 +41,6 @@ const useQuestionPage = () => {
         unanswered: 'Unanswered Questions',
         mostViewed: 'Most Viewed Questions',
       };
-
       pageTitle = orderMapping[questionOrder] || 'All Questions';
     }
 

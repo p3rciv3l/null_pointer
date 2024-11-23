@@ -2,7 +2,7 @@ import React from 'react';
 import './index.css';
 import { NavLink } from 'react-router-dom';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { Search, MessageSquare, Tag, Users, PlusSquare, Menu } from 'lucide-react';
+import { Search, Menu } from 'lucide-react';
 import useHeader from '../../hooks/useHeader';
 import AskQuestionButton from '../main/askQuestionButton';
 
@@ -26,7 +26,7 @@ const Header = () => {
               <Search className='search-icon' />
               <input
                 type='search'
-                placeholder='Search...'
+                placeholder='Find a Question...'
                 className='search-input'
                 value={val}
                 onChange={handleInputChange}
