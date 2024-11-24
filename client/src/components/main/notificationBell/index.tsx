@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-const bellIcon = '/assets/bell.png';
+const bellIcon = '/assets/bell_icon.png';
 const greyBellIcon = '/assets/grey_bell.png';
 import useUserContext from '../../../hooks/useUserContext';
 import { Notification } from '../../../types';

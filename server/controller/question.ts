@@ -215,14 +215,18 @@ const questionController = (socket: FakeSOSocket) => {
       }
 
       // Emit vote update
-      socket.emit('voteUpdate', { 
-        qid, 
-        upVotes: status.upVotes, 
-        downVotes: status.downVotes 
+      socket.emit('voteUpdate', {
+        qid,
+        upVotes: status.upVotes,
+        downVotes: status.downVotes,
       });
 
       // Only notify on upvote milestones
-      if (type === 'upvote' && status.upVotes.length > 0 && shouldNotifyAtUpvoteCount(status.upVotes.length)) {
+      if (
+        type === 'upvote' &&
+        status.upVotes.length > 0 &&
+        shouldNotifyAtUpvoteCount(status.upVotes.length)
+      ) {
         socket.emit('notificationUpdate', {
           id: new ObjectId().toString(),
           type: 'vote',
@@ -234,10 +238,10 @@ const questionController = (socket: FakeSOSocket) => {
         });
       }
 
-      res.json({ 
-        msg: status.msg, 
-        upVotes: status.upVotes, 
-        downVotes: status.downVotes 
+      res.json({
+        msg: status.msg,
+        upVotes: status.upVotes,
+        downVotes: status.downVotes,
       });
     } catch (err) {
       if (err instanceof Error) {
