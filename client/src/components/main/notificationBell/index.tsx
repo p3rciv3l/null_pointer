@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-const bellIcon = '/bell_icon.png';
-const greyBellIcon = '/grey_bell.png';
 import useUserContext from '../../../hooks/useUserContext';
 import { Notification } from '../../../types';
 import './index.css';
+
+const BELL_ICON = '/bell_icon.png';
+const GREY_BELL_ICON = '/grey_bell.png';
 
 const NotificationBell: React.FC = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -63,7 +64,7 @@ const NotificationBell: React.FC = () => {
         }}
         onMouseEnter={() => setIsGrey(true)}
         onMouseLeave={() => !showDropdown && setIsGrey(false)}>
-        <img src={isGrey ? greyBellIcon : bellIcon} alt='notifications' />
+        <img src={isGrey ? GREY_BELL_ICON : BELL_ICON} alt='notifications' />
         {notifications.length > 0 && (
           <span className='notification-count'>{notifications.length}</span>
         )}
