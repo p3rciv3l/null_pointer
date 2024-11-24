@@ -18,6 +18,7 @@ import {
   populateDocument,
   saveQuestion,
 } from '../models/application';
+import Notification from '../models/notification';
 
 const questionController = (socket: FakeSOSocket) => {
   const router = express.Router();
@@ -157,18 +158,29 @@ const questionController = (socket: FakeSOSocket) => {
         throw new Error(populatedQuestion.error);
       }
 
-      // Emit question update
+      // emit question update
       socket.emit('questionUpdate', populatedQuestion as Question);
 
-      // Emit notification to question author
-      socket.emit('notificationUpdate', {
-        id: new ObjectId().toString(),
+      // emit notification to question author
+      const notification = new Notification({
         type: 'question',
         message: `Your question "${question.title}" has been posted successfully`,
         timestamp: new Date(),
         read: false,
         userId: question.askedBy,
         relatedId: result._id?.toString() || '',
+      });
+
+      await notification.save();
+
+      socket.emit('notificationUpdate', {
+        id: notification.id.toString(),
+        type: notification.type as 'reply' | 'vote' | 'question',
+        message: notification.message,
+        timestamp: notification.timestamp,
+        read: notification.read,
+        userId: notification.userId,
+        relatedId: notification.relatedId,
       });
 
       res.json(result);
