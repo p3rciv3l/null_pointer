@@ -11,7 +11,6 @@
 .bell-icon-container img {
   width: 36px;
   height: 36px;
-  filter: brightness(0);
 }
 
 .notification-count {
@@ -110,6 +109,5 @@
 
 .bell-icon-container:hover img,
 .bell-icon-container.active img {
-  filter: brightness(0) saturate(100%) invert(82%) sepia(8%) saturate(368%) hue-rotate(314deg)
-    brightness(92%) contrast(87%);
+  filter: none;
 }
