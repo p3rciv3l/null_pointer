@@ -10,7 +10,7 @@ const SignUp = () => {
   const [username, setUsername] = useState('');
   const { signUp, loading } = useLogin();
   const navigate = useNavigate();
-  const [passwordError, setPasswordError] = useState('');
+  const [passwordError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

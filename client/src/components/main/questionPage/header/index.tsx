@@ -3,6 +3,7 @@ import './index.css';
 import OrderButton from './orderButton';
 import { OrderType, orderTypeDisplayName } from '../../../../types';
 import AskQuestionButton from '../../askQuestionButton';
+import NotificationBell from '../../notificationBell';
 
 /**
  * Interface representing the props for the QuestionHeader component.
@@ -30,7 +31,10 @@ const QuestionHeader = ({ titleText, qcnt, setQuestionOrder }: QuestionHeaderPro
   <div>
     <div className='space_between right_padding'>
       <div className='bold_title'>{titleText}</div>
-      <AskQuestionButton />
+      <div className='header-actions'>
+        <NotificationBell />
+        <AskQuestionButton />
+      </div>
     </div>
     <div className='space_between right_padding'>
       <div id='question_count'>{qcnt} questions</div>
