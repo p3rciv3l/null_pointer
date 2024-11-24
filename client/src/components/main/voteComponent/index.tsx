@@ -49,14 +49,14 @@ const VoteComponent = ({ question }: VoteComponentProps) => {
         className={`vote-button ${voted === 1 ? 'vote-button-upvoted' : ''}`}
         onClick={() => handleVote('upvote')}
         aria-label='Upvote'>
-        ▲<ThumbsUpIcon className='w-6 h-6' />
+        <ThumbsUpIcon className='w-6 h-6' />
       </button>
       <span className='vote-count'>{count}</span>
       <button
         className={`vote-button ${voted === -1 ? 'vote-button-downvoted' : ''}`}
         onClick={() => handleVote('downvote')}
         aria-label='Downvote'>
-        ▼<ThumbsDownIcon className='w-6 h-6' />
+        <ThumbsDownIcon className='w-6 h-6' />
       </button>
     </div>
   );

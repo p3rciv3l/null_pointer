@@ -23,12 +23,13 @@ const AnswerPage = () => {
 
   return (
     <>
-      {<AnswerHeader question={question} />}
-      <QuestionBody
-        text={question.text}
-        askby={<UserProfileLink username={question.askedBy} className='user-link' />} // Use UserProfileLink here
-        meta={getMetaData(new Date(question.askDateTime))}
-      />
+      <div className='horizontal_wrapper'>
+        <VoteComponent question={question} />
+        <div className='answer_header_content'>
+          <h1 className='question_title'>{question.title}</h1>
+          <p className='question_text'>{question.text}</p> {/* Render question.text here */}
+        </div>
+      </div>
       <CommentSection
         comments={question.comments}
         handleAddComment={(comment: Comment) => handleNewComment(comment, 'question', questionID)}

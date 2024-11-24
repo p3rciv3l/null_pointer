@@ -1,7 +1,26 @@
-.answer_question_meta {
-  color: #bbbbbb;
+.horizontal_wrapper {
+  display: flex;
+  align-items: flex-start; /* Align items at the top */
+  gap: 16px; /* Space between VoteComponent and the text content */
+  padding: 30px; /* Optional: Add padding for spacing */
 }
 
-.ansButton {
-  margin: 2% 0 2% 2%;
+.answer_header_content {
+  display: flex;
+  flex-direction: column; /* Stack title and text vertically */
+  gap: 8px; /* Space between title and text */
+  justify-content: center;
+}
+
+.question_title {
+  font-size: 1.8rem; /* Adjust title size */
+  font-weight: bold;
+  margin: 0; /* Remove default margin */
+}
+
+.question_text {
+  font-size: 1rem; /* Adjust text size */
+  line-height: 1.5; /* Improve readability */
+  color: #333; /* Optional: Darker text color for contrast */
+  margin-top: 20px;
 }
