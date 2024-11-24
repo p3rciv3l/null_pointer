@@ -168,7 +168,7 @@ const questionController = (socket: FakeSOSocket) => {
         timestamp: new Date(),
         read: false,
         userId: question.askedBy,
-        relatedId: result._id?.toString() || '',
+        relatedId: result._id?.toString(),
       });
 
       await notification.save();

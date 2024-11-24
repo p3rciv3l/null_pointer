@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import useUserContext from '../../../hooks/useUserContext';
+import useNotifications from '../../../hooks/useNotifications';
 import { Notification } from '../../../types';
 import './index.css';
 
@@ -9,11 +10,12 @@ const BELL_ICON = '/assets/bell_icon.png';
 const GREY_BELL_ICON = '/assets/grey_bell.png';
 
 const NotificationBell: React.FC = () => {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const { socket, user } = useUserContext();
+  const notificationsFromDB = useNotifications(user.username);
+  const [notifications, setNotifications] = useState<Notification[]>(notificationsFromDB);
   const [showDropdown, setShowDropdown] = useState(false);
   const [isGrey, setIsGrey] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { socket, user } = useUserContext();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
