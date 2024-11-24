@@ -26,7 +26,7 @@ const NotificationBell: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (!socket) return;
+    if (!socket) return undefined;
 
     const handleNotification = (notification: Notification) => {
       if (notification.userId === user.username) {
