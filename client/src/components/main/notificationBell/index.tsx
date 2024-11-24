@@ -5,7 +5,7 @@ import './index.css';
 
 /* const BELL_ICON = '/bell_icon.png';
 const GREY_BELL_ICON = '/grey_bell.png'; */
-const BELL_ICON = '/assets/bell_icon.pngx';
+const BELL_ICON = '/assets/bell_icon.png';
 const GREY_BELL_ICON = '/assets/grey_bell.png';
 
 const NotificationBell: React.FC = () => {
