@@ -28,8 +28,8 @@ interface QuestionBodyProps {
  * @param meta Additional metadata related to the question.
  */
 const QuestionBody = ({ views, text, askby, meta }: QuestionBodyProps) => (
-  <div id='questionBody' className='questionBody right_padding'>
-    <div className='bold_title answer_question_view'>{views} views</div>
+  <div id='questionBody' className='questionBody'>
+    <div className='answer_question_view'>{views} views</div>
     <div className='answer_question_text'>{handleHyperlink(text)}</div>
     <div className='answer_question_right'>
       <div className='question_author'>{askby}</div>

@@ -1,29 +1,41 @@
 .vote-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  padding: 12px;
+  margin-right: 70rem;
+  padding: 0.5rem;
 }
 
 .vote-button {
-  padding: 0.5rem;
-  margin-right: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 0.125rem;
-  background-color: #f0f0f0;
+  background-color: transparent; /* Keep the background transparent */
+  color: #aaa; /* Light gray color for the text/icon */
   cursor: pointer;
-  outline: none;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  border-radius: 50%; /* Make the button circular */
+  padding: 0.5rem;
+  font-size: 1rem; /* Adjust font size for visibility */
+  text-align: center;
+}
+
+.vote-button:hover {
+  background-color: #e5d4ce; /* Light pinkish background on hover */
+  color: #a71f35; /* Darker text/icon color on hover */
+  border-color: #a71f35; /* Highlight border on hover */
 }
 
 .vote-button-upvoted {
-  background-color: #38a169;
-  color: white;
+  border-color: #38a169; /* Green border for upvoted state */
+  color: #38a169;
 }
 
 .vote-button-downvoted {
-  background-color: #e53e3e;
-  color: white;
+  border-color: #e53e3e; /* Red border for downvoted state */
+  color: #e53e3e;
 }
 
+
 .vote-count {
-  margin-left: 0.5rem;
+  font-weight: bold;
+  font-size: 1.25rem;
+  margin: 0.5rem 0;
 }

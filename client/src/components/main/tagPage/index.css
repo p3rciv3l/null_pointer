@@ -10,7 +10,7 @@
   font-size: 2rem; /* Matches text-3xl */
   font-weight: bold;
   margin-left: 5rem; /* Adjust based on layout */
-  margin-top: 1rem; /* Adjust based on layout */
+  margin-top: 0rem; /* Adjust based on layout */
   padding: 1rem;
   max-width: 112rem; /* Matches max-w-7xl */
 }

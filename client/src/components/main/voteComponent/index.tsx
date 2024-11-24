@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { ThumbsDownIcon, ThumbsUpIcon } from 'lucide-react';
 import { downvoteQuestion, upvoteQuestion } from '../../../services/questionService';
 import './index.css';
 import useUserContext from '../../../hooks/useUserContext';
@@ -45,15 +47,17 @@ const VoteComponent = ({ question }: VoteComponentProps) => {
     <div className='vote-container'>
       <button
         className={`vote-button ${voted === 1 ? 'vote-button-upvoted' : ''}`}
-        onClick={() => handleVote('upvote')}>
-        Upvote
-      </button>
-      <button
-        className={`vote-button ${voted === -1 ? 'vote-button-downvoted' : ''}`}
-        onClick={() => handleVote('downvote')}>
-        Downvote
+        onClick={() => handleVote('upvote')}
+        aria-label='Upvote'>
+        ▲<ThumbsUpIcon className='w-6 h-6' />
       </button>
       <span className='vote-count'>{count}</span>
+      <button
+        className={`vote-button ${voted === -1 ? 'vote-button-downvoted' : ''}`}
+        onClick={() => handleVote('downvote')}
+        aria-label='Downvote'>
+        ▼<ThumbsDownIcon className='w-6 h-6' />
+      </button>
     </div>
   );
 };
