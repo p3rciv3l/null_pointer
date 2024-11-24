@@ -23,10 +23,8 @@ const AnswerPage = () => {
 
   return (
     <>
-      <VoteComponent question={question} />
-      <AnswerHeader ansCount={question.answers.length} title={question.title} />
+      {<AnswerHeader question={question} />}
       <QuestionBody
-        views={question.views.length}
         text={question.text}
         askby={<UserProfileLink username={question.askedBy} className='user-link' />} // Use UserProfileLink here
         meta={getMetaData(new Date(question.askDateTime))}
