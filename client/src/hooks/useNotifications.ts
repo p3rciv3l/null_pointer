@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { Notification } from '../types';
+
+interface ErrorResponse {
+  message: string;
+}
 
 const useNotifications = (userId: string) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -8,7 +12,7 @@ const useNotifications = (userId: string) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const fetchNotifications = async () => {
+    const fetchNotifications = async (): Promise<void> => {
       if (!userId) return;
 
       setLoading(true);
@@ -26,10 +30,11 @@ const useNotifications = (userId: string) => {
           setNotifications(response.data);
           setError(null);
         }
-      } catch (fetchError: any) {
+      } catch (fetchError) {
         console.error('Error fetching notifications:', fetchError);
+        const axiosError = fetchError as AxiosError<ErrorResponse>;
         setError(
-          fetchError.response?.data?.message ||
+          axiosError.response?.data?.message ||
             'Error fetching notifications. Please try again later.',
         );
         setNotifications([]); // Clear notifications on error
