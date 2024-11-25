@@ -12,6 +12,17 @@ import useProfileSocket from '../../../../hooks/useProfileSocket';
 
 const ProfilePage = () => {
   const { username } = useParams();
+  useProfileSocket();
+
+  const { profile } = useViewProfile(username);
+  if (!profile) return <div>Profile not found</div>;
+
+  const formattedDate = new Date(profile.joinedWhen).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
   const tag1: Tag = {
     _id: '507f191e810c19729de860ea',
     name: 'react',
@@ -81,17 +92,6 @@ const ProfilePage = () => {
       },
     ],
   };
-
-  const { profile } = useViewProfile(username);
-  if (!profile) return <div>Profile not found</div>;
-
-  const formattedDate = new Date(profile.joinedWhen).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-
-  useProfileSocket();
 
   return (
     <div className='profile-page'>
