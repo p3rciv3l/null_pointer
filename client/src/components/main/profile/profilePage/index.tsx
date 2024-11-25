@@ -1,5 +1,5 @@
 // ProfilePage.js
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ProfileHeader from './profileHeader';
 import TagDisplay from './tagDisplay';
@@ -12,10 +12,18 @@ import useProfileSocket from '../../../../hooks/useProfileSocket';
 
 const ProfilePage = () => {
   const { username } = useParams();
-  useProfileSocket();
+  const [isSignedUp, setIsSignedUp] = useState(false);
+
+  if (isSignedUp) {
+    useProfileSocket();
+  }
 
   const { profile } = useViewProfile(username);
   if (!profile) return <div>Profile not found</div>;
+
+  const handleSignupClick = () => {
+    setIsSignedUp(true);
+  };
 
   const formattedDate = new Date(profile.joinedWhen).toLocaleDateString('en-US', {
     year: 'numeric',
@@ -95,6 +103,7 @@ const ProfilePage = () => {
 
   return (
     <div className='profile-page'>
+      <button onClick={handleSignupClick}>Sign Up</button>
       <ProfileHeader
         username={username}
         title={profile.title}
