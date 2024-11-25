@@ -9,15 +9,21 @@ import {
  * Get notifications for a user.
  */
 export const getNotifications = async (req: Request, res: Response) => {
+  console.log('Received request for notifications');
   const { userId } = req.query;
+  console.log('User ID:', userId);
+
   if (!userId) {
+    console.log('No User ID provided');
     return res.status(400).send('User ID is required');
   }
 
   try {
     const notifications = await getNotificationsByUserId(userId as string);
+    console.log('Fetched notifications:', notifications);
     res.json(notifications);
   } catch (error) {
+    console.error('Error fetching notifications:', error);
     res.status(500).send('Error fetching notifications');
   }
 };

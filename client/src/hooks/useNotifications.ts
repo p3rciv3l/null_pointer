@@ -8,11 +8,14 @@ const useNotifications = (userId: string) => {
 
   useEffect(() => {
     const fetchNotifications = async () => {
+      console.log('Fetching notifications for user ID:', userId);
       try {
         const response = await axios.get(`/api/notifications?userId=${userId}`);
+        console.log('Notifications response:', response.data);
         setNotifications(response.data);
-        setError(null); // Clear any previous errors
+        setError(null);
       } catch (fetchError) {
+        console.error('Error fetching notifications:', fetchError);
         setError('Error fetching notifications. Please try again later.');
       }
     };

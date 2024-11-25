@@ -6,6 +6,7 @@ import Notification from '../models/notification';
  * @returns A promise that resolves to an array of notifications.
  */
 export const getNotificationsByUserId = async (userId: string) => {
+  console.log('Fetching notifications for user ID:', userId);
   return Notification.find({ userId }).sort({ timestamp: -1 });
 };
 
