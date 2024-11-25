@@ -1,4 +1,3 @@
-* Question/Answer Cards */
 .question-title {
   font-size: 1.25rem;
   font-weight: bold;
@@ -39,7 +38,6 @@
   gap: 0.25rem;
 }
 
-/* Comments Section */
 .comments-section {
   margin-top: 1rem;
   padding-left: 1rem;
