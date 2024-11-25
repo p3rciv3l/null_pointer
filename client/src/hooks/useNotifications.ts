@@ -13,7 +13,10 @@ const useNotifications = (userId: string) => {
 
   useEffect(() => {
     const fetchNotifications = async (): Promise<void> => {
-      if (!userId) return;
+      if (!userId) {
+        setNotifications([]);
+        return;
+      }
 
       setLoading(true);
       console.log('Attempting to fetch notifications for user ID:', userId);
@@ -53,6 +56,8 @@ const useNotifications = (userId: string) => {
         clearInterval(pollInterval);
       };
     }
+
+    return () => {}; // Return empty cleanup function when no userId
   }, [userId]);
 
   return { notifications, error, loading };
