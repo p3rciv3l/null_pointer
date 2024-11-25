@@ -1,15 +1,25 @@
 // ProfilePage.js
-import React from 'react';
+import React, { ReactNode, useState } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import {
+  Trophy,
+  Medal,
+  Award,
+  Calendar,
+  MessageSquare,
+  HelpCircle,
+  Star,
+  ThumbsUp,
+  Clock,
+} from 'lucide-react';
 import { useParams } from 'react-router-dom';
-import ProfileHeader from './profileHeader';
-import TagDisplay from './tagDisplay';
-import QuestionDisplay from './questionDisplay';
-import AnswerDisplay from './answerDisplay';
 import './index.css';
-import { Tag } from '../../../../types';
+import { Question, Tag, Comment } from '../../../../types';
 import useViewProfile from '../../../../hooks/useViewProfile';
+import { ContentCard, TabButton } from './profileComponents';
 
 const ProfilePage = () => {
+  const [activeTab, setActiveTab] = useState('questions');
   const { username } = useParams();
   const tag1: Tag = {
     _id: '507f191e810c19729de860ea',
@@ -92,32 +102,168 @@ const ProfilePage = () => {
 
   return (
     <div className='profile-page'>
-      <ProfileHeader
-        username={username}
-        title={profile.title}
-        bio={profile.bio}
-        date={formattedDate}
-        reputation={user.reputation}
-        goldBadge={user.badgesEarned.gold}
-        silverBadge={user.badgesEarned.silver}
-        bronzeBadge={user.badgesEarned.bronze}
-      />
-      <div className='profile-content'>
-        <TagDisplay topTags={user.topTags} />
-        {/* Stats Section */}
-        <div className='profile-stats-section'>
-          <h2>Activity</h2>
-          <div className='stats-item'>
-            <strong>Questions Posted:</strong> {profile.questionsAsked.length}
-          </div>
-          <div className='stats-item'>
-            <strong>Questions Answered:</strong> {profile.answersGiven.length}
-          </div>
+      <div className='profile-grid'>
+        {/* Left Column */}
+        <div>
+          {/* Profile Card */}
+          <ContentCard>
+            <div className='profile-header'>
+              <div className='profile-avatar'>
+                <span className='profile-avatar-letter'>{profile.username.charAt(0)}</span>
+              </div>
+              <h1 className='profile-name'>{profile.username}</h1>
+              <h2 className='profile-title'>{profile.title}</h2>
+              <div className='profile-join-date'>
+                <Calendar className='w-4 h-4' />
+                <span>Joined {formattedDate}</span>
+              </div>
+              <p className='profile-bio'>{profile.bio}</p>
+              <div className='badges-container'>
+                <div className='badge-item'>
+                  <Trophy className='w-5 h-5' style={{ color: '#FFD700' }} />
+                  <span>{user.badgesEarned.gold}</span>
+                </div>
+                <div className='badge-item'>
+                  <Medal className='w-5 h-5' style={{ color: '#C0C0C0' }} />
+                  <span>{user.badgesEarned.silver}</span>
+                </div>
+                <div className='badge-item'>
+                  <Award className='w-5 h-5' style={{ color: '#CD7F32' }} />
+                  <span>{user.badgesEarned.bronze}</span>
+                </div>
+              </div>
+            </div>
+          </ContentCard>
+
+          {/* Stats Card */}
+          <ContentCard>
+            <h3 className='stats-title'>Activity Stats</h3>
+            <div className='stats-list'>
+              <div className='stat-item'>
+                <div className='stat-label'>
+                  <HelpCircle className='w-5 h-5' style={{ color: '#A71F35' }} />
+                  <span>Questions Posted</span>
+                </div>
+                <span className='font-bold'>{profile.questionsAsked.length}</span>
+              </div>
+              <div className='stat-item'>
+                <div className='stat-label'>
+                  <MessageSquare className='w-5 h-5' style={{ color: '#A71F35' }} />
+                  <span>Questions Answered</span>
+                </div>
+                <span className='font-bold'>{profile.answersGiven.length}</span>
+              </div>
+              <div className='stat-item'>
+                <div className='stat-label'>
+                  <Star className='w-5 h-5' style={{ color: '#A71F35' }} />
+                  <span>Total Reputation</span>
+                </div>
+                <span className='font-bold'>{user.reputation}</span>
+              </div>
+            </div>
+          </ContentCard>
         </div>
 
-        {/* Questions Section */}
-        <QuestionDisplay questionsPosted={profile.questionsAsked} />
-        <AnswerDisplay answersGiven={profile.answersGiven} username={username} />
+        {/* Right Column */}
+        <div>
+          <div className='tabs-container'>
+            <TabButton
+              label='Questions'
+              tab='questions'
+              activeTab={activeTab}
+              onClick={setActiveTab}
+            />
+            <TabButton label='Answers' tab='answers' activeTab={activeTab} onClick={setActiveTab} />
+            <TabButton label='Top Tags' tab='tags' activeTab={activeTab} onClick={setActiveTab} />
+          </div>
+
+          {activeTab === 'questions' && (
+            <div className='top-tags-container'>
+              {profile.questionsAsked.map((question: Question, index: number) => (
+                <ContentCard key={index}>
+                  <h3 className='question-title'>{question.title}</h3>
+                  <p className='question-content'>{question.text}</p>
+                  <div className='tags-container'>
+                    {question.tags.map((tag: Tag, tagIndex: number) => (
+                      <span key={tagIndex} className='tag'>
+                        {tag.name}
+                      </span>
+                    ))}
+                  </div>
+                  <div className='metrics-container'>
+                    <div className='metric'>
+                      <ThumbsUp className='w-4 h-4' />
+                      <span>{question.upVotes.length}</span>
+                    </div>
+                    <div className='metric'>
+                      <Clock className='w-4 h-4' />
+                      <span>{new Date(question.askDateTime).toLocaleDateString()}</span>
+                    </div>
+                  </div>
+                  {question.comments.length > 0 && (
+                    <div className='comments-section'>
+                      {question.comments.map((comment: Comment, idx: number) => (
+                        <div key={idx} className='comment'>
+                          <span className='comment-author'>{comment.commentBy}:</span>{' '}
+                          {comment.text}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </ContentCard>
+              ))}
+            </div>
+          )}
+
+          {activeTab === 'answers' && (
+            <div className='top-tags-container'>
+              {profile.answersGiven.map((answer, index) => (
+                <ContentCard key={index}>
+                  <h3 className='question-title'>Re: {answer.question?.title}</h3>
+                  <p className='question-content'>{answer.text}</p>
+                  <div className='metrics-container'>
+                    <div className='metric'>
+                      <ThumbsUp className='w-4 h-4' />
+                      <span>{5}</span>
+                    </div>
+                    <div className='metric'>
+                      <Clock className='w-4 h-4' />
+                      <span>{new Date(answer.ansDateTime).toLocaleDateString()}</span>
+                    </div>
+                  </div>
+                  {answer.comments.length > 0 && (
+                    <div className='comments-section'>
+                      {answer.comments.map((comment: Comment, idx: number) => (
+                        <div key={idx} className='comment'>
+                          <span className='comment-author'>{comment.commentBy}:</span>{' '}
+                          {comment.text}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </ContentCard>
+              ))}
+            </div>
+          )}
+
+          {activeTab === 'tags' && (
+            <ContentCard>
+              <h3 className='stats-title'>Top Tags</h3>
+              <div className='top-tags-container'>
+                {user.topTags.map(tag => (
+                  <div key={tag.name} className='tag-item'>
+                    <span className='tag'>{tag.name}</span>
+                    <div className='tag-metrics'>
+                      <span>{tag.score} score</span>
+                      <span>{tag.posts} posts</span>
+                      <span>{tag.points} points</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </ContentCard>
+          )}
+        </div>
       </div>
     </div>
   );

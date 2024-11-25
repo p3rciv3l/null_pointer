@@ -1,6 +1,5 @@
 import React from 'react';
 import './index.css';
-import { NavLink } from 'react-router-dom';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Search, Menu } from 'lucide-react';
 import useHeader from '../../hooks/useHeader';
@@ -13,7 +12,7 @@ import AskQuestionButton from '../main/askQuestionButton';
  */
 
 const Header = () => {
-  const { val, handleInputChange, handleKeyDown } = useHeader();
+  const { val, handleInputChange, handleKeyDown, user } = useHeader();
 
   return (
     <header className='header'>
@@ -40,7 +39,7 @@ const Header = () => {
           <AskQuestionButton />
           <div className='user-section'>
             <div className='user-avatar'>
-              <span>J</span>
+              <span>{user.username.charAt(0)}</span>
             </div>
             <Menu className='menu-icon' />
           </div>
