@@ -3,7 +3,7 @@ import './index.css';
 import { useNavigate } from 'react-router-dom';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ThumbsUp, Clock } from 'lucide-react';
-import { Question, Comment, Answer } from '../../../../../types';
+import { Comment, Answer } from '../../../../../types';
 import { ContentCard } from '../profileComponents';
 
 interface AnswerDisplayProps {

@@ -1,19 +1,9 @@
 import React from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import {
-  ChevronDownIcon,
-  ChevronUpIcon,
-  MessageSquareIcon,
-  PlusCircleIcon,
-  ThumbsDownIcon,
-  ThumbsUpIcon,
-  UserIcon,
-} from 'lucide-react';
+import { UserIcon } from 'lucide-react';
 import { getMetaData } from '../../../tool';
 import AnswerView from './answer';
-import AnswerHeader from './header';
 import { Comment } from '../../../types';
-import QuestionBody from './questionBody';
 import VoteComponent from '../voteComponent';
 import CommentSection from '../commentSection';
 import useAnswerPage from '../../../hooks/useAnswerPage';

@@ -1,9 +1,6 @@
 import React from 'react';
 import './index.css';
-import { useNavigate } from 'react-router-dom';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { ThumbsUp, Clock } from 'lucide-react';
-import { Question, Comment, Tag } from '../../../../../types';
 import { ContentCard } from '../profileComponents';
 
 interface TagDisplayProps {
