@@ -1,15 +1,18 @@
-// ProfilePage.js
-import React from 'react';
+import React, { useState } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { useParams } from 'react-router-dom';
-import ProfileHeader from './profileHeader';
-import TagDisplay from './tagDisplay';
-import QuestionDisplay from './questionDisplay';
-import AnswerDisplay from './answerDisplay';
 import './index.css';
 import { Tag } from '../../../../types';
 import useViewProfile from '../../../../hooks/useViewProfile';
+import { ContentCard, TabButton } from './profileComponents';
+import ProfileCard from './profileHeader';
+import StatsCard from './statsCard';
+import QuestionDisplay from './questionDisplay';
+import AnswerDisplay from './answerDisplay';
+import TagDisplay from './tagDisplay';
 
 const ProfilePage = () => {
+  const [activeTab, setActiveTab] = useState('questions');
   const { username } = useParams();
   const tag1: Tag = {
     _id: '507f191e810c19729de860ea',
@@ -92,32 +95,48 @@ const ProfilePage = () => {
 
   return (
     <div className='profile-page'>
-      <ProfileHeader
-        username={username}
-        title={profile.title}
-        bio={profile.bio}
-        date={formattedDate}
-        reputation={user.reputation}
-        goldBadge={user.badgesEarned.gold}
-        silverBadge={user.badgesEarned.silver}
-        bronzeBadge={user.badgesEarned.bronze}
-      />
-      <div className='profile-content'>
-        <TagDisplay topTags={user.topTags} />
-        {/* Stats Section */}
-        <div className='profile-stats-section'>
-          <h2>Activity</h2>
-          <div className='stats-item'>
-            <strong>Questions Posted:</strong> {profile.questionsAsked.length}
-          </div>
-          <div className='stats-item'>
-            <strong>Questions Answered:</strong> {profile.answersGiven.length}
-          </div>
+      <div className='profile-grid'>
+        {/* Left Column */}
+        <div>
+          {/* Profile Card */}
+          <ContentCard>
+            <ProfileCard
+              username={username}
+              title={profile.title}
+              bio={profile.bio}
+              date={formattedDate}
+              reputation={user.reputation}
+              goldBadge={user.badgesEarned.gold}
+              silverBadge={user.badgesEarned.silver}
+              bronzeBadge={user.badgesEarned.bronze}
+            />
+          </ContentCard>
+
+          {/* Stats Card */}
+          <StatsCard
+            numQuestionsAsked={profile.questionsAsked.length}
+            numAnswersGiven={profile.answersGiven.length}
+            reputation={user.reputation}
+          />
         </div>
 
-        {/* Questions Section */}
-        <QuestionDisplay questionsPosted={profile.questionsAsked} />
-        <AnswerDisplay answersGiven={profile.answersGiven} username={username} />
+        {/* Right Column */}
+        <div>
+          <div className='tabs-container'>
+            <TabButton
+              label='Questions'
+              tab='questions'
+              activeTab={activeTab}
+              onClick={setActiveTab}
+            />
+            <TabButton label='Answers' tab='answers' activeTab={activeTab} onClick={setActiveTab} />
+            <TabButton label='Top Tags' tab='tags' activeTab={activeTab} onClick={setActiveTab} />
+          </div>
+
+          <QuestionDisplay activeTab={activeTab} questionsPosted={profile.questionsAsked} />
+          <AnswerDisplay activeTab={activeTab} answersGiven={profile.answersGiven} />
+          <TagDisplay activeTab={activeTab} topTags={user.topTags} />
+        </div>
       </div>
     </div>
   );

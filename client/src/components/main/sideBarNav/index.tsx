@@ -1,6 +1,8 @@
 import React from 'react';
 import './index.css';
-import { NavLink } from 'react-router-dom';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { MessageSquare, Tag, User } from 'lucide-react';
+import SideBarLink from './sidebarLink';
 import useUserContext from '../../../hooks/useUserContext';
 
 /**
@@ -8,28 +10,20 @@ import useUserContext from '../../../hooks/useUserContext';
  * It highlights the currently selected item based on the active page and
  * triggers corresponding functions when the menu items are clicked.
  */
+
 const SideBarNav = () => {
-  const { user } = useUserContext();
+  const { user } = useUserContext(); // Access the user context
+
   return (
     <div id='sideBarNav' className='sideBarNav'>
-      <NavLink
-        to='/home'
-        id='menu_questions'
-        className={({ isActive }) => `menu_button ${isActive ? 'menu_selected' : ''}`}>
-        Questions
-      </NavLink>
-      <NavLink
-        to='/tags'
-        id='menu_tag'
-        className={({ isActive }) => `menu_button ${isActive ? 'menu_selected' : ''}`}>
-        Tags
-      </NavLink>
-      <NavLink
+      <SideBarLink to='/home' icon={<MessageSquare />} label='Questions' id='menu_questions' />
+      <SideBarLink to='/tags' icon={<Tag />} label='Tags' id='menu_tags' />
+      <SideBarLink
         to={`/profile/${user.username}`}
-        id='menu_tag'
-        className={({ isActive }) => `menu_button ${isActive ? 'menu_selected' : ''}`}>
-        Profile
-      </NavLink>
+        icon={<User />}
+        label='Profile'
+        id='menu_profile'
+      />
     </div>
   );
 };

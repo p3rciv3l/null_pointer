@@ -1,7 +1,138 @@
-.answer_question_meta {
-  color: #bbbbbb;
+.horizontal_wrapper {
+  display: flex;
+  align-items: flex-start; 
+  gap: 16px; 
+  padding: 30px; 
 }
 
-.ansButton {
-  margin: 2% 0 2% 2%;
+.answer_header_content {
+  display: flex;
+  flex-direction: column; 
+  gap: 8px; 
+  justify-content: center;
+}
+
+.question_title {
+  font-size: 1.8rem; 
+  font-weight: bold;
+  margin: 0; 
+}
+
+.question_text {
+  font-size: 1rem; 
+  line-height: 1.5; 
+  color: #333; 
+  margin-top: 20px;
+}
+
+.question_container {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px; 
+}
+
+.question_content {
+  padding: 0; 
+  margin-left: 10px; 
+}
+
+.question_title {
+  margin: 0; 
+  padding: 0; 
+}
+
+.page_container {
+  padding: 2rem;
+}
+
+
+.tags_container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 30px;
+  gap: 10px;
+}
+
+.tag {
+  background-color: #e5d4ce;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px; 
+  font-size: 0.875rem; 
+  font-weight: 500;
+  color: #333;
+  display: inline-block; 
+  text-align: center;
+  white-space: nowrap;
+}
+
+
+.author-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 12px; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  display: flex;
+  align-items: center;
+  width: fit-content; 
+  margin-top: 30px;
+}
+
+
+.author-details {
+  display: flex;
+  align-items: center;
+  gap: 16px; 
+}
+
+.author-icon {
+  width: 48px; 
+  height: 48px;
+  color: #ccc; 
+}
+
+.author-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #a71f35;
+}
+
+.author-meta {
+  font-size: 0.875rem; 
+  color: #666;
+  margin: 4px 0 0 0;
+}
+
+
+.answers-section {
+  margin-top: 1rem; 
+}
+
+.answers-title {
+  font-size: 1.5rem;
+  font-weight: bold; 
+  margin-bottom: 1.5rem; 
+  color: #333; 
+  margin-left: 8px;
+}
+
+.answer-button {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center; 
+  gap: 0.5rem; 
+  background-color: #a71f35; 
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
+  margin-right: 5px;
+
+}
+
+.answer-button:hover {
+  background-color: #8a1929;
 }

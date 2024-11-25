@@ -62,6 +62,9 @@ const QuestionView = ({ q }: QuestionProps) => {
       </div>
       <div className='question_mid'>
         <div className='postTitle'>{q.title}</div>
+        <div className='post-summary'>
+          {q.text.length > 300 ? `${q.text.substring(0, 300)}...` : q.text}
+        </div>
         <div className='question_tags'>
           {q.tags.map((tag, idx) => (
             <button
@@ -85,7 +88,6 @@ const QuestionView = ({ q }: QuestionProps) => {
           }}>
           {q.askedBy}
         </div>
-        <div>&nbsp;</div>
         <div className='question_meta'>asked {getMetaData(new Date(q.askDateTime))}</div>
       </div>
     </div>
