@@ -15,6 +15,7 @@ import tagController from './controller/tag';
 import commentController from './controller/comment';
 import { FakeSOSocket } from './types';
 import profileController from './controller/profile';
+import notificationRoutes from './routes/notificationRoutes';
 
 dotenv.config();
 
@@ -74,6 +75,7 @@ app.use('/tag', tagController());
 app.use('/answer', answerController(socket));
 app.use('/comment', commentController(socket));
 app.use('/profile', profileController(socket));
+app.use('/api', notificationRoutes);
 
 // Export the app instance
 export { app, server, startServer };
