@@ -1,23 +1,15 @@
 // ProfilePage.js
-import React, { ReactNode, useState } from 'react';
+import React, { useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import {
-  Trophy,
-  Medal,
-  Award,
-  Calendar,
-  MessageSquare,
-  HelpCircle,
-  Star,
-  ThumbsUp,
-  Clock,
-} from 'lucide-react';
+import { ThumbsUp, Clock } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import './index.css';
 import { Question, Tag, Comment } from '../../../../types';
 import useViewProfile from '../../../../hooks/useViewProfile';
 import { ContentCard, TabButton } from './profileComponents';
 import ProfileCard from './profileHeader';
+import StatsCard from './statsCard';
+import QuestionDisplay from './questionDisplay';
 
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState('questions');
@@ -121,32 +113,11 @@ const ProfilePage = () => {
           </ContentCard>
 
           {/* Stats Card */}
-          <ContentCard>
-            <h3 className='stats-title'>Activity Stats</h3>
-            <div className='stats-list'>
-              <div className='stat-item'>
-                <div className='stat-label'>
-                  <HelpCircle className='w-5 h-5' style={{ color: '#A71F35' }} />
-                  <span>Questions Posted</span>
-                </div>
-                <span className='font-bold'>{profile.questionsAsked.length}</span>
-              </div>
-              <div className='stat-item'>
-                <div className='stat-label'>
-                  <MessageSquare className='w-5 h-5' style={{ color: '#A71F35' }} />
-                  <span>Questions Answered</span>
-                </div>
-                <span className='font-bold'>{profile.answersGiven.length}</span>
-              </div>
-              <div className='stat-item'>
-                <div className='stat-label'>
-                  <Star className='w-5 h-5' style={{ color: '#A71F35' }} />
-                  <span>Total Reputation</span>
-                </div>
-                <span className='font-bold'>{user.reputation}</span>
-              </div>
-            </div>
-          </ContentCard>
+          <StatsCard
+            numQuestionsAsked={profile.questionsAsked.length}
+            numAnswersGiven={profile.answersGiven.length}
+            reputation={user.reputation}
+          />
         </div>
 
         {/* Right Column */}
@@ -162,6 +133,7 @@ const ProfilePage = () => {
             <TabButton label='Top Tags' tab='tags' activeTab={activeTab} onClick={setActiveTab} />
           </div>
 
+          {/* <QuestionDisplay activeTab={activeTab} questionsPosted={profile.questionsAsked} /> */}
           {activeTab === 'questions' && (
             <div className='top-tags-container'>
               {profile.questionsAsked.map((question: Question, index: number) => (
