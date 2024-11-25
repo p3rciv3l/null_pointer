@@ -6,7 +6,7 @@ const useProfileSocket = () => {
     const serverUrl = process.env.REACT_APP_SERVER_URL;
     if (!serverUrl) {
       console.error('Server URL is not defined');
-      return;
+      return undefined;
     }
 
     const socket = io(serverUrl);
