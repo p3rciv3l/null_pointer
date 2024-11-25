@@ -27,5 +27,5 @@ const SideBarNav = () => {
     </div>
   );
 };
-  
+
 export default SideBarNav;
