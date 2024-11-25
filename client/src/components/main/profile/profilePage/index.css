@@ -30,68 +30,6 @@
   margin-bottom: 1.5rem;
 }
 
-/* Profile Section */
-.profile-avatar {
-  width: 8rem;
-  height: 8rem;
-  border-radius: 50%;
-  background-color: #E5D4CE;
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.profile-avatar-letter {
-  color: #A71F35;
-  font-size: 2.5rem;
-  font-weight: bold;
-}
-
-.profile-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.profile-name {
-  font-size: 1.5rem;
-  font-weight: bold;
-  text-align: center;
-}
-
-.profile-title {
-  color: #666;
-  margin-bottom: 1rem;
-}
-
-.profile-join-date {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #666;
-  margin-bottom: 1rem;
-}
-
-.profile-bio {
-  color: #374151;
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-/* Badges */
-.badges-container {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.badge-item {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
 /* Stats Section */
 .stats-title {
   font-size: 1.25rem;

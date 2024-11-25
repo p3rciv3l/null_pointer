@@ -17,6 +17,7 @@ import './index.css';
 import { Question, Tag, Comment } from '../../../../types';
 import useViewProfile from '../../../../hooks/useViewProfile';
 import { ContentCard, TabButton } from './profileComponents';
+import ProfileCard from './profileHeader';
 
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState('questions');
@@ -107,32 +108,16 @@ const ProfilePage = () => {
         <div>
           {/* Profile Card */}
           <ContentCard>
-            <div className='profile-header'>
-              <div className='profile-avatar'>
-                <span className='profile-avatar-letter'>{profile.username.charAt(0)}</span>
-              </div>
-              <h1 className='profile-name'>{profile.username}</h1>
-              <h2 className='profile-title'>{profile.title}</h2>
-              <div className='profile-join-date'>
-                <Calendar className='w-4 h-4' />
-                <span>Joined {formattedDate}</span>
-              </div>
-              <p className='profile-bio'>{profile.bio}</p>
-              <div className='badges-container'>
-                <div className='badge-item'>
-                  <Trophy className='w-5 h-5' style={{ color: '#FFD700' }} />
-                  <span>{user.badgesEarned.gold}</span>
-                </div>
-                <div className='badge-item'>
-                  <Medal className='w-5 h-5' style={{ color: '#C0C0C0' }} />
-                  <span>{user.badgesEarned.silver}</span>
-                </div>
-                <div className='badge-item'>
-                  <Award className='w-5 h-5' style={{ color: '#CD7F32' }} />
-                  <span>{user.badgesEarned.bronze}</span>
-                </div>
-              </div>
-            </div>
+            <ProfileCard
+              username={username}
+              title={profile.title}
+              bio={profile.bio}
+              date={formattedDate}
+              reputation={user.reputation}
+              goldBadge={user.badgesEarned.gold}
+              silverBadge={user.badgesEarned.silver}
+              bronzeBadge={user.badgesEarned.bronze}
+            />
           </ContentCard>
 
           {/* Stats Card */}

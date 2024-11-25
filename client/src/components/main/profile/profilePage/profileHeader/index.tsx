@@ -1,7 +1,9 @@
 import React from 'react';
 import './index.css';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Award, Calendar, Medal, Trophy } from 'lucide-react';
 
-interface HeaderProps {
+interface ProfileCardProps {
   username: string | undefined;
   title: string;
   bio: string;
@@ -12,40 +14,41 @@ interface HeaderProps {
   bronzeBadge: number;
 }
 
-const ProfileHeader = ({
+const ProfileCard = ({
   username,
   title,
   bio,
   date,
-  reputation,
   goldBadge,
   silverBadge,
   bronzeBadge,
-}: HeaderProps) => (
+}: ProfileCardProps) => (
   <div className='profile-header'>
-    <div className='profile-info'>
-      <div className='profile-header-main'>
-        <h1>{username}</h1>
-        <button className='follow-button'>Follow</button>
-      </div>
-      <h3>{title}</h3>
-      <p>{bio}</p>
-      <p>
-        <strong>Joined:</strong> {date}
-      </p>
+    <div className='profile-avatar'>
+      <span className='profile-avatar-letter'>{username?.charAt(0)}</span>
     </div>
-    <div className='profile-stats'>
-      <div className='reputation'>
-        <p>Reputation</p>
-        <h2>{reputation}</h2>
+    <h1 className='profile-name'>{username}</h1>
+    <h2 className='profile-title'>{title}</h2>
+    <div className='profile-join-date'>
+      <Calendar className='w-4 h-4' />
+      <span>Joined {date}</span>
+    </div>
+    <p className='profile-bio'>{bio}</p>
+    <div className='badges-container'>
+      <div className='badge-item'>
+        <Trophy className='w-5 h-5' style={{ color: '#FFD700' }} />
+        <span>{goldBadge}</span>
       </div>
-      <div className='badges'>
-        <span className='badge gold'>🥇 {goldBadge}</span>
-        <span className='badge silver'>🥈 {silverBadge}</span>
-        <span className='badge bronze'>🥉 {bronzeBadge}</span>
+      <div className='badge-item'>
+        <Medal className='w-5 h-5' style={{ color: '#C0C0C0' }} />
+        <span>{silverBadge}</span>
+      </div>
+      <div className='badge-item'>
+        <Award className='w-5 h-5' style={{ color: '#CD7F32' }} />
+        <span>{bronzeBadge}</span>
       </div>
     </div>
   </div>
 );
 
-export default ProfileHeader;
+export default ProfileCard;
