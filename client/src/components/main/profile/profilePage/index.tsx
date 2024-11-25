@@ -8,6 +8,7 @@ import AnswerDisplay from './answerDisplay';
 import './index.css';
 import { Tag } from '../../../../types';
 import useViewProfile from '../../../../hooks/useViewProfile';
+import useProfileSocket from '../../../../hooks/useProfileSocket';
 
 const ProfilePage = () => {
   const { username } = useParams();
@@ -89,6 +90,8 @@ const ProfilePage = () => {
     month: 'long',
     day: 'numeric',
   });
+
+  useProfileSocket();
 
   return (
     <div className='profile-page'>

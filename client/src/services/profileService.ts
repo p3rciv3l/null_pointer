@@ -26,7 +26,6 @@ const updateProfile = async (p: Profile): Promise<Profile> => {
  * @throws Error if there is an issue fetching the profile by username.
  */
 const getProfile = async (username: string): Promise<Profile> => {
-  // console.log('Making request to:', `${PROFILE_API_URL}/getProfile/${username}`);
   try {
     const res = await api.get(`${PROFILE_API_URL}/getProfile/${username}`);
     // console.log('Response:', res);
