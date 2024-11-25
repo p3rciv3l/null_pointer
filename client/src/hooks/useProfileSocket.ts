@@ -11,7 +11,7 @@ const useProfileSocket = () => {
 
     const socket = io(serverUrl);
 
-    socket.on('profileUpdate', (updatedProfile) => {
+    socket.on('profileUpdate', updatedProfile => {
       console.log('Profile updated:', updatedProfile);
       // Handle the updated profile data
     });
