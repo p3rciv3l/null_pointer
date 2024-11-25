@@ -1,12 +1,15 @@
 import { useEffect } from 'react';
 import io from 'socket.io-client';
 
-const useProfileSocket = () => {
+const useProfileSocket = (isConnected: boolean) => {
   useEffect(() => {
+    if (!isConnected) return;
+
     const serverUrl = process.env.REACT_APP_SERVER_URL;
     if (!serverUrl) {
       console.error('Server URL is not defined');
-      return undefined;
+
+      return;
     }
 
     const socket = io(serverUrl);
@@ -20,7 +23,7 @@ const useProfileSocket = () => {
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [isConnected]);
 };
 
 export default useProfileSocket;

@@ -14,9 +14,7 @@ const ProfilePage = () => {
   const { username } = useParams();
   const [isSignedUp, setIsSignedUp] = useState(false);
 
-  if (isSignedUp) {
-    useProfileSocket();
-  }
+  useProfileSocket(isSignedUp);
 
   const { profile } = useViewProfile(username);
   if (!profile) return <div>Profile not found</div>;
