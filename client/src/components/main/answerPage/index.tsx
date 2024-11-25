@@ -54,7 +54,9 @@ const AnswerPage = () => {
             <div className='author-details'>
               <UserIcon className='author-icon' />
               <div className='author-info'>
-                <h3 className='author-name'>{question.askedBy}</h3>
+                <h3 className='author-name'>
+                  <UserProfileLink username={question.askedBy} className='answer-author' />
+                </h3>
                 <p className='author-meta'>{getMetaData(new Date(question.askDateTime))}</p>
               </div>
             </div>

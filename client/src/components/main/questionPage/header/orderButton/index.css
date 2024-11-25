@@ -12,7 +12,7 @@
   background-color: #f3f4f6; /* Light gray background */
   border: 1px solid #d1d5db; /* Subtle border for separation */
   color: #374151; /* Gray text for inactive state */
-  font-weight: 500; /* Medium font weight for better visibility */
+  font-weight: 600; /* Medium font weight for better visibility */
   font-size: 1rem; /* Slightly larger font size */
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for hover and active states */
