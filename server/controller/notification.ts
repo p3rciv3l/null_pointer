@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import * as NotificationService from '../services/notificationService';
+import { INotification } from '../models/notification';
 
 export const getNotifications = async (req: Request, res: Response) => {
   try {
@@ -10,15 +11,15 @@ export const getNotifications = async (req: Request, res: Response) => {
 
     const notifications = await NotificationService.getNotifications(userId);
     const transformedNotifications = notifications.map(n => ({
-      id: n._id,
+      id: n._id.toString(),
       type: n.type,
       message: n.message,
-      timestamp: n.timestamp,
+      timestamp: n.timestamp.toISOString(),
       read: n.read,
       userId: n.userId,
-      relatedId: n.relatedId
+      relatedId: n.relatedId,
     }));
-    
+
     return res.status(200).json(transformedNotifications);
   } catch (error) {
     console.error('Error in getNotifications controller:', error);
@@ -39,13 +40,13 @@ export const readNotification = async (req: Request, res: Response) => {
     }
 
     return res.status(200).json({
-      id: updatedNotification._id,
+      id: updatedNotification._id.toString(),
       type: updatedNotification.type,
       message: updatedNotification.message,
-      timestamp: updatedNotification.timestamp,
+      timestamp: updatedNotification.timestamp.toISOString(),
       read: updatedNotification.read,
       userId: updatedNotification.userId,
-      relatedId: updatedNotification.relatedId
+      relatedId: updatedNotification.relatedId,
     });
   } catch (error) {
     console.error('Error in readNotification controller:', error);
@@ -57,8 +58,8 @@ export const addNotification = async (req: Request, res: Response) => {
   try {
     const { userId, message, type, relatedId } = req.body;
     if (!userId || !message || !type || !relatedId) {
-      return res.status(400).json({ 
-        message: 'userId, message, type, and relatedId are required' 
+      return res.status(400).json({
+        message: 'userId, message, type, and relatedId are required',
       });
     }
 
@@ -66,17 +67,17 @@ export const addNotification = async (req: Request, res: Response) => {
       userId,
       message,
       type,
-      relatedId
+      relatedId,
     });
 
     return res.status(201).json({
-      id: newNotification._id,
+      id: newNotification._id.toString(),
       type: newNotification.type,
       message: newNotification.message,
-      timestamp: newNotification.timestamp,
+      timestamp: newNotification.timestamp.toISOString(),
       read: newNotification.read,
       userId: newNotification.userId,
-      relatedId: newNotification.relatedId
+      relatedId: newNotification.relatedId,
     });
   } catch (error) {
     console.error('Error in addNotification controller:', error);

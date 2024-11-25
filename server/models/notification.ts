@@ -1,15 +1,20 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document, Types } from 'mongoose';
 
 export type NotificationType = 'reply' | 'vote' | 'question';
 
-export interface INotification extends Document {
-  id: string;
+// Base interface for notification data
+export interface INotificationBase {
   type: NotificationType;
   message: string;
   timestamp: Date;
   read: boolean;
   userId: string;
   relatedId: string;
+}
+
+// Interface that extends both the base interface and Mongoose Document
+export interface INotification extends INotificationBase, Document {
+  _id: Types.ObjectId;
 }
 
 const NotificationSchema = new Schema<INotification>({

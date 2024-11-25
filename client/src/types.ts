@@ -180,14 +180,14 @@ export interface ServerToClientEvents {
   notificationUpdate: (notification: Notification) => void;
 }
 
+export type NotificationType = 'reply' | 'vote' | 'question';
+
 export interface Notification {
   id: string;
-  type: 'reply' | 'vote' | 'question';
+  type: NotificationType;
   message: string;
   timestamp: Date;
   read: boolean;
   userId: string;
-
-  // questionId or answerId
   relatedId: string;
 }
