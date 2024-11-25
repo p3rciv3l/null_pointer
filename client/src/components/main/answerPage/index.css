@@ -24,3 +24,124 @@
   color: #333; /* Optional: Darker text color for contrast */
   margin-top: 20px;
 }
+
+.question_container {
+  display: flex;
+  align-items: flex-start; /* Align items at the top */
+  gap: 8px; /* Space between the vote-container and the content */
+}
+
+.question_content {
+  padding: 0; /* Remove any internal padding */
+  margin-left: 10px; /* Remove any default margin */
+}
+
+.question_title {
+  margin: 0; /* Ensure no margin is added by the heading element */
+  padding: 0; /* Remove any padding if applied */
+}
+
+.page_container {
+  padding: 2rem; /* Adds padding around the content */
+}
+
+
+.tags_container {
+  display: flex;
+  flex-wrap: wrap; /* Allow tags to wrap to the next line */
+  margin-top: 30px;
+  gap: 10px; /* Space between each tag */
+}
+
+.tag {
+  background-color: #e5d4ce; /* Background color for the tag */
+  padding: 0.5rem 1rem; /* Add padding for pill shape */
+  border-radius: 9999px; /* Fully round corners for pill style */
+  font-size: 0.875rem; /* Text size (14px) */
+  font-weight: 500; /* Slightly bold text */
+  color: #333; /* Text color */
+  display: inline-block; /* Ensure tags stay inline */
+  text-align: center;
+  white-space: nowrap; /* Prevent text from wrapping inside the tag */
+}
+
+
+/* Overall container for the author card */
+.author-card {
+  background-color: #ffffff; /* White background */
+  border-radius: 8px; /* Rounded corners */
+  padding: 12px; /* Padding inside the card */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for elevation */
+  display: flex;
+  align-items: center;
+  width: fit-content; /* Adjust card size to fit content */
+  margin-top: 30px;
+}
+
+
+/* Container for details (icon + info) */
+.author-details {
+  display: flex;
+  align-items: center;
+  gap: 16px; /* Space between the icon and text */
+}
+
+/* Styling for the UserIcon */
+.author-icon {
+  width: 48px; /* Icon size */
+  height: 48px;
+  color: #ccc; /* Light gray color for the icon */
+}
+
+/* Author name (askedBy) styling */
+.author-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #a71f35;
+}
+
+/* Metadata (date and time) styling */
+.author-meta {
+  font-size: 0.875rem; /* Smaller text for metadata */
+  color: #666; /* Lighter gray for subtle contrast */
+  margin: 4px 0 0 0; /* Spacing above the meta text */
+}
+
+
+/* Container for the answers section */
+.answers-section {
+  margin-top: 1rem; 
+}
+
+/* Title styling for the answers section */
+.answers-title {
+  font-size: 1.5rem;
+  font-weight: bold; 
+  margin-bottom: 1.5rem; 
+  color: #333; 
+  margin-left: 8px;
+}
+
+/* Styling for the Answer Button */
+.answer-button {
+  margin-top: 2rem; /* Add spacing above the button */
+  display: flex;
+  align-items: center; /* Align content vertically */
+  gap: 0.5rem; /* Space between icon and text */
+  background-color: #a71f35; /* Red background */
+  color: white; /* White text */
+  padding: 0.75rem 1.5rem; /* Spacing inside the button */
+  border-radius: 6px; /* Slightly rounded corners */
+  font-size: 1rem; /* Adjust font size */
+  font-weight: 500; /* Slightly bold text */
+  cursor: pointer;
+  border: none; /* Remove default border */
+  transition: background-color 0.3s ease; /* Smooth transition for hover */
+  margin-right: 5px;
+
+}
+
+/* Hover effect */
+.answer-button:hover {
+  background-color: #8a1929; /* Darker red on hover */
+}

@@ -1,116 +1,124 @@
+/* Comment Section */
 .comment-section {
-  margin: 0.5em;
-  padding: 0.5em;
-  border-radius: 6px;
-  background-color: #f9f9f9;
-  font-size: 0.9rem;
+  padding-top: 1rem; /* Spacing above content */
 }
 
-.toggle-button {
+/* Toggle button styling */
+.comment-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between the icon and text */
+  color: #666; /* Default gray text */
+  font-size: 0.9rem; /* Slightly smaller font size */
   background: none;
-  color: #007bff;
   border: none;
-  font-size: 1rem;
   cursor: pointer;
-  padding: 0;
-  text-decoration: underline;
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
+  padding: 0.5rem;
+  border-radius: 4px; /* Rounded corners for hover effect background */
 }
 
-.toggle-button:hover {
-  color: #0056b3;
+.comment-toggle:hover {
+  color: white; /* White text on hover */
+  background-color: #a71f35; /* Red background on hover */
 }
 
-.comments-container {
-  margin-top: 0.5em;
+
+.comment-icon {
+  width: 1rem;
+  height: 1rem;
 }
 
-.comments-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
+/* Chevron Icon Styling */
+.toggle-icon {
+  width: 1rem;
+  height: 1rem;
 }
 
-.comment-item {
-  background-color: #fff;
-  padding: 0.5em;
-  margin-bottom: 0.25em;
-  border-radius: 4px;
-  border: 1px solid #ddd;
+/* Comment Container */
+.comment-container {
+  margin-top: 1rem; /* Space above comments */
 }
 
-.comment-text {
-  font-size: 0.85rem;
-  margin-bottom: 0.25em;
-}
-
-.comment-meta {
-  font-size: 0.75rem;
-  color: #666;
-}
-
-.no-comments {
-  font-style: italic;
-  color: #666;
-  font-size: 0.85rem;
-}
-
-.add-comment {
-  margin-top: 0.5em;
+/* Comment List */
+.comment-list {
   display: flex;
   flex-direction: column;
-  gap: 0.5em;
+  gap: 1rem; /* Space between comments */
+  list-style: none;
+  padding: 0;
 }
 
-.input-row {
+/* Individual Comment Item */
+.comment-item {
+  background-color: #f9f9f9; /* Light gray background */
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #ddd; /* Light border */
+}
+
+/* Comment Text */
+.comment-text {
+  font-size: 0.9rem; /* Slightly smaller text */
+  margin-bottom: 0.5rem;
+}
+
+/* Comment Metadata */
+.comment-meta {
+  font-size: 0.8rem; /* Smaller font for metadata */
+  color: #888; /* Subtle gray text */
+}
+
+/* No Comments Placeholder */
+.no-comments {
+  font-size: 0.9rem;
+  color: #666;
+  font-style: italic;
+}
+
+/* Add Comment Section */
+.add-comment-section {
+  margin-top: 1rem; /* Space above add comment section */
   display: flex;
-  gap: 0.5em;
+  flex-direction: column;
+  gap: 0.5rem; /* Space between textarea and button */
 }
 
-.comment-username {
-  flex: 2;
-  padding: 0.25em;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 0.85rem;
+/* Comment Input */
+.comment-input {
+  width: 100%; /* Full width */
+  padding: 0.75rem; /* Space inside input */
+  border: 1px solid #ccc; /* Gray border */
+  border-radius: 8px; /* Rounded corners */
+  font-size: 0.9rem; /* Text size */
+  resize: none; /* Prevent resizing */
 }
 
-.comment-username:focus {
-  border-color: #007bff;
+.comment-input:focus {
+  border-color: #a71f35; /* Red border on focus */
   outline: none;
 }
 
-.comment-textarea {
-  flex: 5;
-  padding: 0.25em;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 0.85rem;
-  resize: none;
-}
-
-.comment-textarea:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
-.add-comment-button {
-  flex: 1;
-  background-color: #28a745;
+/* Add Comment Button */
+.add-comment-btn {
+  align-self: flex-end; /* Align button to the right */
+  background-color: #a71f35; /* Red background */
   color: white;
-  padding: 0.25em 0.5em;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  padding: 0.5rem 1rem;
   font-size: 0.85rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.add-comment-button:hover {
-  background-color: #218838;
+.add-comment-btn:hover {
+  background-color: #8a1929; /* Darker red on hover */
 }
 
-.error {
-  color: red;
-  font-size: 0.75rem;
-  display: block;
-  margin-top: -0.5em;
+/* Error Message */
+.error-message {
+  font-size: 0.75rem; /* Smaller font size */
+  color: red; /* Error color */
+  margin-top: 0.5rem; /* Space above error message */
 }

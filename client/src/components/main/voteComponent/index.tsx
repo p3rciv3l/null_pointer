@@ -29,7 +29,7 @@ const VoteComponent = ({ question }: VoteComponentProps) => {
    *
    * @param type - The type of vote, either 'upvote' or 'downvote'.
    */
-  const handleVote = async (type: string) => {
+  const handleVote = async (type: 'upvote' | 'downvote') => {
     try {
       if (question._id) {
         if (type === 'upvote') {
@@ -39,24 +39,24 @@ const VoteComponent = ({ question }: VoteComponentProps) => {
         }
       }
     } catch (error) {
-      // Handle error
+      // handle error.
     }
   };
 
   return (
     <div className='vote-container'>
       <button
-        className={`vote-button ${voted === 1 ? 'vote-button-upvoted' : ''}`}
         onClick={() => handleVote('upvote')}
+        className={`vote-button ${voted === 1 ? 'vote-button-upvoted' : ''}`}
         aria-label='Upvote'>
-        <ThumbsUpIcon className='w-6 h-6' />
+        <ThumbsUpIcon className='icon' />
       </button>
       <span className='vote-count'>{count}</span>
       <button
-        className={`vote-button ${voted === -1 ? 'vote-button-downvoted' : ''}`}
         onClick={() => handleVote('downvote')}
+        className={`vote-button ${voted === -1 ? 'vote-button-downvoted' : ''}`}
         aria-label='Downvote'>
-        <ThumbsDownIcon className='w-6 h-6' />
+        <ThumbsDownIcon className='icon' />
       </button>
     </div>
   );

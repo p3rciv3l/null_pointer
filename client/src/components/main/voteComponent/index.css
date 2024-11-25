@@ -1,40 +1,49 @@
+/* Container for the entire vote component */
 .vote-container {
   display: flex;
   flex-direction: column;
+  align-items: center; /* Center all items (buttons and count) */
+  gap: 8px; /* Space between buttons and the count */
+}
+
+/* Styling for the vote buttons */
+.vote-button {
+  background-color: transparent; /* Transparent background */
+  color: #aaa; /* Default icon color */
+  cursor: pointer;
+  transition: color 0.2s ease, background-color 0.2s ease;
+  border-radius: 50%; /* Circular button */
+  padding: 0.5rem; /* Spacing around the button */
+  display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.vote-button {
-  background-color: transparent; /* Keep the background transparent */
-  color: #aaa; /* Light gray color for the text/icon */
-  cursor: pointer;
-  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
-  border-radius: 50%; /* Make the button circular */
-  padding: 0.5rem;
-  font-size: 1rem; /* Adjust font size for visibility */
-  text-align: center;
-}
-
+/* Button hover effect */
 .vote-button:hover {
-  background-color: #e5d4ce; /* Light pinkish background on hover */
-  color: #a71f35; /* Darker text/icon color on hover */
-  border-color: #a71f35; /* Highlight border on hover */
+  background-color: #e5d4ce; /* Light pink hover background */
+  color: #a71f35; /* Red hover color */
 }
 
+/* Upvoted button style */
 .vote-button-upvoted {
-  border-color: #38a169; /* Green border for upvoted state */
-  color: #38a169;
+  color: #38a169; /* Green color for upvoted state */
 }
 
+/* Downvoted button style */
 .vote-button-downvoted {
-  border-color: #e53e3e; /* Red border for downvoted state */
-  color: #e53e3e;
+  color: #e53e3e; /* Red color for downvoted state */
 }
 
-
+/* Styling for the vote count */
 .vote-count {
   font-weight: bold;
-  font-size: 1.25rem;
-  margin: 0.5rem 0;
+  font-size: 1.25rem; /* Larger font for visibility */
+  color: #333; /* Darker text color */
+}
+
+/* Styling for the icon size */
+.icon {
+  width: 24px; /* Adjust icon width */
+  height: 24px; /* Adjust icon height */
 }
