@@ -1,39 +1,33 @@
-.tags-list {
+.stats-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+/* Top Tags Section */
+.top-tags-container {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 1.5rem;
 }
 
-.tag-container {
+.tag-item {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  background-color: #f8f8f8;
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.tag-name {
-  font-weight: bold;
-  color: #0073e6;
-  padding: 5px 10px;
-  background-color: #e6f7ff;
-  border-radius: 5px;
-  margin-right: 20px;
-}
-
-.tag-details {
+.tag-metrics {
   display: flex;
-  gap: 15px;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: #666;
 }
 
-.stat-value {
-  font-weight: bold;
-  color: #333;
-}
-
-.stat-label {
-  font-size: 0.85em;
-  color: #777;
-  margin-left: 5px;
+.tag {
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.375rem;
+  background-color: #E5D4CE;
+  color: #A71F35;
+  font-size: 0.875rem;
 }

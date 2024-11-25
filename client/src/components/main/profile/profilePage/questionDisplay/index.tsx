@@ -23,7 +23,13 @@ const QuestionDisplay = ({ activeTab = ' ', questionsPosted = [] }: QuestionDisp
       {activeTab === 'questions' && (
         <div className='top-tags-container'>
           {questionsPosted.map((question: Question, index: number) => (
-            <ContentCard key={index}>
+            <ContentCard
+              key={index}
+              onClick={() => {
+                if (question._id) {
+                  handleAnswer(question._id);
+                }
+              }}>
               <h3 className='question-title'>{question.title}</h3>
               <p className='question-content'>{question.text}</p>
               <div className='tags-container'>

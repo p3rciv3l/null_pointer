@@ -16,8 +16,12 @@ export const TabButton: React.FC<TabButtonProps> = ({ label, tab, activeTab, onC
 interface ContentCardProps {
   children: ReactNode;
   className?: string;
+  onClick?: () => void; // Optional onClick handler
 }
 
-export const ContentCard: React.FC<ContentCardProps> = ({ children, className = '' }) => (
-  <div className={`content-card ${className}`}>{children}</div>
+export const ContentCard: React.FC<ContentCardProps> = ({ children, className = '', onClick }) => (
+  <div className={`content-card ${className}`} onClick={onClick}>
+    {' '}
+    {children}
+  </div>
 );

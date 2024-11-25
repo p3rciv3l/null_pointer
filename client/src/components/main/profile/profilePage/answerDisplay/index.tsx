@@ -1,14 +1,17 @@
 import React from 'react';
 import './index.css';
 import { useNavigate } from 'react-router-dom';
-import { Answer } from '../../../../../types';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { ThumbsUp, Clock } from 'lucide-react';
+import { Question, Comment, Answer } from '../../../../../types';
+import { ContentCard } from '../profileComponents';
 
 interface AnswerDisplayProps {
+  activeTab: string;
   answersGiven: Answer[];
-  username?: string;
 }
 
-const AnswerDisplay = ({ answersGiven = [], username = 'Anonymous' }: AnswerDisplayProps) => {
+const AnswerDisplay = ({ activeTab = ' ', answersGiven = [] }: AnswerDisplayProps) => {
   const navigate = useNavigate();
 
   const handleAnswer = (questionID: string) => {
@@ -16,42 +19,45 @@ const AnswerDisplay = ({ answersGiven = [], username = 'Anonymous' }: AnswerDisp
   };
 
   return (
-    <div className='profile-answers-section'>
-      <h2>Answers Given</h2>
-      {answersGiven.length > 0 ? (
-        answersGiven.map(answer => (
-          <div
-            key={answer._id}
-            className='question-item'
-            onClick={() => {
-              if (answer.question && answer.question._id) {
-                handleAnswer(answer.question._id);
-              }
-            }}>
-            {/* Display question title */}
-            <div className='question-header'>
-              <h3 className='question-title'>{answer.question?.title || 'Unknown Question'}</h3>
-              <p className='question-date'>
-                Asked on:{' '}
-                {new Date(answer.question?.askDateTime || '').toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </p>
-            </div>
-
-            {/* Display user's answer */}
-            <div className='answer-section'>
-              <h4 className='answer-label'>{username} answered:</h4>
-              <p className='answer-text'>{answer.text}</p>
-            </div>
-          </div>
-        ))
-      ) : (
-        <p className='no-questions-message'>No Answers have been posted yet.</p>
+    <>
+      {activeTab === 'answers' && (
+        <div className='top-tags-container'>
+          {answersGiven.map((answer, index) => (
+            <ContentCard
+              key={index}
+              onClick={() => {
+                if (answer.question) {
+                  if (answer.question._id) {
+                    handleAnswer(answer.question._id);
+                  }
+                }
+              }}>
+              <h3 className='question-title'>Re: {answer.question?.title}</h3>
+              <p className='question-content'>{answer.text}</p>
+              <div className='metrics-container'>
+                <div className='metric'>
+                  <ThumbsUp className='w-4 h-4' />
+                  <span>{5}</span>
+                </div>
+                <div className='metric'>
+                  <Clock className='w-4 h-4' />
+                  <span>{new Date(answer.ansDateTime).toLocaleDateString()}</span>
+                </div>
+              </div>
+              {answer.comments.length > 0 && (
+                <div className='comments-section'>
+                  {answer.comments.map((comment: Comment, idx: number) => (
+                    <div key={idx} className='comment'>
+                      <span className='comment-author'>{comment.commentBy}:</span> {comment.text}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </ContentCard>
+          ))}
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

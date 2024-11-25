@@ -1,15 +1,16 @@
 // ProfilePage.js
 import React, { useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { ThumbsUp, Clock } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import './index.css';
-import { Question, Tag, Comment } from '../../../../types';
+import { Tag } from '../../../../types';
 import useViewProfile from '../../../../hooks/useViewProfile';
 import { ContentCard, TabButton } from './profileComponents';
 import ProfileCard from './profileHeader';
 import StatsCard from './statsCard';
 import QuestionDisplay from './questionDisplay';
+import AnswerDisplay from './answerDisplay';
+import TagDisplay from './tagDisplay';
 
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState('questions');
@@ -133,93 +134,9 @@ const ProfilePage = () => {
             <TabButton label='Top Tags' tab='tags' activeTab={activeTab} onClick={setActiveTab} />
           </div>
 
-          {/* <QuestionDisplay activeTab={activeTab} questionsPosted={profile.questionsAsked} /> */}
-          {activeTab === 'questions' && (
-            <div className='top-tags-container'>
-              {profile.questionsAsked.map((question: Question, index: number) => (
-                <ContentCard key={index}>
-                  <h3 className='question-title'>{question.title}</h3>
-                  <p className='question-content'>{question.text}</p>
-                  <div className='tags-container'>
-                    {question.tags.map((tag: Tag, tagIndex: number) => (
-                      <span key={tagIndex} className='tag'>
-                        {tag.name}
-                      </span>
-                    ))}
-                  </div>
-                  <div className='metrics-container'>
-                    <div className='metric'>
-                      <ThumbsUp className='w-4 h-4' />
-                      <span>{question.upVotes.length}</span>
-                    </div>
-                    <div className='metric'>
-                      <Clock className='w-4 h-4' />
-                      <span>{new Date(question.askDateTime).toLocaleDateString()}</span>
-                    </div>
-                  </div>
-                  {question.comments.length > 0 && (
-                    <div className='comments-section'>
-                      {question.comments.map((comment: Comment, idx: number) => (
-                        <div key={idx} className='comment'>
-                          <span className='comment-author'>{comment.commentBy}:</span>{' '}
-                          {comment.text}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </ContentCard>
-              ))}
-            </div>
-          )}
-
-          {activeTab === 'answers' && (
-            <div className='top-tags-container'>
-              {profile.answersGiven.map((answer, index) => (
-                <ContentCard key={index}>
-                  <h3 className='question-title'>Re: {answer.question?.title}</h3>
-                  <p className='question-content'>{answer.text}</p>
-                  <div className='metrics-container'>
-                    <div className='metric'>
-                      <ThumbsUp className='w-4 h-4' />
-                      <span>{5}</span>
-                    </div>
-                    <div className='metric'>
-                      <Clock className='w-4 h-4' />
-                      <span>{new Date(answer.ansDateTime).toLocaleDateString()}</span>
-                    </div>
-                  </div>
-                  {answer.comments.length > 0 && (
-                    <div className='comments-section'>
-                      {answer.comments.map((comment: Comment, idx: number) => (
-                        <div key={idx} className='comment'>
-                          <span className='comment-author'>{comment.commentBy}:</span>{' '}
-                          {comment.text}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </ContentCard>
-              ))}
-            </div>
-          )}
-
-          {activeTab === 'tags' && (
-            <ContentCard>
-              <h3 className='stats-title'>Top Tags</h3>
-              <div className='top-tags-container'>
-                {user.topTags.map(tag => (
-                  <div key={tag.name} className='tag-item'>
-                    <span className='tag'>{tag.name}</span>
-                    <div className='tag-metrics'>
-                      <span>{tag.score} score</span>
-                      <span>{tag.posts} posts</span>
-                      <span>{tag.points} points</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </ContentCard>
-          )}
+          <QuestionDisplay activeTab={activeTab} questionsPosted={profile.questionsAsked} />
+          <AnswerDisplay activeTab={activeTab} answersGiven={profile.answersGiven} />
+          <TagDisplay activeTab={activeTab} topTags={user.topTags} />
         </div>
       </div>
     </div>
