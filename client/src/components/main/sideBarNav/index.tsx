@@ -4,6 +4,7 @@ import './index.css';
 import { MessageSquare, Tag, User } from 'lucide-react';
 import SideBarLink from './sidebarLink';
 import useUserContext from '../../../hooks/useUserContext';
+
 /**
  * The SideBarNav component has two menu items: "Questions" and "Tags".
  * It highlights the currently selected item based on the active page and
@@ -26,28 +27,5 @@ const SideBarNav = () => {
     </div>
   );
 };
-
-// const SideBarNav = () => (
-//   <div id='sideBarNav' className='sideBarNav'>
-//     <NavLink
-//       to='/home'
-//       id='menu_questions'
-//       className={({ isActive }) => `menu_button ${isActive ? 'menu_selected' : ''}`}>
-//       Questions
-//     </NavLink>
-//     <NavLink
-//       to='/tags'
-//       id='menu_tag'
-//       className={({ isActive }) => `menu_button ${isActive ? 'menu_selected' : ''}`}>
-//       Tags
-//     </NavLink>
-//     <NavLink
-//       to='/profile'
-//       id='menu_tag'
-//       className={({ isActive }) => `menu_button ${isActive ? 'menu_selected' : ''}`}>
-//       Profile
-//     </NavLink>
-//   </div>
-// );
-
+  
 export default SideBarNav;
