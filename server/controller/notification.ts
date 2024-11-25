@@ -1,5 +1,9 @@
 import { Request, Response } from 'express';
-import { getNotificationsByUserId, markNotificationAsRead, createNotification } from '../services/notificationService';
+import {
+  getNotificationsByUserId,
+  markNotificationAsRead,
+  createNotification,
+} from '../services/notificationService';
 
 /**
  * Get notifications for a user.
@@ -41,4 +45,4 @@ export const addNotification = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).send('Error creating notification');
   }
-}; 
+};

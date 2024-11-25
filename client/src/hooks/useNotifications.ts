@@ -4,14 +4,16 @@ import { Notification } from '../types';
 
 const useNotifications = (userId: string) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
         const response = await axios.get(`/api/notifications?userId=${userId}`);
         setNotifications(response.data);
+        setError(null); // Clear any previous errors
       } catch (error) {
-        console.error('Error fetching notifications:', error);
+        setError('Error fetching notifications. Please try again later.');
       }
     };
 
@@ -20,7 +22,7 @@ const useNotifications = (userId: string) => {
     }
   }, [userId]);
 
-  return notifications;
+  return { notifications, error };
 };
 
 export default useNotifications;
