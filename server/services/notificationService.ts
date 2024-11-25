@@ -1,30 +1,30 @@
-import Notification from '../models/notification';
+import Notification, { NotificationType, INotification } from '../models/notification';
 
-/**
- * Fetch notifications for a specific user.
- * @param userId - The ID of the user.
- * @returns A promise that resolves to an array of notifications.
- */
-export const getNotificationsByUserId = async (userId: string) => {
-  console.log('Fetching notifications for user ID:', userId);
-  return Notification.find({ userId }).sort({ timestamp: -1 });
+interface CreateNotificationParams {
+  userId: string;
+  message: string;
+  type: NotificationType;
+  relatedId: string;
+}
+
+export const createNotification = async (
+  params: CreateNotificationParams,
+): Promise<INotification> => {
+  const notification = new Notification({
+    userId: params.userId,
+    message: params.message,
+    type: params.type,
+    relatedId: params.relatedId,
+    read: false,
+    timestamp: new Date(),
+  });
+  return await notification.save();
 };
 
-/**
- * Mark a notification as read.
- * @param notificationId - The ID of the notification.
- * @returns A promise that resolves to the updated notification.
- */
-export const markNotificationAsRead = async (notificationId: string) => {
-  return Notification.findByIdAndUpdate(notificationId, { read: true }, { new: true });
+export const getNotifications = async (userId: string): Promise<INotification[]> => {
+  return await Notification.find({ userId }).sort({ timestamp: -1 }).exec();
 };
 
-/**
- * Create a new notification.
- * @param notificationData - The data for the new notification.
- * @returns A promise that resolves to the created notification.
- */
-export const createNotification = async (notificationData: Partial<Notification>) => {
-  const notification = new Notification(notificationData);
-  return notification.save();
+export const markAsRead = async (notificationId: string): Promise<INotification | null> => {
+  return await Notification.findByIdAndUpdate(notificationId, { read: true }, { new: true }).exec();
 };

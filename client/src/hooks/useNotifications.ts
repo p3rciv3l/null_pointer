@@ -5,27 +5,52 @@ import { Notification } from '../types';
 const useNotifications = (userId: string) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchNotifications = async () => {
-      console.log('Fetching notifications for user ID:', userId);
+      if (!userId) return;
+
+      setLoading(true);
+      console.log('Attempting to fetch notifications for user ID:', userId);
       try {
-        const response = await axios.get(`/api/notifications?userId=${userId}`);
+        const response = await axios.get(`/api/notifications/${encodeURIComponent(userId)}`, {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
         console.log('Notifications response:', response.data);
-        setNotifications(response.data);
-        setError(null);
-      } catch (fetchError) {
+        if (response.data) {
+          setNotifications(response.data);
+          setError(null);
+        }
+      } catch (fetchError: any) {
         console.error('Error fetching notifications:', fetchError);
-        setError('Error fetching notifications. Please try again later.');
+        setError(
+          fetchError.response?.data?.message ||
+            'Error fetching notifications. Please try again later.',
+        );
+        setNotifications([]); // Clear notifications on error
+      } finally {
+        setLoading(false);
       }
     };
 
     if (userId) {
       fetchNotifications();
+      // Set up polling for notifications
+      const pollInterval = setInterval(fetchNotifications, 30000); // Poll every 30 seconds
+
+      // Cleanup
+      return () => {
+        clearInterval(pollInterval);
+      };
     }
   }, [userId]);
 
-  return { notifications, error };
+  return { notifications, error, loading };
 };
 
 export default useNotifications;

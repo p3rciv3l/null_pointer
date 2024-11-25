@@ -1,54 +1,85 @@
 import { Request, Response } from 'express';
-import {
-  getNotificationsByUserId,
-  markNotificationAsRead,
-  createNotification,
-} from '../services/notificationService';
+import * as NotificationService from '../services/notificationService';
 
-/**
- * Get notifications for a user.
- */
 export const getNotifications = async (req: Request, res: Response) => {
-  console.log('Received request for notifications');
-  const { userId } = req.query;
-  console.log('User ID:', userId);
-
-  if (!userId) {
-    console.log('No User ID provided');
-    return res.status(400).send('User ID is required');
-  }
-
   try {
-    const notifications = await getNotificationsByUserId(userId as string);
-    console.log('Fetched notifications:', notifications);
-    res.json(notifications);
+    const { userId } = req.params;
+    if (!userId) {
+      return res.status(400).json({ message: 'User ID is required' });
+    }
+
+    const notifications = await NotificationService.getNotifications(userId);
+    const transformedNotifications = notifications.map(n => ({
+      id: n._id,
+      type: n.type,
+      message: n.message,
+      timestamp: n.timestamp,
+      read: n.read,
+      userId: n.userId,
+      relatedId: n.relatedId
+    }));
+    
+    return res.status(200).json(transformedNotifications);
   } catch (error) {
-    console.error('Error fetching notifications:', error);
-    res.status(500).send('Error fetching notifications');
+    console.error('Error in getNotifications controller:', error);
+    return res.status(500).json({ message: 'Internal server error' });
   }
 };
 
-/**
- * Mark a notification as read.
- */
 export const readNotification = async (req: Request, res: Response) => {
-  const { notificationId } = req.params;
   try {
-    const notification = await markNotificationAsRead(notificationId);
-    res.json(notification);
+    const { notificationId } = req.params;
+    if (!notificationId) {
+      return res.status(400).json({ message: 'Notification ID is required' });
+    }
+
+    const updatedNotification = await NotificationService.markAsRead(notificationId);
+    if (!updatedNotification) {
+      return res.status(404).json({ message: 'Notification not found' });
+    }
+
+    return res.status(200).json({
+      id: updatedNotification._id,
+      type: updatedNotification.type,
+      message: updatedNotification.message,
+      timestamp: updatedNotification.timestamp,
+      read: updatedNotification.read,
+      userId: updatedNotification.userId,
+      relatedId: updatedNotification.relatedId
+    });
   } catch (error) {
-    res.status(500).send('Error marking notification as read');
+    console.error('Error in readNotification controller:', error);
+    return res.status(500).json({ message: 'Internal server error' });
   }
 };
 
-/**
- * Create a new notification.
- */
 export const addNotification = async (req: Request, res: Response) => {
   try {
-    const notification = await createNotification(req.body);
-    res.status(201).json(notification);
+    const { userId, message, type, relatedId } = req.body;
+    if (!userId || !message || !type || !relatedId) {
+      return res.status(400).json({ 
+        message: 'userId, message, type, and relatedId are required' 
+      });
+    }
+
+    const newNotification = await NotificationService.createNotification({
+      userId,
+      message,
+      type,
+      relatedId
+    });
+
+    return res.status(201).json({
+      id: newNotification._id,
+      type: newNotification.type,
+      message: newNotification.message,
+      timestamp: newNotification.timestamp,
+      read: newNotification.read,
+      userId: newNotification.userId,
+      relatedId: newNotification.relatedId
+    });
   } catch (error) {
-    res.status(500).send('Error creating notification');
+    console.error('Error in addNotification controller:', error);
+    return res.status(500).json({ message: 'Internal server error' });
   }
 };
