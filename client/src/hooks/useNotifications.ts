@@ -12,7 +12,7 @@ const useNotifications = (userId: string) => {
         const response = await axios.get(`/api/notifications?userId=${userId}`);
         setNotifications(response.data);
         setError(null); // Clear any previous errors
-      } catch (error) {
+      } catch (fetchError) {
         setError('Error fetching notifications. Please try again later.');
       }
     };
