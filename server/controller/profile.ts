@@ -22,12 +22,15 @@ const profileController = (socket: FakeSOSocket) => {
     }
 
     const profile: Profile = req.body;
+    console.log('Received profile:', profile);
 
     try {
       const result = await saveProfile(profile);
       if ('error' in result) {
         throw new Error(result.error as string);
       }
+
+      console.log('Profile saved:', result);
 
       const populatedProf = await populateProfile(profile._id?.toString());
 
@@ -39,6 +42,7 @@ const profileController = (socket: FakeSOSocket) => {
       socket.emit('profileUpdate', profile as Profile);
       res.json(result);
     } catch (err) {
+      console.error('Error when adding profile:', err);
       res.status(500).send(`Error when adding profile: ${(err as Error).message}`);
     }
   };
