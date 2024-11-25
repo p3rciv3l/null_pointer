@@ -16,6 +16,7 @@ const useProfileSocket = () => {
       // Handle the updated profile data
     });
 
+    // Cleanup function to disconnect the socket
     return () => {
       socket.disconnect();
     };
