@@ -1,26 +1,24 @@
-/* Comment Section */
 .comment-section {
-  padding-top: 1rem; /* Spacing above content */
+  padding-top: 1rem;
 }
 
-/* Toggle button styling */
 .comment-toggle {
   display: flex;
   align-items: center;
-  gap: 8px; /* Space between the icon and text */
-  color: #666; /* Default gray text */
-  font-size: 0.9rem; /* Slightly smaller font size */
+  gap: 8px;
+  color: #666;
+  font-size: 0.9rem; 
   background: none;
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease; /* Smooth transition for hover effects */
+  transition: all 0.3s ease; 
   padding: 0.5rem;
-  border-radius: 4px; /* Rounded corners for hover effect background */
+  border-radius: 4px;
 }
 
 .comment-toggle:hover {
-  color: white; /* White text on hover */
-  background-color: #a71f35; /* Red background on hover */
+  color: white; 
+  background-color: #a71f35;
 }
 
 
@@ -29,80 +27,70 @@
   height: 1rem;
 }
 
-/* Chevron Icon Styling */
 .toggle-icon {
   width: 1rem;
   height: 1rem;
 }
 
-/* Comment Container */
 .comment-container {
-  margin-top: 1rem; /* Space above comments */
+  margin-top: 1rem;
 }
 
-/* Comment List */
 .comment-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem; /* Space between comments */
+  gap: 1rem;
   list-style: none;
   padding: 0;
 }
 
-/* Individual Comment Item */
 .comment-item {
-  background-color: #f9f9f9; /* Light gray background */
+  background-color: #f9f9f9;
   padding: 0.75rem;
   border-radius: 8px;
-  border: 1px solid #ddd; /* Light border */
+  border: 1px solid #ddd;
 }
 
-/* Comment Text */
 .comment-text {
-  font-size: 0.9rem; /* Slightly smaller text */
+  font-size: 0.9rem;
   margin-bottom: 0.5rem;
 }
 
-/* Comment Metadata */
 .comment-meta {
-  font-size: 0.8rem; /* Smaller font for metadata */
-  color: #888; /* Subtle gray text */
+  font-size: 0.8rem; 
+  color: #888;
 }
 
-/* No Comments Placeholder */
 .no-comments {
   font-size: 0.9rem;
   color: #666;
   font-style: italic;
 }
 
-/* Add Comment Section */
 .add-comment-section {
-  margin-top: 1rem; /* Space above add comment section */
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem; /* Space between textarea and button */
+  gap: 0.5rem;
 }
 
-/* Comment Input */
 .comment-input {
-  width: 100%; /* Full width */
-  padding: 0.75rem; /* Space inside input */
-  border: 1px solid #ccc; /* Gray border */
-  border-radius: 8px; /* Rounded corners */
-  font-size: 0.9rem; /* Text size */
-  resize: none; /* Prevent resizing */
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.9rem; 
+  resize: none;
 }
 
 .comment-input:focus {
-  border-color: #a71f35; /* Red border on focus */
+  border-color: #a71f35;
   outline: none;
 }
 
-/* Add Comment Button */
 .add-comment-btn {
-  align-self: flex-end; /* Align button to the right */
-  background-color: #a71f35; /* Red background */
+  align-self: flex-end;
+  background-color: #a71f35;
   color: white;
   padding: 0.5rem 1rem;
   font-size: 0.85rem;
@@ -113,12 +101,11 @@
 }
 
 .add-comment-btn:hover {
-  background-color: #8a1929; /* Darker red on hover */
+  background-color: #8a1929;
 }
 
-/* Error Message */
 .error-message {
-  font-size: 0.75rem; /* Smaller font size */
-  color: red; /* Error color */
-  margin-top: 0.5rem; /* Space above error message */
+  font-size: 0.75rem;
+  color: red;
+  margin-top: 0.5rem;
 }

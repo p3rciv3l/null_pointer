@@ -1,28 +1,24 @@
-/* Container for the entire header */
 .answer_header_container {
   display: flex;
-  align-items: flex-start; /* Align items at the top */
+  align-items: flex-start;
   padding: 16px;
   font-weight: bold;
   font-size: 1.5rem;
 }
 
-/* Left section containing the vote component */
 .answer_header_left {
   display: flex;
-  margin-right: 8px; /* Optional: Adds space to the right of VoteComponent */
+  margin-right: 8px;
   width: 5%
 }
 
-/* Right section for title and metadata */
 .answer_header_right {
   display: flex;
   flex-direction: column;
-  gap: 4px; /* Vertical space between title and metadata */
+  gap: 4px;
   margin-top: 40px
 }
 
-/* Title styling */
 .bold_title.answer_question_title {
   font-weight: bold;
   font-size: 1.5rem;

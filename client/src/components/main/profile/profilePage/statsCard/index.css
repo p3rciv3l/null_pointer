@@ -1,5 +1,4 @@
 
-/* Content Card */
 .content-card {
     background-color: white;
     border-radius: 0.5rem;
@@ -9,7 +8,6 @@
     cursor: pointer;
   }
   
-  /* Stats Section */
   .stats-title {
     font-size: 1.25rem;
     font-weight: bold;

@@ -1,17 +1,16 @@
-/* Styling for the Answer Button */
 .form_postBtn {
     display: flex;
-    align-items: center; /* Align content vertically */
-    gap: 0.5rem; /* Space between icon and text */
-    background-color: #a71f35; /* Red background */
-    color: white; /* White text */
-    padding: 0.75rem 1.5rem; /* Spacing inside the button */
-    border-radius: 6px; /* Slightly rounded corners */
-    font-size: 1rem; /* Adjust font size */
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #a71f35;
+    color: white;
+    padding: 0.75rem 1.5rem; 
+    border-radius: 6px; 
+    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    border: none; /* Remove default border */
-    transition: background-color 0.3s ease; /* Smooth transition for hover */
+    border: none;
+    transition: background-color 0.3s ease; 
     margin-right: 5px;
   
   }

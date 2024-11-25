@@ -1,119 +1,112 @@
 .horizontal_wrapper {
   display: flex;
-  align-items: flex-start; /* Align items at the top */
-  gap: 16px; /* Space between VoteComponent and the text content */
-  padding: 30px; /* Optional: Add padding for spacing */
+  align-items: flex-start; 
+  gap: 16px; 
+  padding: 30px; 
 }
 
 .answer_header_content {
   display: flex;
-  flex-direction: column; /* Stack title and text vertically */
-  gap: 8px; /* Space between title and text */
+  flex-direction: column; 
+  gap: 8px; 
   justify-content: center;
 }
 
 .question_title {
-  font-size: 1.8rem; /* Adjust title size */
+  font-size: 1.8rem; 
   font-weight: bold;
-  margin: 0; /* Remove default margin */
+  margin: 0; 
 }
 
 .question_text {
-  font-size: 1rem; /* Adjust text size */
-  line-height: 1.5; /* Improve readability */
-  color: #333; /* Optional: Darker text color for contrast */
+  font-size: 1rem; 
+  line-height: 1.5; 
+  color: #333; 
   margin-top: 20px;
 }
 
 .question_container {
   display: flex;
-  align-items: flex-start; /* Align items at the top */
-  gap: 8px; /* Space between the vote-container and the content */
+  align-items: flex-start;
+  gap: 8px; 
 }
 
 .question_content {
-  padding: 0; /* Remove any internal padding */
-  margin-left: 10px; /* Remove any default margin */
+  padding: 0; 
+  margin-left: 10px; 
 }
 
 .question_title {
-  margin: 0; /* Ensure no margin is added by the heading element */
-  padding: 0; /* Remove any padding if applied */
+  margin: 0; 
+  padding: 0; 
 }
 
 .page_container {
-  padding: 2rem; /* Adds padding around the content */
+  padding: 2rem;
 }
 
 
 .tags_container {
   display: flex;
-  flex-wrap: wrap; /* Allow tags to wrap to the next line */
+  flex-wrap: wrap;
   margin-top: 30px;
-  gap: 10px; /* Space between each tag */
+  gap: 10px;
 }
 
 .tag {
-  background-color: #e5d4ce; /* Background color for the tag */
-  padding: 0.5rem 1rem; /* Add padding for pill shape */
-  border-radius: 9999px; /* Fully round corners for pill style */
-  font-size: 0.875rem; /* Text size (14px) */
-  font-weight: 500; /* Slightly bold text */
-  color: #333; /* Text color */
-  display: inline-block; /* Ensure tags stay inline */
+  background-color: #e5d4ce;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px; 
+  font-size: 0.875rem; 
+  font-weight: 500;
+  color: #333;
+  display: inline-block; 
   text-align: center;
-  white-space: nowrap; /* Prevent text from wrapping inside the tag */
+  white-space: nowrap;
 }
 
 
-/* Overall container for the author card */
 .author-card {
-  background-color: #ffffff; /* White background */
-  border-radius: 8px; /* Rounded corners */
-  padding: 12px; /* Padding inside the card */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for elevation */
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 12px; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
   display: flex;
   align-items: center;
-  width: fit-content; /* Adjust card size to fit content */
+  width: fit-content; 
   margin-top: 30px;
 }
 
 
-/* Container for details (icon + info) */
 .author-details {
   display: flex;
   align-items: center;
-  gap: 16px; /* Space between the icon and text */
+  gap: 16px; 
 }
 
-/* Styling for the UserIcon */
 .author-icon {
-  width: 48px; /* Icon size */
+  width: 48px; 
   height: 48px;
-  color: #ccc; /* Light gray color for the icon */
+  color: #ccc; 
 }
 
-/* Author name (askedBy) styling */
 .author-name {
   font-size: 0.9rem;
   font-weight: 500;
   color: #a71f35;
 }
 
-/* Metadata (date and time) styling */
 .author-meta {
-  font-size: 0.875rem; /* Smaller text for metadata */
-  color: #666; /* Lighter gray for subtle contrast */
-  margin: 4px 0 0 0; /* Spacing above the meta text */
+  font-size: 0.875rem; 
+  color: #666;
+  margin: 4px 0 0 0;
 }
 
 
-/* Container for the answers section */
 .answers-section {
   margin-top: 1rem; 
 }
 
-/* Title styling for the answers section */
 .answers-title {
   font-size: 1.5rem;
   font-weight: bold; 
@@ -122,26 +115,24 @@
   margin-left: 8px;
 }
 
-/* Styling for the Answer Button */
 .answer-button {
-  margin-top: 2rem; /* Add spacing above the button */
+  margin-top: 2rem;
   display: flex;
-  align-items: center; /* Align content vertically */
-  gap: 0.5rem; /* Space between icon and text */
-  background-color: #a71f35; /* Red background */
-  color: white; /* White text */
-  padding: 0.75rem 1.5rem; /* Spacing inside the button */
-  border-radius: 6px; /* Slightly rounded corners */
-  font-size: 1rem; /* Adjust font size */
+  align-items: center; 
+  gap: 0.5rem; 
+  background-color: #a71f35; 
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  border: none; /* Remove default border */
-  transition: background-color 0.3s ease; /* Smooth transition for hover */
+  border: none;
+  transition: background-color 0.3s ease;
   margin-right: 5px;
 
 }
 
-/* Hover effect */
 .answer-button:hover {
-  background-color: #8a1929; /* Darker red on hover */
+  background-color: #8a1929;
 }
