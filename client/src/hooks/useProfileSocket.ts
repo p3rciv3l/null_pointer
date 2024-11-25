@@ -3,13 +3,14 @@ import io from 'socket.io-client';
 
 const useProfileSocket = (isConnected: boolean) => {
   useEffect(() => {
-    if (!isConnected) return;
+    if (!isConnected) {
+      return undefined;
+    }
 
     const serverUrl = process.env.REACT_APP_SERVER_URL;
     if (!serverUrl) {
       console.error('Server URL is not defined');
-
-      return;
+      return undefined;
     }
 
     const socket = io(serverUrl);
