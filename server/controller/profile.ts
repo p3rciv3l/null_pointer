@@ -30,7 +30,7 @@ const profileController = (socket: FakeSOSocket) => {
 
       console.log('Profile saved:', result);
 
-      const populatedProf = await populateProfile(profile._id?.toString());
+      const populatedProf = await populateProfile(result._id?.toString());
       if (populatedProf && 'error' in populatedProf) {
         console.log('Error populating profile:', populatedProf.error);
         throw new Error(populatedProf.error as string);
