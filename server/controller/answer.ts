@@ -1,6 +1,12 @@
 import express, { Response } from 'express';
 import { Answer, AnswerRequest, AnswerResponse, FakeSOSocket } from '../types';
-import { addAnswerToQuestion, populateDocument, saveAnswer } from '../models/application';
+import {
+  addAnswerToQuestion,
+  populateDocument,
+  saveAnswer,
+  fetchAndIncrementQuestionViewsById,
+} from '../models/application';
+import { ObjectId } from 'mongodb';
 
 const answerController = (socket: FakeSOSocket) => {
   const router = express.Router();
@@ -50,9 +56,13 @@ const answerController = (socket: FakeSOSocket) => {
     const { qid } = req.body;
     const ansInfo: Answer = req.body.ans;
     try {
-      // Adding the question id to the saveAnswer function.
-      const ansFromDb = await saveAnswer(ansInfo, qid);
+      // Get the question first to get the author
+      const questionRes = await fetchAndIncrementQuestionViewsById(qid, ansInfo.ansBy);
+      if (!questionRes || 'error' in questionRes) {
+        throw new Error('Question not found');
+      }
 
+      const ansFromDb = await saveAnswer(ansInfo, qid);
       if ('error' in ansFromDb) {
         throw new Error(ansFromDb.error as string);
       }
@@ -63,22 +73,34 @@ const answerController = (socket: FakeSOSocket) => {
       }
 
       const populatedAns = await populateDocument(ansFromDb._id?.toString(), 'answer');
-      // Refine the type of populatedAns
       if ('error' in populatedAns) {
         throw new Error(populatedAns.error as string);
       }
-      if (populatedAns && 'error' in populatedAns) {
-        throw new Error(populatedAns.error as string);
-      }
 
-      // Populates the fields of the answer that was added and emits the new object
+      // Emit answer update
       socket.emit('answerUpdate', {
         qid,
         answer: populatedAns as AnswerResponse,
       });
+
+      // Emit notification to question author
+      socket.emit('notificationUpdate', {
+        id: new ObjectId().toString(),
+        type: 'reply',
+        message: `${ansInfo.ansBy} answered your question "${questionRes.title}"`,
+        timestamp: new Date(),
+        read: false,
+        userId: questionRes.askedBy,
+        relatedId: qid,
+      });
+
       res.json(ansFromDb);
-    } catch (err) {
-      res.status(500).send(`Error when adding answer: ${(err as Error).message}`);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        res.status(500).send(`Error when adding answer: ${err.message}`);
+      } else {
+        res.status(500).send('Error when adding answer');
+      }
     }
   };
 

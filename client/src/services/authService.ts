@@ -1,5 +1,7 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth } from '../config/firebase';
+import { addProfile } from '../services/profileService';
+import { Profile } from '../types';
 
 interface FirebaseAuthError extends Error {
   code: string;
@@ -8,12 +10,35 @@ interface FirebaseAuthError extends Error {
 
 export const signUp = async (email: string, password: string, username: string) => {
   try {
+    // create Firebase auth user
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    return {
-      uid: userCredential.user.uid,
-      email: userCredential.user.email || '',
-      username,
-    };
+    
+    try {
+      // create profile
+      const newProfile: Profile = {
+        username: username,
+        title: '',
+        bio: '',
+        answersGiven: [],
+        questionsAsked: [],
+        questionsUpvoted: [],
+        answersUpvoted: [],
+        joinedWhen: new Date(),
+        following: []
+      };
+
+      await addProfile(newProfile);
+
+      return {
+        uid: userCredential.user.uid,
+        email: userCredential.user.email || '',
+        username,
+      };
+    } catch (profileError) {
+      // delete the Firebase user if profile creation fails
+      await userCredential.user.delete();
+      throw new Error('Failed to create user profile');
+    }
   } catch (error) {
     if (!(error instanceof Error)) {
       throw new Error('Unknown error occurred');

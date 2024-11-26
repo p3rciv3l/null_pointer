@@ -26,7 +26,6 @@ const updateProfile = async (p: Profile): Promise<Profile> => {
  * @throws Error if there is an issue fetching the profile by username.
  */
 const getProfile = async (username: string): Promise<Profile> => {
-  // console.log('Making request to:', `${PROFILE_API_URL}/getProfile/${username}`);
   try {
     const res = await api.get(`${PROFILE_API_URL}/getProfile/${username}`);
     // console.log('Response:', res);
@@ -42,4 +41,14 @@ const getProfile = async (username: string): Promise<Profile> => {
   }
 };
 
-export { getProfile, updateProfile };
+const addProfile = async (p: Profile): Promise<Profile> => {
+  const res = await api.post(`${PROFILE_API_URL}/addProfile`, p);
+
+  if (res.status !== 200) {
+    throw new Error('Error while creating a new profile');
+  }
+
+  return res.data;
+};
+
+export { getProfile, updateProfile, addProfile };
