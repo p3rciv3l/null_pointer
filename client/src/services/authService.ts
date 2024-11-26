@@ -16,7 +16,7 @@ export const signUp = async (email: string, password: string, username: string) 
     try {
       // create profile
       const newProfile: Profile = {
-        username: username,
+        username,
         title: '',
         bio: '',
         answersGiven: [],
