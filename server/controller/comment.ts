@@ -74,9 +74,11 @@ const commentController = (socket: FakeSOSocket) => {
         throw new Error('Original document not found');
       }
 
-      // Type guard for Question and Answer
-      const isQuestion = (doc: Question | Answer): doc is Question => 'title' in doc && 'askedBy' in doc;
-      const isAnswer = (doc: Question | Answer): doc is Answer => 'ansBy' in doc && 'question' in doc;
+      // type guard
+      const isQuestion = (doc: Question | Answer): doc is Question =>
+        'title' in doc && 'askedBy' in doc;
+      const isAnswer = (doc: Question | Answer): doc is Answer =>
+        'ansBy' in doc && 'question' in doc;
 
       if (!isQuestion(originalDoc) && !isAnswer(originalDoc)) {
         throw new Error('Invalid document type');
