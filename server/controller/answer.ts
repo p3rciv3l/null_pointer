@@ -1,4 +1,5 @@
 import express, { Response } from 'express';
+import { ObjectId } from 'mongodb';
 import { Answer, AnswerRequest, AnswerResponse, FakeSOSocket } from '../types';
 import {
   addAnswerToQuestion,
@@ -6,7 +7,6 @@ import {
   saveAnswer,
   fetchAndIncrementQuestionViewsById,
 } from '../models/application';
-import { ObjectId } from 'mongodb';
 
 const answerController = (socket: FakeSOSocket) => {
   const router = express.Router();

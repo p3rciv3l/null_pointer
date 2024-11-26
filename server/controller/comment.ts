@@ -75,8 +75,8 @@ const commentController = (socket: FakeSOSocket) => {
       }
 
       // Type guard for Question and Answer
-      const isQuestion = (doc: any): doc is Question => 'title' in doc && 'askedBy' in doc;
-      const isAnswer = (doc: any): doc is Answer => 'ansBy' in doc && 'question' in doc;
+      const isQuestion = (doc: Question | Answer): doc is Question => 'title' in doc && 'askedBy' in doc;
+      const isAnswer = (doc: Question | Answer): doc is Answer => 'ansBy' in doc && 'question' in doc;
 
       if (!isQuestion(originalDoc) && !isAnswer(originalDoc)) {
         throw new Error('Invalid document type');

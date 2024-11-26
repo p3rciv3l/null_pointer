@@ -1,6 +1,6 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth } from '../config/firebase';
-import { addProfile } from '../services/profileService';
+import { addProfile } from './profileService';
 import { Profile } from '../types';
 
 interface FirebaseAuthError extends Error {
@@ -12,7 +12,7 @@ export const signUp = async (email: string, password: string, username: string) 
   try {
     // create Firebase auth user
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    
+
     try {
       // create profile
       const newProfile: Profile = {
@@ -24,7 +24,7 @@ export const signUp = async (email: string, password: string, username: string) 
         questionsUpvoted: [],
         answersUpvoted: [],
         joinedWhen: new Date(),
-        following: []
+        following: [],
       };
 
       await addProfile(newProfile);

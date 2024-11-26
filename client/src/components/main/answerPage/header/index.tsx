@@ -1,7 +1,6 @@
 import React from 'react';
 import './index.css';
-import { Question } from '../../../../types';
-import VoteComponent from '../../voteComponent';
+
 /**
  * Interface representing the props for the AnswerHeader component.
  *
