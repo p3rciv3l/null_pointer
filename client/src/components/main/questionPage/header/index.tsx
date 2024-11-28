@@ -1,10 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './index.css';
 import OrderButton from './orderButton';
 import { OrderType, orderTypeDisplayName } from '../../../../types';
-import AskQuestionButton from '../../askQuestionButton';
-import NotificationBell from '../../notificationBell';
-
 /**
  * Interface representing the props for the QuestionHeader component.
  *
@@ -27,28 +24,35 @@ interface QuestionHeaderProps {
  * @param qcnt - The number of questions displayed in the header.
  * @param setQuestionOrder - Function to set the order of questions based on input message.
  */
-const QuestionHeader = ({ titleText, qcnt, setQuestionOrder }: QuestionHeaderProps) => (
-  <div>
-    <div className='space_between right_padding'>
-      <div className='bold_title'>{titleText}</div>
-      <div className='header-actions'>
-        <NotificationBell />
-        <AskQuestionButton />
+const QuestionHeader = ({ titleText, qcnt, setQuestionOrder }: QuestionHeaderProps) => {
+  const [activeFilter, setActiveFilter] = useState<OrderType>('newest');
+  const handleOrderChange = (order: OrderType) => {
+    setActiveFilter(order);
+    setQuestionOrder(order);
+  };
+
+  return (
+    <div className='question-header'>
+      {/* Header Section */}
+      <div className='header-section'>
+        <h1 className='header-title'>
+          {titleText} <span className='header-subtitle'>({qcnt})</span>
+        </h1>
       </div>
-    </div>
-    <div className='space_between right_padding'>
-      <div id='question_count'>{qcnt} questions</div>
-      <div className='btns'>
+
+      {/* Filter Buttons */}
+      <div className='filter-buttons'>
         {Object.keys(orderTypeDisplayName).map((order, idx) => (
           <OrderButton
             key={idx}
             orderType={order as OrderType}
-            setQuestionOrder={setQuestionOrder}
+            setQuestionOrder={handleOrderChange}
+            isActive={activeFilter === order} // Pass `isActive` dynamically
           />
         ))}
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default QuestionHeader;

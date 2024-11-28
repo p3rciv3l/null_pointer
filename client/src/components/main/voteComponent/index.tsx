@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { ThumbsDownIcon, ThumbsUpIcon } from 'lucide-react';
 import { downvoteQuestion, upvoteQuestion } from '../../../services/questionService';
 import './index.css';
 import useUserContext from '../../../hooks/useUserContext';
@@ -27,7 +29,7 @@ const VoteComponent = ({ question }: VoteComponentProps) => {
    *
    * @param type - The type of vote, either 'upvote' or 'downvote'.
    */
-  const handleVote = async (type: string) => {
+  const handleVote = async (type: 'upvote' | 'downvote') => {
     try {
       if (question._id) {
         if (type === 'upvote') {
@@ -37,23 +39,25 @@ const VoteComponent = ({ question }: VoteComponentProps) => {
         }
       }
     } catch (error) {
-      // Handle error
+      // handle error.
     }
   };
 
   return (
     <div className='vote-container'>
       <button
+        onClick={() => handleVote('upvote')}
         className={`vote-button ${voted === 1 ? 'vote-button-upvoted' : ''}`}
-        onClick={() => handleVote('upvote')}>
-        Upvote
-      </button>
-      <button
-        className={`vote-button ${voted === -1 ? 'vote-button-downvoted' : ''}`}
-        onClick={() => handleVote('downvote')}>
-        Downvote
+        aria-label='Upvote'>
+        <ThumbsUpIcon className='icon' />
       </button>
       <span className='vote-count'>{count}</span>
+      <button
+        onClick={() => handleVote('downvote')}
+        className={`vote-button ${voted === -1 ? 'vote-button-downvoted' : ''}`}
+        aria-label='Downvote'>
+        <ThumbsDownIcon className='icon' />
+      </button>
     </div>
   );
 };

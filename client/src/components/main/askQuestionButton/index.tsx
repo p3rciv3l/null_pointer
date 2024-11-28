@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { PlusSquare } from 'lucide-react';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -18,10 +20,11 @@ const AskQuestionButton = () => {
 
   return (
     <button
-      className='bluebtn'
+      className='ask-btn'
       onClick={() => {
         handleNewQuestion();
       }}>
+      <PlusSquare className='w-4 h-4' />
       Ask a Question
     </button>
   );
