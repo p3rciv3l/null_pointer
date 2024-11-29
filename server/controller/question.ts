@@ -215,12 +215,6 @@ const questionController = (socket: FakeSOSocket) => {
     const { qid, username } = req.body;
 
     try {
-      // Get the question first for notification
-      const questionRes = await fetchAndIncrementQuestionViewsById(qid, username);
-      if (!questionRes || 'error' in questionRes) {
-        throw new Error('Question not found');
-      }
-
       const status = await addVoteToQuestion(qid, username, type);
       if ('error' in status) {
         throw new Error(status.error);
@@ -233,21 +227,24 @@ const questionController = (socket: FakeSOSocket) => {
         downVotes: status.downVotes,
       });
 
-      // Only notify on upvote milestones
+      // If it's an upvote and meets notification criteria, fetch question details for notification
       if (
         type === 'upvote' &&
         status.upVotes.length > 0 &&
         shouldNotifyAtUpvoteCount(status.upVotes.length)
       ) {
-        socket.emit('notificationUpdate', {
-          id: new ObjectId().toString(),
-          type: 'vote',
-          message: `Congratulations! Your question "${questionRes.title}" has reached ${status.upVotes.length} upvote${status.upVotes.length === 1 ? '' : 's'}!`,
-          timestamp: new Date(),
-          read: false,
-          userId: questionRes.askedBy,
-          relatedId: qid,
-        });
+        const questionRes = await fetchAndIncrementQuestionViewsById(qid, username);
+        if (questionRes && !('error' in questionRes)) {
+          socket.emit('notificationUpdate', {
+            id: new ObjectId().toString(),
+            type: 'vote',
+            message: `Congratulations! Your question "${questionRes.title}" has reached ${status.upVotes.length} upvote${status.upVotes.length === 1 ? '' : 's'}!`,
+            timestamp: new Date(),
+            read: false,
+            userId: questionRes.askedBy,
+            relatedId: qid,
+          });
+        }
       }
 
       res.json({
