@@ -1,5 +1,6 @@
 import express from 'express';
 import { getNotifications, readNotification, addNotification } from '../controller/notification';
+
 const router = express.Router();
 
 router.get('/notifications/:userId', getNotifications);
