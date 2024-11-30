@@ -11,6 +11,7 @@ import { OrderType, orderTypeDisplayName } from '../../../../../types';
 interface OrderButtonProps {
   orderType: OrderType;
   setQuestionOrder: (order: OrderType) => void;
+  isActive: boolean; // New prop to determine active state
 }
 
 /**
@@ -20,10 +21,11 @@ interface OrderButtonProps {
  *
  * @param orderType - The label for the button and the value passed to setQuestionOrder function.
  * @param setQuestionOrder - Callback function to set the order of questions based on the input message.
+ * @param isActive - Boolean indicating whether the button is active.
  */
-const OrderButton = ({ orderType, setQuestionOrder }: OrderButtonProps) => (
+const OrderButton = ({ orderType, setQuestionOrder, isActive }: OrderButtonProps) => (
   <button
-    className='btn'
+    className={`filter-button ${isActive ? 'active' : ''}`}
     onClick={() => {
       setQuestionOrder(orderType);
     }}>

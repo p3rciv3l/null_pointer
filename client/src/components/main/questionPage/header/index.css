@@ -1,0 +1,50 @@
+/* Wrapper for the question header */
+.question-header {
+    margin-left: 5rem; /* Adjust based on layout */
+    margin-top: 0rem; /* Adjust based on layout */
+    padding: 1rem;
+    max-width: 112rem; /* Matches max-w-7xl */
+  }
+  
+  /* Header section styles */
+  .header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0rem;
+  }
+  
+  /* Title styling */
+  .header-title {
+    font-size: 2rem; /* Matches text-3xl */
+    font-weight: bold;
+  }
+  
+  .header-subtitle {
+    color: #6b7280; /* Matches text-gray-500 */
+  }
+  
+  /* Ask question button styling */
+  .ask-question-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* Space between icon and text */
+    background-color: #a71f35;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.375rem; /* Matches rounded-md */
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+  
+  .ask-question-btn:hover {
+    background-color: #8a1929; /* Darker red for hover state */
+  }
+  
+  .plus-icon {
+    font-size: 1.25rem; /* Slightly larger '+' icon */
+    font-weight: bold;
+  }
+  

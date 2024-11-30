@@ -23,26 +23,15 @@ import Notification from '../models/notification';
 const questionController = (socket: FakeSOSocket) => {
   const router = express.Router();
 
-  /**
-   * Retrieves a list of questions filtered by a search term and ordered by a specified criterion.
-   * If there is an error, the HTTP response's status is updated.
-   *
-   * @param req The FindQuestionRequest object containing the query parameters `order` and `search`.
-   * @param res The HTTP response object used to send back the filtered list of questions.
-   *
-   * @returns A Promise that resolves to void.
-   */
   const getQuestionsByFilter = async (req: FindQuestionRequest, res: Response): Promise<void> => {
     const { order } = req.query;
     const { search } = req.query;
     const { askedBy } = req.query;
     try {
       let qlist: Question[] = await getQuestionsByOrder(order);
-      // Filter by askedBy if provided
       if (askedBy) {
         qlist = filterQuestionsByAskedBy(qlist, askedBy);
       }
-      // Filter by search keyword and tags
       const resqlist: Question[] = await filterQuestionsBySearch(qlist, search);
       res.json(resqlist);
     } catch (err: unknown) {
@@ -54,15 +43,6 @@ const questionController = (socket: FakeSOSocket) => {
     }
   };
 
-  /**
-   * Retrieves a question by its unique ID, and increments the view count for that question.
-   * If there is an error, the HTTP response's status is updated.
-   *
-   * @param req The FindQuestionByIdRequest object containing the question ID as a parameter.
-   * @param res The HTTP response object used to send back the question details.
-   *
-   * @returns A Promise that resolves to void.
-   */
   const getQuestionById = async (req: FindQuestionByIdRequest, res: Response): Promise<void> => {
     const { qid } = req.params;
     const { username } = req.query;
@@ -130,7 +110,6 @@ const questionController = (socket: FakeSOSocket) => {
    * @returns A Promise that resolves to void.
    */
   const addQuestion = async (req: AddQuestionRequest, res: Response): Promise<void> => {
-    console.log('1. Incoming request body:', req.body);
     if (!isQuestionBodyValid(req.body)) {
       res.status(400).send('Invalid question body');
       return;
@@ -138,20 +117,16 @@ const questionController = (socket: FakeSOSocket) => {
 
     const question: Question = req.body;
     try {
-      console.log('2. About to process tags:', question.tags);
       const questionswithtags: Question = {
         ...question,
         tags: await processTags(question.tags),
       };
-      console.log('3. After processing tags:', questionswithtags.tags);
 
       if (questionswithtags.tags.length === 0) {
         throw new Error('Invalid tags');
       }
 
-      console.log('4. About to save question:', questionswithtags);
       const result = await saveQuestion(questionswithtags);
-      console.log('5. After saving question:', result);
       if ('error' in result) {
         throw new Error(result.error);
       }
@@ -159,7 +134,6 @@ const questionController = (socket: FakeSOSocket) => {
       // Populates the fields of the question that was added, and emits the new object
       console.log('6. About to populate document with ID:', result._id?.toString());
       const populatedQuestion = await populateDocument(result._id?.toString(), 'question');
-      console.log('7. After populating question:', populatedQuestion);
 
       if (populatedQuestion && 'error' in populatedQuestion) {
         throw new Error(populatedQuestion.error);
@@ -190,10 +164,8 @@ const questionController = (socket: FakeSOSocket) => {
         relatedId: notification.relatedId,
       });
 
-      console.log('8. Final result being sent:', result);
       res.json(result);
     } catch (err: unknown) {
-      console.log('ERROR:', err);
       if (err instanceof Error) {
         res.status(500).send(`Error when saving question: ${err.message}`);
       } else {
@@ -202,15 +174,6 @@ const questionController = (socket: FakeSOSocket) => {
     }
   };
 
-  /**
-   * Helper function to handle upvoting or downvoting a question.
-   *
-   * @param req The VoteRequest object containing the question ID and the username.
-   * @param res The HTTP response object used to send back the result of the operation.
-   * @param type The type of vote to perform (upvote or downvote).
-   *
-   * @returns A Promise that resolves to void.
-   */
   const voteQuestion = async (
     req: VoteRequest,
     res: Response,
@@ -229,14 +192,12 @@ const questionController = (socket: FakeSOSocket) => {
         throw new Error(status.error);
       }
 
-      // Emit vote update
       socket.emit('voteUpdate', {
         qid,
         upVotes: status.upVotes,
         downVotes: status.downVotes,
       });
 
-      // If it's an upvote and meets notification criteria, fetch question details for notification
       if (
         type === 'upvote' &&
         status.upVotes.length > 0 &&
@@ -270,33 +231,14 @@ const questionController = (socket: FakeSOSocket) => {
     }
   };
 
-  /**
-   * Handles upvoting a question. The request must contain the question ID (qid) and the username.
-   * If the request is invalid or an error occurs, the appropriate HTTP response status and message are returned.
-   *
-   * @param req The VoteRequest object containing the question ID and the username.
-   * @param res The HTTP response object used to send back the result of the operation.
-   *
-   * @returns A Promise that resolves to void.
-   */
   const upvoteQuestion = async (req: VoteRequest, res: Response): Promise<void> => {
     voteQuestion(req, res, 'upvote');
   };
 
-  /**
-   * Handles downvoting a question. The request must contain the question ID (qid) and the username.
-   * If the request is invalid or an error occurs, the appropriate HTTP response status and message are returned.
-   *
-   * @param req The VoteRequest object containing the question ID and the username.
-   * @param res The HTTP response object used to send back the result of the operation.
-   *
-   * @returns A Promise that resolves to void.
-   */
   const downvoteQuestion = async (req: VoteRequest, res: Response): Promise<void> => {
     voteQuestion(req, res, 'downvote');
   };
 
-  // add appropriate HTTP verbs and their endpoints to the router
   router.get('/getQuestion', getQuestionsByFilter);
   router.get('/getQuestionById/:qid', getQuestionById);
   router.post('/addQuestion', addQuestion);

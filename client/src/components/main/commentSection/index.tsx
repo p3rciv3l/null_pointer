@@ -1,4 +1,6 @@
 import { useState } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { ChevronDownIcon, ChevronUpIcon, MessageSquareIcon } from 'lucide-react';
 import { getMetaData } from '../../../tool';
 import { Comment } from '../../../types';
 import './index.css';
@@ -49,13 +51,19 @@ const CommentSection = ({ comments, handleAddComment }: CommentSectionProps) => 
 
   return (
     <div className='comment-section'>
-      <button className='toggle-button' onClick={() => setShowComments(!showComments)}>
-        {showComments ? 'Hide Comments' : 'Show Comments'}
+      <button onClick={() => setShowComments(!showComments)} className='comment-toggle'>
+        <MessageSquareIcon className='comment-icon' />
+        <span>{showComments ? 'Hide comments' : 'Show comments'}</span>
+        {showComments ? (
+          <ChevronUpIcon className='toggle-icon' />
+        ) : (
+          <ChevronDownIcon className='toggle-icon' />
+        )}
       </button>
 
       {showComments && (
-        <div className='comments-container'>
-          <ul className='comments-list'>
+        <div className='comment-container'>
+          <ul className='comment-list'>
             {comments.length > 0 ? (
               comments.map((comment, index) => (
                 <li key={index} className='comment-item'>
@@ -70,19 +78,18 @@ const CommentSection = ({ comments, handleAddComment }: CommentSectionProps) => 
             )}
           </ul>
 
-          <div className='add-comment'>
-            <div className='input-row'>
-              <textarea
-                placeholder='Comment'
-                value={text}
-                onChange={e => setText(e.target.value)}
-                className='comment-textarea'
-              />
-              <button className='add-comment-button' onClick={handleAddCommentClick}>
-                Add Comment
-              </button>
-            </div>
-            {textErr && <small className='error'>{textErr}</small>}
+          <div className='add-comment-section'>
+            <textarea
+              value={text}
+              onChange={e => setText(e.target.value)}
+              placeholder='Add a comment...'
+              className='comment-input'
+              rows={2}
+            />
+            <button className='add-comment-btn' onClick={handleAddCommentClick}>
+              Add Comment
+            </button>
+            {textErr && <small className='error-message'>{textErr}</small>}
           </div>
         </div>
       )}

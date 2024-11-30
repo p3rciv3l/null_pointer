@@ -9,45 +9,32 @@ const profileController = (socket: FakeSOSocket) => {
 
   // Function to add a new profile
   const addProfile = async (req: AddProfileRequest, res: Response): Promise<void> => {
-    console.log('addProfile endpoint hit');
-    console.log('Request body:', req.body);
-
     if (!req.body.username) {
-      console.log('Invalid profile: Missing username');
       res.status(400).send('Invalid profile');
       return;
     }
 
     const profile: Profile = req.body;
-    console.log('Received profile:', profile);
 
     try {
       const result = await saveProfile(profile);
       if ('error' in result) {
-        console.log('Error saving profile:', result.error);
         throw new Error(result.error as string);
       }
 
-      console.log('Profile saved:', result);
-
-      const populatedProf = await populateProfile(profile._id?.toString());
+      const populatedProf = await populateProfile(result._id?.toString());
       if (populatedProf && 'error' in populatedProf) {
-        console.log('Error populating profile:', populatedProf.error);
         throw new Error(populatedProf.error as string);
       }
 
-      // Emit a socket event for profile update
-      console.log('Emitting profile update event for:', profile);
       socket.emit('profileUpdate', profile as Profile);
 
       res.json(result);
     } catch (err) {
-      console.error('Error when adding profile:', err);
       res.status(500).send(`Error when adding profile: ${(err as Error).message}`);
     }
   };
 
-  // Function to retrieve a profile by username
   const getProfile = async (req: FindProfileByUsernameRequest, res: Response): Promise<void> => {
     const { username } = req.params;
     try {
@@ -77,12 +64,10 @@ const profileController = (socket: FakeSOSocket) => {
         res.status(404).json({ message: 'Profile not found' });
       }
     } catch (error) {
-      console.error('Error retrieving profile:', error);
       res.status(500).json({ message: 'Server error', error });
     }
   };
 
-  // Define routes for the profile controller
   router.post('/addProfile', addProfile);
   router.get('/getProfile/:username', getProfile);
   return router;
