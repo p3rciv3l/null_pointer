@@ -4,6 +4,8 @@ import './index.css';
 import { Search, Menu } from 'lucide-react';
 import useHeader from '../../hooks/useHeader';
 import AskQuestionButton from '../main/askQuestionButton';
+import { logout } from '../../services/authService';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * Header component that renders the main title and a search bar.
@@ -13,6 +15,16 @@ import AskQuestionButton from '../main/askQuestionButton';
 
 const Header = () => {
   const { val, handleInputChange, handleKeyDown, user } = useHeader();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    try {
+      await logout();
+      navigate('/');
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
 
   return (
     <header className='header'>
@@ -42,30 +54,14 @@ const Header = () => {
               <span>{user.username.charAt(0)}</span>
             </div>
             <Menu className='menu-icon' />
+            <button className='auth-button' style={{ backgroundColor: '#a71f35' }} onClick={handleSignOut}>
+              Sign out
+            </button>
           </div>
         </div>
       </div>
     </header>
   );
 };
-
-// const Header = () => {
-//   const { val, handleInputChange, handleKeyDown } = useHeader();
-
-//   return (
-//     <div id='header' className='header'>
-//       <div></div>
-//       <div className='title'>Null Pointer</div>
-//       <input
-//         id='searchBar'
-//         placeholder='Search ...'
-//         type='text'
-//         value={val}
-//         onChange={handleInputChange}
-//         onKeyDown={handleKeyDown}
-//       />
-//     </div>
-//   );
-// };
 
 export default Header;
