@@ -21,7 +21,6 @@ export const getNotifications = async (req: Request, res: Response) => {
 
     return res.status(200).json(transformedNotifications);
   } catch (error) {
-    console.error('Error in getNotifications controller:', error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
@@ -48,7 +47,6 @@ export const readNotification = async (req: Request, res: Response) => {
       relatedId: updatedNotification.relatedId,
     });
   } catch (error) {
-    console.error('Error in readNotification controller:', error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
@@ -79,7 +77,6 @@ export const addNotification = async (req: Request, res: Response) => {
       relatedId: newNotification.relatedId,
     });
   } catch (error) {
-    console.error('Error in addNotification controller:', error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 };

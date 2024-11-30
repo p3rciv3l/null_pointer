@@ -42,6 +42,13 @@ const simplifyQuestion = (question: Question) => ({
 });
 
 describe('POST /addQuestion', () => {
+  beforeEach(async () => {
+    if (mongoose.connection.readyState === 0) {
+      // only connect if disconnected
+      await mongoose.connect('mongodb://127.0.0.1:27017/fake_so_test');
+    }
+  });
+
   afterEach(async () => {
     await mongoose.connection.close(); // Ensure the connection is properly closed
   });

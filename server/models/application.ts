@@ -316,7 +316,7 @@ export const populateProfile = async (id: string | undefined): Promise<ProfileRe
  * @param {string | undefined} id - The ID of the question or answer to fetch.
  * @param {'question' | 'answer'} type - Specifies whether to fetch a question or an answer.
  *
- * @returns {Promise<QuestionResponse | AnswerResponse>} - Promise that resolves to the
+ * @returns {Promise<QuesxtionResponse | AnswerResponse>} - Promise that resolves to the
  *          populated question or answer, or an error message if the operation fails
  */
 export const populateDocument = async (
