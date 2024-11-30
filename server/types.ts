@@ -84,6 +84,10 @@ export interface Question {
   comments: Comment[] | ObjectId[];
 }
 
+export interface AIAnswer {
+
+}
+
 /**
  * Type representing the possible responses for a Question-related operation.
  */
