@@ -132,7 +132,6 @@ const questionController = (socket: FakeSOSocket) => {
       }
 
       // Populates the fields of the question that was added, and emits the new object
-      console.log('6. About to populate document with ID:', result._id?.toString());
       const populatedQuestion = await populateDocument(result._id?.toString(), 'question');
 
       if (populatedQuestion && 'error' in populatedQuestion) {

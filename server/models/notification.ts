@@ -17,7 +17,7 @@ export interface INotification extends INotificationBase, Document {
   _id: Types.ObjectId;
 }
 
-const NotificationSchema = new Schema<INotification>({
+const notificationSchema = new Schema<INotification>({
   type: {
     type: String,
     enum: ['reply', 'vote', 'question'],
@@ -45,6 +45,6 @@ const NotificationSchema = new Schema<INotification>({
   },
 });
 
-const Notification = mongoose.model<INotification>('Notification', NotificationSchema);
+const notification = mongoose.model<INotification>('Notification', notificationSchema);
 
-export default Notification;
+export default notification;

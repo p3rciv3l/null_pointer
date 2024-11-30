@@ -1,6 +1,6 @@
 import express, { Response } from 'express';
 import { ObjectId } from 'mongodb';
-import { Comment, AddCommentRequest, FakeSOSocket, Question, Answer } from '../types';
+import { Comment, AddCommentRequest, FakeSOSocket } from '../types';
 import { addComment, populateDocument, saveComment } from '../models/application';
 
 const commentController = (socket: FakeSOSocket) => {
