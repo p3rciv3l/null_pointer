@@ -68,6 +68,36 @@ import {
   P11_TITLE,
   P12_TITLE,
   P12_BIO,
+  C13_TEXT,
+  C14_TEXT,
+  C15_TEXT,
+  C16_TEXT,
+  Q5_DESC,
+  Q5_TXT,
+  Q6_DESC,
+  Q6_TXT,
+  Q7_DESC,
+  Q7_TXT,
+  Q8_DESC,
+  Q8_TXT,
+  T7_DESC,
+  T7_NAME,
+  T8_DESC,
+  T8_NAME,
+  T9_DESC,
+  T9_NAME,
+  A10_TXT,
+  A11_TXT,
+  A12_TXT,
+  A9_TXT,
+  P13_BIO,
+  P13_TITLE,
+  P14_BIO,
+  P14_TITLE,
+  P15_BIO,
+  P15_TITLE,
+  P16_BIO,
+  P16_TITLE,
 } from './data/posts_strings';
 import CommentModel from './models/comments';
 import ProfileModel from './models/profile';
@@ -261,6 +291,9 @@ const populate = async () => {
     const t4 = await tagCreate(T4_NAME, T4_DESC);
     const t5 = await tagCreate(T5_NAME, T5_DESC);
     const t6 = await tagCreate(T6_NAME, T6_DESC);
+    const t7 = await tagCreate(T7_NAME, T7_DESC);
+    const t8 = await tagCreate(T8_NAME, T8_DESC);
+    const t9 = await tagCreate(T9_NAME, T9_DESC);
 
     const c1 = await commentCreate(C1_TEXT, 'sana', new Date('2023-12-12T03:30:00'));
     const c2 = await commentCreate(C2_TEXT, 'ihba001', new Date('2023-12-01T15:24:19'));
@@ -274,6 +307,11 @@ const populate = async () => {
     const c10 = await commentCreate(C10_TEXT, 'abhi3241', new Date('2023-02-10T11:24:30'));
     const c11 = await commentCreate(C11_TEXT, 'Joji John', new Date('2023-03-18T01:02:15'));
     const c12 = await commentCreate(C12_TEXT, 'abaya', new Date('2023-04-10T14:28:01'));
+    const c13 = await commentCreate(C13_TEXT, 'techExpert', new Date('2023-12-25T10:15:00'));
+    const c14 = await commentCreate(C14_TEXT, 'dataWizard', new Date('2023-12-26T14:20:00'));
+    const c15 = await commentCreate(C15_TEXT, 'dockerPro', new Date('2023-12-27T16:45:00'));
+    const c16 = await commentCreate(C16_TEXT, 'reactDev', new Date('2023-12-28T09:30:00'));
+
 
     // Create questions first to associate them with answers
     const q1 = await questionCreate(
@@ -317,6 +355,51 @@ const populate = async () => {
       [c12],
     );
 
+    const q5 = await questionCreate(
+      Q5_DESC,
+      Q5_TXT,
+      [t7, t2],
+      [],
+      'techExpert',
+      new Date('2023-12-15T08:00:00'),
+      ['dockerPro', 'securityGuru'],
+      [c13]
+    );
+    
+    const q6 = await questionCreate(
+      Q6_DESC,
+      Q6_TXT,
+      [t8],
+      [],
+      'dataWizard',
+      new Date('2023-12-16T11:30:00'),
+      ['pythonMaster', 'dataSage'],
+      [c14]
+    );
+    
+    const q7 = await questionCreate(
+      Q7_DESC,
+      Q7_TXT,
+      [t9],
+      [],
+      'dockerPro',
+      new Date('2023-12-17T14:45:00'),
+      ['techExpert', 'cloudArchitect'],
+      [c15]
+    );
+    
+    const q8 = await questionCreate(
+      Q8_DESC,
+      Q8_TXT,
+      [t1, t2],
+      [],
+      'reactDev',
+      new Date('2023-12-18T16:20:00'),
+      ['frontendGuru', 'webDev'],
+      [c16]
+    );
+    
+
     // Create answers associated with specific questions
     const a1 = await answerCreate(A1_TXT, 'hamkalo', new Date('2023-11-20T03:24:42'), [c1], q1);
     const a2 = await answerCreate(A2_TXT, 'azad', new Date('2023-11-23T08:24:00'), [c2], q1);
@@ -326,12 +409,21 @@ const populate = async () => {
     const a6 = await answerCreate(A6_TXT, 'abhi3241', new Date('2023-02-19T18:20:59'), [c6], q3);
     const a7 = await answerCreate(A7_TXT, 'mackson3332', new Date('2023-02-22T17:19:00'), [c7], q3);
     const a8 = await answerCreate(A8_TXT, 'ihba001', new Date('2023-03-22T21:17:53'), [c8], q4);
+    const a9 = await answerCreate(A9_TXT, 'securityGuru', new Date('2023-12-25T09:00:00'), [c13], q5);
+    const a10 = await answerCreate(A10_TXT, 'dataSage', new Date('2023-12-26T13:15:00'), [c14], q6);
+    const a11 = await answerCreate(A11_TXT, 'cloudArchitect', new Date('2023-12-27T15:30:00'), [c15], q7);
+    const a12 = await answerCreate(A12_TXT, 'frontendGuru', new Date('2023-12-28T10:45:00'), [c16], q8);
+    
 
     // Update questions with their answers
     await QuestionModel.findByIdAndUpdate(q1._id, { answers: [a1, a2] });
     await QuestionModel.findByIdAndUpdate(q2._id, { answers: [a3, a4, a5] });
     await QuestionModel.findByIdAndUpdate(q3._id, { answers: [a6, a7] });
     await QuestionModel.findByIdAndUpdate(q4._id, { answers: [a8] });
+    await QuestionModel.findByIdAndUpdate(q5._id, { answers: [a9] });
+    await QuestionModel.findByIdAndUpdate(q6._id, { answers: [a10] });
+    await QuestionModel.findByIdAndUpdate(q7._id, { answers: [a11] });
+    await QuestionModel.findByIdAndUpdate(q8._id, { answers: [a12] });
 
     // Profiles creation logic (unchanged from your provided script)
     // Each profile will have their `answersGiven` properly associated with their corresponding questions
@@ -347,7 +439,53 @@ const populate = async () => {
     const profile10 = await profileCreate('abaya', new Date('2023-10-01'), P10_TITLE, P10_BIO, [a3], [], [], [], []);
     const profile11 = await profileCreate('mackson3332', new Date('2023-11-01'), P11_TITLE, P11_BIO, [a7], [], [], [], []);
     const profile12 = await profileCreate('elephantCDE', new Date('2023-09-11'), P12_TITLE, P12_BIO, [], [q4], [], [], []);
-
+    const profile13 = await profileCreate(
+      'techExpert',
+      new Date('2023-12-01'),
+      P13_TITLE,
+      P13_BIO,
+      [],
+      [q5],
+      [],
+      [],
+      []
+    );
+    
+    const profile14 = await profileCreate(
+      'dataWizard',
+      new Date('2023-12-02'),
+      P14_TITLE,
+      P14_BIO,
+      [],
+      [q6],
+      [],
+      [],
+      []
+    );
+    
+    const profile15 = await profileCreate(
+      'securityGuru',
+      new Date('2023-12-03'),
+      P15_TITLE,
+      P15_BIO,
+      [a9],
+      [],
+      [],
+      [],
+      []
+    );
+    
+    const profile16 = await profileCreate(
+      'frontendGuru',
+      new Date('2023-12-04'),
+      P16_TITLE,
+      P16_BIO,
+      [a12],
+      [],
+      [],
+      [],
+      []
+    );
 
 
     // Update following relationships after all profiles are created
@@ -359,6 +497,16 @@ const populate = async () => {
     await ProfileModel.findOneAndUpdate(
       { username: 'ihba001' },
       { following: await getProfileIds(['sana', 'Joji John']) }
+    );
+
+    await ProfileModel.findOneAndUpdate(
+      { username: 'techExpert' },
+      { following: await getProfileIds(['securityGuru', 'cloudArchitect']) }
+    );
+    
+    await ProfileModel.findOneAndUpdate(
+      { username: 'dataWizard' },
+      { following: await getProfileIds(['dataSage', 'pythonMaster']) }
     );
 
 

@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { UserIcon } from 'lucide-react';
+import { UserIcon, BotMessageSquare } from 'lucide-react';
 import { getMetaData } from '../../../tool';
 import AnswerView from './answer';
 import { Comment } from '../../../types';
@@ -9,6 +9,7 @@ import CommentSection from '../commentSection';
 import useAnswerPage from '../../../hooks/useAnswerPage';
 import UserProfileLink from '../profile/profileLink';
 import './index.css';
+import AIAnswerView from './aiAnswerView/AIAnswerView';
 /**
  * AnswerPage component that displays the full content of a question along with its answers.
  * It also includes the functionality to vote, ask a new question, and post a new answer.
@@ -61,6 +62,14 @@ const AnswerPage = () => {
           />
         </div>
       </div>
+      {/* AI Answer */}
+      <section className='answers-section'>
+        <h2 className='answers-title'>
+          AI Overview
+          <BotMessageSquare className='AI_Bot' />
+        </h2>
+      </section>{' '}
+      <AIAnswerView questionText={question.text} />
       {/* Answers Section */}
       <section className='answers-section'>
         <h2 className='answers-title'>{question.answers.length} Answers</h2>

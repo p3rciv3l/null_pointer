@@ -1,9 +1,6 @@
 import React from 'react';
 import './index.css';
 import { handleHyperlink } from '../../../../tool';
-import question from '../../questionPage/question';
-import VoteComponent from '../../voteComponent';
-
 /**
  * Interface representing the props for the QuestionBody component.
  *
