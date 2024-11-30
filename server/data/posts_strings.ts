@@ -15,6 +15,22 @@ export const Q4_DESC = 'Quick question about storage on android';
 export const Q4_TXT =
   'I would like to know the best way to go about storing an array on an android phone so that even when the app/activity ended the data remains';
 
+export const Q5_DESC = 'How to implement WebSocket authentication in Node.js';
+export const Q5_TXT =
+  "I need to implement secure WebSocket connections in my Node.js application. What is the best way to handle authentication when the connection is established? I'm particularly interested in solutions that work well with JWT tokens.";
+
+export const Q6_DESC = 'Python pandas DataFrame memory optimization techniques';
+export const Q6_TXT =
+  "I'm working with a large DataFrame (about 50GB) and running into memory issues. The DataFrame contains mostly categorical data and timestamps. What are the best practices for reducing memory usage while maintaining performance?";
+
+export const Q7_DESC = 'Docker container networking best practices';
+export const Q7_TXT =
+  "What are the recommended approaches for setting up network communication between Docker containers in a microservices architecture? I'm especially interested in understanding the trade-offs between different networking modes.";
+
+export const Q8_DESC = 'Implementing infinite scroll with React Query';
+export const Q8_TXT =
+  "I'm trying to implement infinite scroll in my React application using React Query. The API returns paginated data. How can I efficiently cache and fetch the next set of data as the user scrolls?";
+
 export const A1_TXT =
   "React Router is mostly a wrapper around the history library. history handles interaction with the browser's window.history for you with its browser and hash histories. It also provides a memory history which is useful for environments that don't have a global history. This is particularly useful in mobile app development (react-native) and unit testing with Node.";
 export const A2_TXT =
@@ -27,6 +43,17 @@ export const A5_TXT = 'I just found all the above examples just too confusing, s
 export const A6_TXT = 'Storing content as BLOBs in databases.';
 export const A7_TXT = 'Using GridFS to chunk and store content.';
 export const A8_TXT = 'Store data in a SQLLite database.';
+export const A9_TXT =
+  "For WebSocket authentication, you can pass the JWT token as a query parameter during the initial connection. Then validate it in your connection handler: `const socket = new WebSocket('ws://your-server/ws?token=your-jwt');`. On the server side, verify the token before accepting the connection.";
+
+export const A10_TXT =
+  "To optimize pandas DataFrame memory usage: 1) Use appropriate dtypes (e.g., categories for categorical data), 2) Downcast numeric columns where possible, 3) Use datetime64[ns] for timestamps. Here's a utility function I use...";
+
+export const A11_TXT =
+  "For container networking, use Docker's built-in overlay network for multi-host deployments. It provides automatic service discovery and load balancing. For local development, bridge networks are usually sufficient.";
+
+export const A12_TXT =
+  "React Query makes infinite scroll implementation straightforward. Use the useInfiniteQuery hook and pass a getNextPageParam function. Here's a complete example...";
 
 export const T1_NAME = 'react';
 export const T1_DESC =
@@ -51,6 +78,17 @@ export const T5_DESC =
 export const T6_NAME = 'website';
 export const T6_DESC =
   'A website is a collection of interlinked web pages, typically identified with a common domain name, and published on at least one web server. Websites can serve various purposes, such as information sharing, entertainment, commerce, and social networking.';
+export const T7_NAME = 'websocket';
+export const T7_DESC =
+  'WebSocket is a computer communications protocol, providing full-duplex communication channels over a single TCP connection. It is designed to be implemented in web browsers and web servers but can be used by any client or server application.';
+
+export const T8_NAME = 'python-pandas';
+export const T8_DESC =
+  'pandas is a fast, powerful, flexible and easy to use open source data analysis and manipulation tool, built on top of the Python programming language.';
+
+export const T9_NAME = 'docker';
+export const T9_DESC =
+  'Docker is a platform for developing, shipping, and running applications in containers. It enables developers to package applications with all their dependencies into standardized units for software development.';
 
 export const C1_TEXT =
   'This explanation about React Router is really helpful! I never realized it was just a wrapper around history. Thanks!';
@@ -76,6 +114,14 @@ export const C11_TEXT =
   'I found the discussion on SharedPreferences vs apply() very useful. Great explanation of the differences!';
 export const C12_TEXT =
   "I feel like there's so much more to Android Studio that I'm just scratching the surface of. Thanks for sharing your experience!";
+export const C13_TEXT =
+  'The WebSocket authentication solution worked perfectly in my production environment!';
+export const C14_TEXT =
+  'Could you elaborate on the memory optimization technique for categorical columns?';
+export const C15_TEXT =
+  'This Docker networking explanation helped me understand the concepts better.';
+export const C16_TEXT =
+  'The infinite scroll implementation is smooth, but how would you handle error boundaries?';
 
 // Adding the strings for the Profile datatype here.
 export const P1_BIO = 'Passionate about solving complex problems with clean, efficient code.';
@@ -91,6 +137,10 @@ export const P10_BIO =
   'Product-focused developer ensuring the perfect blend of design and functionality.';
 export const P11_BIO = 'Frontend wizard transforming designs into seamless user experiences.';
 export const P12_BIO = 'Just a student trying to learn more for personal knowledge expansion!';
+export const P13_BIO = 'Specializing in cloud infrastructure and automated deployment pipelines.';
+export const P14_BIO = 'Building scalable data pipelines and analytics solutions.';
+export const P15_BIO = 'Focused on application security and secure coding practices.';
+export const P16_BIO = 'Optimizing web applications for speed and efficiency.';
 
 export const P1_TITLE = 'Full-Stack Developer';
 export const P2_TITLE = 'Software Engineer';
@@ -104,3 +154,7 @@ export const P9_TITLE = 'UI/UX Specialist';
 export const P10_TITLE = 'Product Manager';
 export const P11_TITLE = 'Technical Lead';
 export const P12_TITLE = 'Student at Northeastern';
+export const P13_TITLE = 'DevOps Architect';
+export const P14_TITLE = 'Data Engineer';
+export const P15_TITLE = 'Security Engineer';
+export const P16_TITLE = 'Performance Engineer';
