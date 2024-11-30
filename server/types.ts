@@ -41,6 +41,20 @@ export interface AnswerRequest extends Request {
 }
 
 /**
+ * Interface extending the request body when adding an AI_answer to a question, which contains:
+ * - qid - The unique identifier of the question being answered
+ * - qtext - The text of the question to feed into the AI model.
+ * - ans - The answer being added.
+ */
+export interface AIAnswerRequest extends Request {
+  body: {
+    qid: string;
+    qtext: string;
+  }
+}
+
+
+/**
  * Type representing the possible responses for an Answer-related operation.
  */
 export type AnswerResponse = Answer | { error: string };
