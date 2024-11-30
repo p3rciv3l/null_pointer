@@ -164,7 +164,6 @@ export interface Comment {
   commentDateTime: Date;
 }
 
-
 /**
  * Interface representing a Profile, which contains:
  *  * - _id - The unique identifier for the Profile. Optional field.
@@ -179,17 +178,16 @@ export interface Comment {
  * - 'following' - A list of usernames who the user is currently following.
  */
 export interface Profile {
-  _id?: ObjectId; 
-  username: string; 
+  _id?: ObjectId;
+  username: string;
   title: string;
-  bio: string; 
+  bio: string;
   answersGiven: Answer[];
   questionsAsked: Question[];
   questionsUpvoted: Question[];
   answersUpvoted: Answer[];
   joinedWhen: Date;
-  following: Types.ObjectId[] 
-
+  following: Types.ObjectId[];
 }
 
 /**
@@ -266,9 +264,20 @@ export interface ServerToClientEvents {
   voteUpdate: (vote: VoteUpdatePayload) => void;
   commentUpdate: (comment: CommentUpdatePayload) => void;
   profileUpdate: (profile: ProfileResponse) => void;
+  notificationUpdate: (notification: Notification) => void;
 }
 
 /**
  * Type representing the possible responses for a Profile-related operation.
  */
 export type ProfileResponse = Profile | { error: string };
+
+export interface Notification {
+  id: string;
+  type: 'reply' | 'vote' | 'question';
+  message: string;
+  timestamp: Date;
+  read: boolean;
+  userId: string;
+  relatedId: string;
+}

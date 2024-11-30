@@ -57,8 +57,7 @@ const useQuestionPage = () => {
         const res = await getQuestionsByFilter(questionOrder, search);
         setQlist(res || []);
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
+        // Error handling can be implemented as needed
       }
     };
 

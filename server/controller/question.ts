@@ -18,30 +18,20 @@ import {
   populateDocument,
   saveQuestion,
 } from '../models/application';
+import Notification from '../models/notification';
 
 const questionController = (socket: FakeSOSocket) => {
   const router = express.Router();
 
-  /**
-   * Retrieves a list of questions filtered by a search term and ordered by a specified criterion.
-   * If there is an error, the HTTP response's status is updated.
-   *
-   * @param req The FindQuestionRequest object containing the query parameters `order` and `search`.
-   * @param res The HTTP response object used to send back the filtered list of questions.
-   *
-   * @returns A Promise that resolves to void.
-   */
   const getQuestionsByFilter = async (req: FindQuestionRequest, res: Response): Promise<void> => {
     const { order } = req.query;
     const { search } = req.query;
     const { askedBy } = req.query;
     try {
       let qlist: Question[] = await getQuestionsByOrder(order);
-      // Filter by askedBy if provided
       if (askedBy) {
         qlist = filterQuestionsByAskedBy(qlist, askedBy);
       }
-      // Filter by search keyword and tags
       const resqlist: Question[] = await filterQuestionsBySearch(qlist, search);
       res.json(resqlist);
     } catch (err: unknown) {
@@ -53,15 +43,6 @@ const questionController = (socket: FakeSOSocket) => {
     }
   };
 
-  /**
-   * Retrieves a question by its unique ID, and increments the view count for that question.
-   * If there is an error, the HTTP response's status is updated.
-   *
-   * @param req The FindQuestionByIdRequest object containing the question ID as a parameter.
-   * @param res The HTTP response object used to send back the question details.
-   *
-   * @returns A Promise that resolves to void.
-   */
   const getQuestionById = async (req: FindQuestionByIdRequest, res: Response): Promise<void> => {
     const { qid } = req.params;
     const { username } = req.query;
@@ -114,6 +95,11 @@ const questionController = (socket: FakeSOSocket) => {
     question.askDateTime !== undefined &&
     question.askDateTime !== null;
 
+  const shouldNotifyAtUpvoteCount = (count: number): boolean => {
+    const notificationThresholds = [1, 5, 20, 50, 100, 200, 500, 1000, 100000, 10000000];
+    return count <= 10000000 && notificationThresholds.includes(count);
+  };
+
   /**
    * Adds a new question to the database. The question is first validated and then saved.
    * If the tags are invalid or saving the question fails, the HTTP response status is updated.
@@ -128,15 +114,18 @@ const questionController = (socket: FakeSOSocket) => {
       res.status(400).send('Invalid question body');
       return;
     }
+
     const question: Question = req.body;
     try {
       const questionswithtags: Question = {
         ...question,
         tags: await processTags(question.tags),
       };
+
       if (questionswithtags.tags.length === 0) {
         throw new Error('Invalid tags');
       }
+
       const result = await saveQuestion(questionswithtags);
       if ('error' in result) {
         throw new Error(result.error);
@@ -149,7 +138,31 @@ const questionController = (socket: FakeSOSocket) => {
         throw new Error(populatedQuestion.error);
       }
 
+      // emit question update
       socket.emit('questionUpdate', populatedQuestion as Question);
+
+      // emit notification to question author
+      const notification = new Notification({
+        type: 'question',
+        message: `Your question "${question.title}" has been posted successfully`,
+        timestamp: new Date(),
+        read: false,
+        userId: question.askedBy,
+        relatedId: result._id?.toString(),
+      });
+
+      await notification.save();
+
+      socket.emit('notificationUpdate', {
+        id: notification.id.toString(),
+        type: notification.type as 'reply' | 'vote' | 'question',
+        message: notification.message,
+        timestamp: notification.timestamp,
+        read: notification.read,
+        userId: notification.userId,
+        relatedId: notification.relatedId,
+      });
+
       res.json(result);
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -160,15 +173,6 @@ const questionController = (socket: FakeSOSocket) => {
     }
   };
 
-  /**
-   * Helper function to handle upvoting or downvoting a question.
-   *
-   * @param req The VoteRequest object containing the question ID and the username.
-   * @param res The HTTP response object used to send back the result of the operation.
-   * @param type The type of vote to perform (upvote or downvote).
-   *
-   * @returns A Promise that resolves to void.
-   */
   const voteQuestion = async (
     req: VoteRequest,
     res: Response,
@@ -182,52 +186,58 @@ const questionController = (socket: FakeSOSocket) => {
     const { qid, username } = req.body;
 
     try {
-      let status;
-      if (type === 'upvote') {
-        status = await addVoteToQuestion(qid, username, type);
-      } else {
-        status = await addVoteToQuestion(qid, username, type);
+      const status = await addVoteToQuestion(qid, username, type);
+      if ('error' in status) {
+        throw new Error(status.error);
       }
 
-      if (status && 'error' in status) {
-        throw new Error(status.error as string);
+      socket.emit('voteUpdate', {
+        qid,
+        upVotes: status.upVotes,
+        downVotes: status.downVotes,
+      });
+
+      if (
+        type === 'upvote' &&
+        status.upVotes.length > 0 &&
+        shouldNotifyAtUpvoteCount(status.upVotes.length)
+      ) {
+        const questionRes = await fetchAndIncrementQuestionViewsById(qid, username);
+        if (questionRes && !('error' in questionRes)) {
+          socket.emit('notificationUpdate', {
+            id: new ObjectId().toString(),
+            type: 'vote',
+            message: `Congratulations! Your question "${questionRes.title}" has reached ${status.upVotes.length} upvote${status.upVotes.length === 1 ? '' : 's'}!`,
+            timestamp: new Date(),
+            read: false,
+            userId: questionRes.askedBy,
+            relatedId: qid,
+          });
+        }
       }
 
-      // Emit the updated vote counts to all connected clients
-      socket.emit('voteUpdate', { qid, upVotes: status.upVotes, downVotes: status.downVotes });
-      res.json({ msg: status.msg, upVotes: status.upVotes, downVotes: status.downVotes });
+      res.json({
+        msg: status.msg,
+        upVotes: status.upVotes,
+        downVotes: status.downVotes,
+      });
     } catch (err) {
-      res.status(500).send(`Error when ${type}ing: ${(err as Error).message}`);
+      if (err instanceof Error) {
+        res.status(500).send(`Error when ${type}ing: ${err.message}`);
+      } else {
+        res.status(500).send(`Error when ${type}ing`);
+      }
     }
   };
 
-  /**
-   * Handles upvoting a question. The request must contain the question ID (qid) and the username.
-   * If the request is invalid or an error occurs, the appropriate HTTP response status and message are returned.
-   *
-   * @param req The VoteRequest object containing the question ID and the username.
-   * @param res The HTTP response object used to send back the result of the operation.
-   *
-   * @returns A Promise that resolves to void.
-   */
   const upvoteQuestion = async (req: VoteRequest, res: Response): Promise<void> => {
     voteQuestion(req, res, 'upvote');
   };
 
-  /**
-   * Handles downvoting a question. The request must contain the question ID (qid) and the username.
-   * If the request is invalid or an error occurs, the appropriate HTTP response status and message are returned.
-   *
-   * @param req The VoteRequest object containing the question ID and the username.
-   * @param res The HTTP response object used to send back the result of the operation.
-   *
-   * @returns A Promise that resolves to void.
-   */
   const downvoteQuestion = async (req: VoteRequest, res: Response): Promise<void> => {
     voteQuestion(req, res, 'downvote');
   };
 
-  // add appropriate HTTP verbs and their endpoints to the router
   router.get('/getQuestion', getQuestionsByFilter);
   router.get('/getQuestionById/:qid', getQuestionById);
   router.post('/addQuestion', addQuestion);

@@ -3,18 +3,11 @@ import { AddProfileRequest, FakeSOSocket, FindProfileByUsernameRequest, Profile 
 import { populateProfile, saveProfile } from '../models/application';
 import ProfileModel from '../models/profile';
 
+// Initialize the profile controller with a socket for real-time updates
 const profileController = (socket: FakeSOSocket) => {
   const router = express.Router();
 
-  /**
-   * Adds a new profile to the database. The profile request and profile are
-   * validated and then saved. If successful, the profile is created. If there is an error, the HTTP response's status is updated.
-   *
-   * @param req The AddProfileRequest object containing the profile data.
-   * @param res The HTTP response object used to send back the result of the operation.
-   *
-   * @returns A Promise that resolves to void.
-   */
+  // Function to add a new profile
   const addProfile = async (req: AddProfileRequest, res: Response): Promise<void> => {
     if (!req.body.username) {
       res.status(400).send('Invalid profile');
@@ -29,49 +22,39 @@ const profileController = (socket: FakeSOSocket) => {
         throw new Error(result.error as string);
       }
 
-      const populatedProf = await populateProfile(profile._id?.toString());
-
+      const populatedProf = await populateProfile(result._id?.toString());
       if (populatedProf && 'error' in populatedProf) {
         throw new Error(populatedProf.error as string);
       }
 
-      // Populates the fields of the profile that were added and emits the new object
       socket.emit('profileUpdate', profile as Profile);
+
       res.json(result);
     } catch (err) {
       res.status(500).send(`Error when adding profile: ${(err as Error).message}`);
     }
   };
 
-  /**
-   * Retrieves a profile by its unique username,
-   * If there is an error, the HTTP response's status is updated.
-   *
-   * @param req The FindProfileByUsernameRequest object containing the username as a parameter.
-   * @param res The HTTP response object used to send back the profile details.
-   *
-   * @returns A Promise that resolves to void.
-   */
   const getProfile = async (req: FindProfileByUsernameRequest, res: Response): Promise<void> => {
     const { username } = req.params;
     try {
       const profile = await ProfileModel.findOne({ username }).populate([
         {
-          path: 'questionsAsked', // Populate questions asked by the user
+          path: 'questionsAsked',
           model: 'Question',
-          populate: { path: 'tags', model: 'Tag' }, // Nested populate for tags in questions
+          populate: { path: 'tags', model: 'Tag' },
         },
         {
-          path: 'answersGiven', // Populate answers given by the user
+          path: 'answersGiven',
           model: 'Answer',
           populate: [
             {
-              path: 'question', // Populate associated question for each answer
+              path: 'question',
               model: 'Question',
-              select: '_id title askDateTime tags', // Select specific fields from the associated question
-              populate: { path: 'tags', model: 'Tag' }, // Nested populate for tags in the associated question
+              select: '_id title askDateTime tags',
+              populate: { path: 'tags', model: 'Tag' },
             },
-            { path: 'comments', model: 'Comment' }, // Populate comments for each answer
+            { path: 'comments', model: 'Comment' },
           ],
         },
       ]);
@@ -85,7 +68,6 @@ const profileController = (socket: FakeSOSocket) => {
     }
   };
 
-  // add appropriate HTTP verbs and their endpoints to the router.
   router.post('/addProfile', addProfile);
   router.get('/getProfile/:username', getProfile);
   return router;

@@ -49,23 +49,4 @@ const Header = () => {
   );
 };
 
-// const Header = () => {
-//   const { val, handleInputChange, handleKeyDown } = useHeader();
-
-//   return (
-//     <div id='header' className='header'>
-//       <div></div>
-//       <div className='title'>Null Pointer</div>
-//       <input
-//         id='searchBar'
-//         placeholder='Search ...'
-//         type='text'
-//         value={val}
-//         onChange={handleInputChange}
-//         onKeyDown={handleKeyDown}
-//       />
-//     </div>
-//   );
-// };
-
 export default Header;

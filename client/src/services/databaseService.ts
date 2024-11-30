@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Question, Answer, Comment, Tag, TagData } from '../types';
+import { Question, Answer, Comment, Tag } from '../types';
 
 const API_URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:8000';
 
