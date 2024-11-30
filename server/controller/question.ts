@@ -130,6 +130,7 @@ const questionController = (socket: FakeSOSocket) => {
    * @returns A Promise that resolves to void.
    */
   const addQuestion = async (req: AddQuestionRequest, res: Response): Promise<void> => {
+    console.log('1. Incoming request body:', req.body);
     if (!isQuestionBodyValid(req.body)) {
       res.status(400).send('Invalid question body');
       return;
@@ -137,22 +138,28 @@ const questionController = (socket: FakeSOSocket) => {
 
     const question: Question = req.body;
     try {
+      console.log('2. About to process tags:', question.tags);
       const questionswithtags: Question = {
         ...question,
         tags: await processTags(question.tags),
       };
+      console.log('3. After processing tags:', questionswithtags.tags);
 
       if (questionswithtags.tags.length === 0) {
         throw new Error('Invalid tags');
       }
 
+      console.log('4. About to save question:', questionswithtags);
       const result = await saveQuestion(questionswithtags);
+      console.log('5. After saving question:', result);
       if ('error' in result) {
         throw new Error(result.error);
       }
 
       // Populates the fields of the question that was added, and emits the new object
+      console.log('6. About to populate document with ID:', result._id?.toString());
       const populatedQuestion = await populateDocument(result._id?.toString(), 'question');
+      console.log('7. After populating question:', populatedQuestion);
 
       if (populatedQuestion && 'error' in populatedQuestion) {
         throw new Error(populatedQuestion.error);
@@ -183,8 +190,10 @@ const questionController = (socket: FakeSOSocket) => {
         relatedId: notification.relatedId,
       });
 
+      console.log('8. Final result being sent:', result);
       res.json(result);
     } catch (err: unknown) {
+      console.log('ERROR:', err);
       if (err instanceof Error) {
         res.status(500).send(`Error when saving question: ${err.message}`);
       } else {
