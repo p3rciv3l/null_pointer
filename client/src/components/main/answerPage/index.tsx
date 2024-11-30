@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { UserIcon } from 'lucide-react';
+import { UserIcon, BotMessageSquare } from 'lucide-react';
 import { getMetaData } from '../../../tool';
 import AnswerView from './answer';
 import { Comment } from '../../../types';
@@ -62,15 +62,18 @@ const AnswerPage = () => {
           />
         </div>
       </div>
+      {/* AI Answer */}
+      <section className='answers-section'>
+        <h2 className='answers-title'>
+          AI Overview
+          <BotMessageSquare className='AI_Bot' />
+        </h2>
+      </section>{' '}
+      <AIAnswerView questionText={question.text} />
       {/* Answers Section */}
       <section className='answers-section'>
-        <h2 className='answers-title'>{question.answers.length + 1} Answers</h2>
+        <h2 className='answers-title'>{question.answers.length} Answers</h2>
       </section>{' '}
-      {/* AI Answer */}
-      <AIAnswerView
-        questionText={question.text}
-        handleAddComment={(comment: Comment) => handleNewComment(comment, 'answer', 'ai-answer-id')}
-      />
       {question.answers.map((a, idx) => (
         <AnswerView
           key={idx}

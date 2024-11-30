@@ -1,5 +1,5 @@
 import express, { Response } from 'express';
-import { Answer, AIAnswerRequest, AnswerRequest, AnswerResponse, FakeSOSocket } from '../types';
+import { Answer, AnswerRequest, AnswerResponse, FakeSOSocket } from '../types';
 import { addAnswerToQuestion, populateDocument, saveAnswer } from '../models/application';
 
 const answerController = (socket: FakeSOSocket) => {
@@ -14,17 +14,6 @@ const answerController = (socket: FakeSOSocket) => {
    */
   function isRequestValid(req: AnswerRequest): boolean {
     return !!req.body.qid && !!req.body.ans;
-  }
-
-  /**
-   * Checks if the provided AI answer request contains the required fields.
-   *
-   * @param req The request object containing the answer data.
-   *
-   * @returns `true` if the request is valid, otherwise `false`.
-   */
-  function isAIRequestValid(req: AIAnswerRequest): boolean {
-    return !!req.body.qid && !!req.body.qtext && !!req.body.ans;
   }
 
   /**
