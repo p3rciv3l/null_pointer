@@ -68,24 +68,6 @@ const commentController = (socket: FakeSOSocket) => {
     }
 
     try {
-<<<<<<< HEAD
-=======
-      // Get the original document to find its author
-      const originalDoc = await populateDocument(id, type);
-      if (!originalDoc || 'error' in originalDoc) {
-        throw new Error('Original document not found');
-      }
-
-      // Type guard for Question and Answer
-      // testing pull req.
-      const isQuestion = (doc: any): doc is Question => 'title' in doc && 'askedBy' in doc;
-      const isAnswer = (doc: any): doc is Answer => 'ansBy' in doc && 'question' in doc;
-
-      if (!isQuestion(originalDoc) && !isAnswer(originalDoc)) {
-        throw new Error('Invalid document type');
-      }
-
->>>>>>> 3e319f949096e0be4c8aa4f0a076b4518db4ef7e
       const comFromDb = await saveComment(comment);
       if ('error' in comFromDb || !comFromDb._id) {
         throw new Error('error' in comFromDb ? comFromDb.error : 'Comment ID not found');
