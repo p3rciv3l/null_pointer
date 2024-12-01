@@ -19,12 +19,8 @@ const Header = () => {
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
-    try {
-      await logout();
-      navigate('/');
-    } catch (error) {
-      console.error('Error signing out:', error);
-    }
+    await logout();
+    navigate('/');
   };
 
   return (
@@ -57,7 +53,6 @@ const Header = () => {
             <div className='user-avatar'>
               <span>{user.username.charAt(0).toUpperCase()}</span>
             </div>
-            <Menu className='menu-icon' />
             <div className='dropdown'>
               <div className='dropdown-content'>
                 <a href={`/profile/${user.username}`} className='dropdown-item'>
