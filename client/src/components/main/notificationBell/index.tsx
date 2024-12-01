@@ -16,18 +16,12 @@ const NotificationBell: React.FC = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [closeTimeout, setCloseTimeout] = useState<NodeJS.Timeout | null>(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    };
+  const isUserNotification = (notification: Notification): boolean =>
+    notification.userId === user.username;
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+  const addNotification = (notification: Notification): void => {
+    setLocalNotifications(prev => [...prev, notification]);
+  };
 
   useEffect(() => {
     if (!socket) return;
@@ -36,14 +30,6 @@ const NotificationBell: React.FC = () => {
       if (isUserNotification(notification)) {
         addNotification(notification);
       }
-    };
-
-    const isUserNotification = (notification: Notification): boolean => {
-      return notification.userId === user.username;
-    };
-
-    const addNotification = (notification: Notification): void => {
-      setLocalNotifications(prev => [...prev, notification]);
     };
 
     socket.on('notificationUpdate', handleNotification);
