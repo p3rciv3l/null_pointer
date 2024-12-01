@@ -352,7 +352,6 @@ describe('POST /answer/addAnswer', () => {
 
   it('should not add a new answer and return it in the response', async () => {
     const validQid = new mongoose.Types.ObjectId();
-    const validAid = new mongoose.Types.ObjectId();
     const mockReqBody = {
       qid: validQid.toString(),
       ans: {
@@ -363,7 +362,7 @@ describe('POST /answer/addAnswer', () => {
     };
 
     const mockAnswer: Answer = {
-      _id: validAid,
+      _id: new mongoose.Types.ObjectId(),
       text: 'This is a valid test answer',
       ansBy: 'testUser',
       ansDateTime: new Date(),
@@ -449,7 +448,6 @@ describe('POST /answer/addAnswer', () => {
 
   it('should return 500 if `addAnswerToQuestion` fails', async () => {
     const validQid = new mongoose.Types.ObjectId();
-    const validAid = new mongoose.Types.ObjectId();
     const mockReqBody = {
       qid: validQid.toString(),
       ans: {
@@ -460,7 +458,7 @@ describe('POST /answer/addAnswer', () => {
     };
 
     const mockAnswer: Answer = {
-      _id: validAid,
+      _id: new mongoose.Types.ObjectId(),
       text: 'This is a valid test answer',
       ansBy: 'testUser',
       ansDateTime: new Date(),
@@ -479,7 +477,6 @@ describe('POST /answer/addAnswer', () => {
 
   it('should return 500 if `populateDocument` fails', async () => {
     const validQid = new mongoose.Types.ObjectId();
-    const validAid = new mongoose.Types.ObjectId();
     const mockReqBody = {
       qid: validQid.toString(),
       ans: {
