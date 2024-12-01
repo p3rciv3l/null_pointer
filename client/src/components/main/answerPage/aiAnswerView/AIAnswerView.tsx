@@ -41,8 +41,12 @@ const AIAnswerView: React.FC<AIAnswerViewProps> = ({ questionText }) => {
             );
           }
         }
+
+        // Bold text
+        const boldText = line.replace(/\*\*(.*?)\*\*/g, '<em><strong>$1</strong></em>');
+
         // Regular text
-        return <div key={`${index}-${i}`}>{line}</div>;
+        return <div key={`${index}-${i}`} dangerouslySetInnerHTML={{ __html: boldText }} />;
       });
     });
   };
