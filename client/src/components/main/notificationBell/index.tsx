@@ -92,7 +92,6 @@ const NotificationBell: React.FC = () => {
           </div>
         </div>
       )}
-    
     </div>
   );
 };
