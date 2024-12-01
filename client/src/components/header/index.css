@@ -111,6 +111,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  position: relative;
 }
 
 .user-avatar {
@@ -124,10 +125,14 @@
   color: #a71f35;
   font-weight: bold;
   font-size: 1.25rem;
+  transition:
+    border 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .user-avatar:hover {
   border: 2px solid #a71f35;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .menu-icon {
@@ -145,7 +150,7 @@
   display: none;
   position: absolute;
   right: 0;
-  top: calc(100% + 15px);
+  top: calc(100% + 32px);
   background-color: white;
   border: 2px solid #e5d4ce;
   border-radius: 0.375rem;
@@ -166,7 +171,6 @@
   text-align: left;
   font-size: 1rem;
   cursor: pointer;
-  transition: font-weight 0.3s ease;
 }
 
 .dropdown-item:hover {

@@ -31,7 +31,7 @@ const Header = () => {
       <div className='header-container'>
         {/* Left Section */}
         <div className='center-section'>
-          <Link to='/questions'>
+          <Link to='/home'>
             <img src='/assets/alternate_full_logo_1.png' alt='Logo' className='logo' />
           </Link>
           <div className='search-container'>
