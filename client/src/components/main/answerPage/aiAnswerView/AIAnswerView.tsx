@@ -8,15 +8,15 @@ interface AIAnswerViewProps {
 }
 
 const AIAnswerView: React.FC<AIAnswerViewProps> = ({ questionText }) => {
-  const [processedAnswer, setProcessedAnswer] = useState<React.ReactNode[]>([]);
+  const [aiAnswer, setAiAnswer] = useState<React.ReactNode[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const renderMarkdown = (text: string) => {
-    // Split the text into segments to process code blocks separately
+  const renderText = (text: string) => {
+    // Split by code blocks first
     const segments = text.split(/(```[\s\S]*?```)/);
 
     return segments.map((segment, index) => {
-      // Handle code blocks
+      // If it's a code block
       if (segment.startsWith('```') && segment.endsWith('```')) {
         const code = segment.slice(3, -3).trim();
         return (
@@ -26,35 +26,24 @@ const AIAnswerView: React.FC<AIAnswerViewProps> = ({ questionText }) => {
         );
       }
 
-      // Process regular text
-      return (
-        <div key={index}>
-          {segment
-            // Handle inline code
-            .split(/('.*?')/)
-            .map((part, i) => {
-              if (part.startsWith("'") && part.endsWith("'")) {
-                return (
-                  <span key={i} className='inline-code'>
-                    {part.slice(1, -1)}
-                  </span>
-                );
-              }
-
-              // Handle bold text
-              return part.split(/(\*\*.*?\*\*)/).map((boldPart, j) => {
-                if (boldPart.startsWith('**') && boldPart.endsWith('**')) {
-                  return (
-                    <span key={j} className='bold-text'>
-                      {boldPart.slice(2, -2)}
-                    </span>
-                  );
-                }
-                return boldPart;
-              });
-            })}
-        </div>
-      );
+      // For regular text, handle numbered lists and headers
+      const lines = segment.split('\n');
+      return lines.map((line, i) => {
+        // Headers
+        if (line.startsWith('#')) {
+          const match = line.match(/^#+/);
+          if (match) {
+            const level = Math.min(match[0].length, 6);
+            return React.createElement(
+              `h${level}`,
+              { key: `${index}-${i}` },
+              line.slice(level + 1),
+            );
+          }
+        }
+        // Regular text
+        return <div key={`${index}-${i}`}>{line}</div>;
+      });
     });
   };
 
@@ -86,14 +75,12 @@ Question: ${questionText}`,
         for await (const chunk of result) {
           const streamText = chunk.data.choices[0].delta.content;
           fullText += streamText;
-          setProcessedAnswer(renderMarkdown(fullText));
+          setAiAnswer(renderText(fullText));
         }
 
         setIsLoading(false);
       } catch (error) {
-        setProcessedAnswer([
-          <div key='error'>Failed to generate AI answer. Please try again later.</div>,
-        ]);
+        setAiAnswer([<div key='error'>Failed to generate AI answer. Please try again later.</div>]);
         setIsLoading(false);
       }
     };
@@ -107,7 +94,7 @@ Question: ${questionText}`,
         {isLoading ? (
           <div className='loading'>AI is thinking...</div>
         ) : (
-          <div className='answer-text'>{processedAnswer}</div>
+          <div className='answer-text'>{aiAnswer}</div>
         )}
       </div>
     </div>
