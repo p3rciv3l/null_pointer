@@ -17,18 +17,21 @@ const NotificationBell: React.FC = () => {
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
+    if (!socket) {
+      return undefined;
+    }
+
     const handleNotification = (notification: Notification) => {
       if (notification.userId === user.username) {
         setLocalNotifications(prev => [...prev, notification]);
       }
     };
 
-    if (socket) {
-      socket.on('notificationUpdate', handleNotification);
-      return () => {
-        socket.off('notificationUpdate', handleNotification);
-      };
-    }
+    socket.on('notificationUpdate', handleNotification);
+
+    return () => {
+      socket.off('notificationUpdate', handleNotification);
+    };
   }, [socket, user.username]);
 
   const toggleDropdown = () => setIsOpen(prev => !prev);
