@@ -79,17 +79,34 @@
 
 /* Code Blocks */
 .code-block {
-  background-color: #282828; /* gruvbox dark background */
-  border-radius: 0.5rem;
+  background-color: #282a36; /* Dark background */
+  border-radius: 8px;
   padding: 1rem;
   margin: 1rem 0;
-  overflow-x: auto;
+  font-family: 'Consolas', 'Monaco', monospace;
+  color: #f8f8f2; /* Light text */
 }
 
 .code-block pre {
   margin: 0;
-  font-family: 'Fira Code', monospace;
-  color: #ebdbb2; /* gruvbox foreground */
+  white-space: pre-wrap;
+}
+
+/* Basic syntax highlighting */
+.code-block .keyword {
+  color: #ff79c6; /* Pink for keywords */
+}
+
+.code-block .string {
+  color: #f1fa8c; /* Yellow for strings */
+}
+
+.code-block .comment {
+  color: #6272a4; /* Blue-grey for comments */
+}
+
+.code-block .function {
+  color: #50fa7b; /* Green for functions */
 }
 
 /* Inline Code */
