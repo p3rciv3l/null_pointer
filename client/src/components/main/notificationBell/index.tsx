@@ -30,14 +30,20 @@ const NotificationBell: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (!socket) {
-      return;
-    }
+    if (!socket) return;
 
     const handleNotification = (notification: Notification): void => {
-      if (notification.userId === user.username) {
-        setLocalNotifications(prev => [...prev, notification]);
+      if (isUserNotification(notification)) {
+        addNotification(notification);
       }
+    };
+
+    const isUserNotification = (notification: Notification): boolean => {
+      return notification.userId === user.username;
+    };
+
+    const addNotification = (notification: Notification): void => {
+      setLocalNotifications(prev => [...prev, notification]);
     };
 
     socket.on('notificationUpdate', handleNotification);
