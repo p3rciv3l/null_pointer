@@ -44,7 +44,7 @@
 }
 
 .search-container {
-  position: absolute; 
+  position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -125,4 +125,10 @@
   height: 16px;
   color: #6b7280;
   cursor: pointer;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
