@@ -59,6 +59,14 @@ const NotificationBell: React.FC = () => {
     }
   };
 
+  // Function to determine the icon source
+  const getBellIcon = () => {
+    if (isHovered) {
+      return HOVER_BELL_ICON;
+    }
+    return isGrey ? GREY_BELL_ICON : BELL_ICON;
+  };
+
   return (
     <div className='notification-container'>
       <NotificationComponent notifications={localNotifications} error={error} />
@@ -73,7 +81,7 @@ const NotificationBell: React.FC = () => {
           setIsHovered(false);
         }}>
         <img
-          src={isHovered ? HOVER_BELL_ICON : isGrey ? GREY_BELL_ICON : BELL_ICON}
+          src={getBellIcon()} // Use the function to get the icon
           alt='notifications'
         />
         {localNotifications.length > 0 && (
