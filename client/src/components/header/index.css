@@ -110,8 +110,8 @@
 }
 
 .user-avatar {
-  width: 32px;
-  height: 32px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background-color: #e5d4ce;
   display: flex;
@@ -136,24 +136,28 @@
   display: none;
   position: absolute;
   right: 0;
-  background-color: #a71f35; /* Background color for dropdown */
-  border-radius: 0.375rem; /* Matches rounded-md */
+  top: 100%;
+  background-color: white;
+  border: 1px solid #e5d4ce;
+  border-radius: 0.375rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 100;
+  min-width: 120px;
 }
 
 .user-section:hover .dropdown-content {
-  display: block; /* Show dropdown on hover */
+  display: block;
 }
 
 .dropdown-item {
-  color: white; /* Text color */
-  padding: 0.5rem 1rem; /* Padding for items */
-  text-decoration: none; /* Remove underline */
-  display: block; /* Make items block elements */
+  color: #374151;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  display: block;
+  text-align: left;
 }
 
 .dropdown-item:hover {
-  color: #a71f35; /* Change text color on hover */
-  background-color: rgba(255, 255, 255, 0.1); /* Optional: background color on hover */
+  color: #a71f35;
+  background-color: transparent;
 }
