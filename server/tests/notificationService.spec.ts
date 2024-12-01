@@ -1,4 +1,4 @@
-import Notification, { INotification } from '../models/notification';
+import Notification from '../models/notification';
 import { createNotification, getNotifications, markAsRead } from '../services/notificationService';
 
 jest.mock('../models/notification');
