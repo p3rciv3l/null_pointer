@@ -24,22 +24,22 @@ const NotificationBell: React.FC = () => {
     setLocalNotifications(prev => [...prev, notification]);
   }
 
+  function cleanup() {
+    socket.off('notificationUpdate', handleNotification);
+  }
+
+  function handleNotification(notification: Notification): void {
+    if (isUserNotification(notification)) {
+      addNotification(notification);
+    }
+  }
+
   useEffect(() => {
     if (!socket) return;
-
-    function handleNotification(notification: Notification): void {
-      if (isUserNotification(notification)) {
-        addNotification(notification);
-      }
-    }
 
     socket.on('notificationUpdate', handleNotification);
 
     return cleanup;
-
-    function cleanup() {
-      socket.off('notificationUpdate', handleNotification);
-    }
   }, [socket, user.username]);
 
   function getNotificationIcon(type: 'reply' | 'vote' | 'question') {
