@@ -3,7 +3,6 @@ import useUserContext from '../../../hooks/useUserContext';
 import useNotifications from '../../../hooks/useNotifications';
 import { Notification } from '../../../types';
 import './index.css';
-import NotificationComponent from './NotificationComponent';
 
 const BELL_ICON = '/assets/bell_icon.png';
 const GREY_BELL_ICON = '/assets/grey_bell.png';
@@ -29,7 +28,7 @@ const NotificationBell: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (!socket) return undefined;
+    if (!socket) return;
 
     const handleNotification = (notification: Notification) => {
       if (notification.userId === user.username) {
@@ -57,23 +56,18 @@ const NotificationBell: React.FC = () => {
     }
   };
 
-  // Function to determine the icon source
-  const getBellIcon = () => {
-    if (isHovered) {
-      return GREY_BELL_ICON;
-    }
-    return BELL_ICON;
-  };
-
   const toggleDropdown = () => {
     setIsOpen(prev => !prev);
   };
 
   return (
     <div className='notification-container'>
-      <NotificationComponent notifications={localNotifications} error={error} />
-      <div className='bell-icon-container' onClick={toggleDropdown}>
-        <img src={getBellIcon()} alt='notifications' />
+      <div
+        className='bell-icon-container'
+        onClick={toggleDropdown}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}>
+        <img src={isHovered ? GREY_BELL_ICON : BELL_ICON} alt='notifications' />
         {localNotifications.length > 0 && (
           <span className='notification-count'>{localNotifications.length}</span>
         )}
