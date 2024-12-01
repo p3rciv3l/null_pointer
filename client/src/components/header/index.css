@@ -147,7 +147,7 @@
 }
 
 .dropdown-content {
-  display: none;
+  display: block;
   position: absolute;
   right: 7px;
   top: calc(100%);
