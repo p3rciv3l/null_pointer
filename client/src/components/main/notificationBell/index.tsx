@@ -76,7 +76,7 @@ const NotificationBell: React.FC = () => {
     setCloseTimeout(
       setTimeout(() => {
         setIsOpen(false);
-      }, 300),
+      }, 800),
     );
   };
 
