@@ -35,9 +35,11 @@ const NotificationBell: React.FC = () => {
 
     socket.on('notificationUpdate', handleNotification);
 
-    return function cleanup() {
+    return cleanup;
+
+    function cleanup() {
       socket.off('notificationUpdate', handleNotification);
-    };
+    }
   }, [socket, user.username]);
 
   function getNotificationIcon(type: 'reply' | 'vote' | 'question') {
