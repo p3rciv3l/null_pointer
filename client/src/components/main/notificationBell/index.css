@@ -1,7 +1,7 @@
 .notification-container {
   position: relative;
   margin-right: 20px;
-  padding-left: 10px;
+  padding-left: 20px;
 }
 
 .bell-icon-container {
@@ -41,8 +41,7 @@
 .notification-dropdown {
   position: absolute;
   top: calc(100% + 10px);
-  right: -15px;
-  left: 10px;
+  right: 0;
   width: 350px;
   max-height: 400px;
   overflow-y: auto;
