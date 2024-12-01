@@ -6,6 +6,7 @@ import { Search, Menu } from 'lucide-react';
 import useHeader from '../../hooks/useHeader';
 import AskQuestionButton from '../main/askQuestionButton';
 import { logout } from '../../services/authService';
+import NotificationBell from '../main/notificationBell';
 
 /**
  * Header component that renders the main title and a search bar.
@@ -51,6 +52,7 @@ const Header = () => {
         {/* Right Section */}
         <div className='right-section'>
           <AskQuestionButton />
+          <NotificationBell />
           <div className='user-section'>
             <div className='user-avatar'>
               <span>{user.username.charAt(0).toUpperCase()}</span>
