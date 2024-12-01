@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './index.css';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Search, Menu } from 'lucide-react';
@@ -31,7 +31,9 @@ const Header = () => {
       <div className='header-container'>
         {/* Left Section */}
         <div className='center-section'>
-          <img src='/assets/alternate_full_logo_1.png' alt='Logo' className='logo' />
+          <Link to='/questions'>
+            <img src='/assets/alternate_full_logo_1.png' alt='Logo' className='logo' />
+          </Link>
           <div className='search-container'>
             <div className='search-wrapper'>
               <Search className='search-icon' />
