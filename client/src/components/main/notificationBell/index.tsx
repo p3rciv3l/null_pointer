@@ -31,7 +31,7 @@ const NotificationBell: React.FC = () => {
 
   useEffect(() => {
     if (!socket) {
-      return;
+      return () => {};
     }
 
     const handleNotification = (notification: Notification): void => {
