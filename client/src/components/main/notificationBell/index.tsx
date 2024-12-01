@@ -9,90 +9,54 @@ const GREY_BELL_ICON = '/assets/grey_bell.png';
 
 const NotificationBell: React.FC = () => {
   const { socket, user } = useUserContext();
-  const { notifications, error } = useNotifications(user.username);
+  const { notifications } = useNotifications(user.username);
   const [localNotifications, setLocalNotifications] = useState<Notification[]>(notifications);
   const [isOpen, setIsOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [closeTimeout, setCloseTimeout] = useState<NodeJS.Timeout | null>(null);
-
-  function isUserNotification(notification: Notification): boolean {
-    return notification.userId === user.username;
-  }
-
-  function addNotification(notification: Notification): void {
-    setLocalNotifications(prev => [...prev, notification]);
-  }
-
-  function handleNotification(notification: Notification): void {
-    if (isUserNotification(notification)) {
-      addNotification(notification);
-    }
-  }
-
-  function cleanup() {
-    socket.off('notificationUpdate', handleNotification);
-  }
+  const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    if (!socket) return;
+    const handleNotification = (notification: Notification) => {
+      if (notification.userId === user.username) {
+        setLocalNotifications(prev => [...prev, notification]);
+      }
+    };
 
-    socket.on('notificationUpdate', handleNotification);
-
-    return cleanup;
+    if (socket) {
+      socket.on('notificationUpdate', handleNotification);
+      return () => {
+        socket.off('notificationUpdate', handleNotification);
+      };
+    }
   }, [socket, user.username]);
 
-  function getNotificationIcon(type: 'reply' | 'vote' | 'question') {
-    switch (type) {
-      case 'reply':
-        return '💬';
-      case 'vote':
-        return '⭐';
-      case 'question':
-        return '❓';
-      default:
-        return '📢';
-    }
-  }
+  const toggleDropdown = () => setIsOpen(prev => !prev);
 
-  function toggleDropdown() {
-    setIsOpen(prev => !prev);
-  }
-
-  function handleMouseEnter() {
+  const handleMouseEnter = () => {
     setIsHovered(true);
-    if (closeTimeout) {
-      clearTimeout(closeTimeout);
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
     }
-  }
+  };
 
-  function handleMouseLeave() {
+  const handleMouseLeave = () => {
     setIsHovered(false);
-    setCloseTimeout(
-      setTimeout(() => {
-        if (!isHovered) {
-          setIsOpen(false);
-        }
-      }, 800),
-    );
-  }
+    closeTimeoutRef.current = setTimeout(() => {
+      if (!isHovered) {
+        setIsOpen(false);
+      }
+    }, 800);
+  };
 
-  function handleDropdownMouseEnter() {
-    setIsHovered(true);
-    if (closeTimeout) {
-      clearTimeout(closeTimeout);
-    }
-  }
-
-  function handleDropdownMouseLeave() {
-    setCloseTimeout(
-      setTimeout(() => {
-        if (!isHovered) {
-          setIsOpen(false);
-        }
-      }, 800),
-    );
-  }
+  const getNotificationIcon = (type: 'reply' | 'vote' | 'question') => {
+    const icons = {
+      reply: '💬',
+      vote: '⭐',
+      question: '❓',
+    };
+    return icons[type] || '📢';
+  };
 
   return (
     <div className='notification-container'>
@@ -110,8 +74,8 @@ const NotificationBell: React.FC = () => {
         <div
           className='notification-dropdown'
           ref={dropdownRef}
-          onMouseEnter={handleDropdownMouseEnter}
-          onMouseLeave={handleDropdownMouseLeave}>
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}>
           <div className='notification-header'>
             <h3>Notifications</h3>
             {localNotifications.length > 0 && (
