@@ -66,6 +66,7 @@
   height: 8rem;
   border-radius: 50%;
   background-color: #e5d4ce;
+  box-shadow: none;
 }
 
 .profile-icon::before {
@@ -79,4 +80,8 @@
   border: 2px solid #a71f35;
   box-sizing: border-box;
   z-index: 1;
+}
+
+.profile-icon:hover {
+  box-shadow: none;
 }
