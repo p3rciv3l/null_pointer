@@ -1,9 +1,6 @@
 import React from 'react';
 import './index.css';
-<<<<<<< HEAD
 
-=======
->>>>>>> a12c3eac5196de24a578e7c998fb5ca8ff96d25b
 /**
  * Interface representing the props for the AnswerHeader component.
  *

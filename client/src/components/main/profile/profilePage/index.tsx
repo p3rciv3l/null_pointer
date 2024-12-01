@@ -14,19 +14,6 @@ import TagDisplay from './tagDisplay';
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState('questions');
   const { username } = useParams();
-<<<<<<< HEAD
-
-  const { profile } = useViewProfile(username);
-  if (!profile) return <div>Profile not found</div>;
-
-  const formattedDate = new Date(profile.joinedWhen).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-
-=======
->>>>>>> a12c3eac5196de24a578e7c998fb5ca8ff96d25b
   const tag1: Tag = {
     _id: '507f191e810c19729de860ea',
     name: 'react',
