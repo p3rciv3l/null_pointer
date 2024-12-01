@@ -124,17 +124,6 @@ form {
   text-align: center;
 }
 
-h2 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 24px;
-  color: #a71f35;
-  font-size: 24px;
-  font-weight: 600;
-}
-
 .inline-logo {
   height: 20.03612px;
   width: auto;
