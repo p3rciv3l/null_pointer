@@ -7,6 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  border: none;
 }
 
 .profile-avatar-letter {
@@ -66,4 +67,5 @@
   height: 8rem;
   border-radius: 50%;
   background-color: #e5d4ce;
+  border: none;
 }
