@@ -31,7 +31,7 @@ const Header = () => {
       <div className='header-container'>
         {/* Left Section */}
         <div className='center-section'>
-          <img src='/logo.svg' alt='Logo' className='logo' />
+          <img src='/assets/alternate_full_logo_1.png' alt='Logo' className='logo' />
           <div className='search-container'>
             <div className='search-wrapper'>
               <Search className='search-icon' />
@@ -59,9 +59,14 @@ const Header = () => {
                 <a href={`/profile/${user.username}`} className='dropdown-item'>
                   Profile
                 </a>
-                <button className='dropdown-item' onClick={handleSignOut}>
+                <div
+                  className='dropdown-item'
+                  onClick={handleSignOut}
+                  role='button'
+                  tabIndex={0}
+                  onKeyDown={e => e.key === 'Enter' && handleSignOut()}>
                   Sign out
-                </button>
+                </div>
               </div>
             </div>
           </div>
