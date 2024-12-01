@@ -2,7 +2,7 @@
   width: 8rem;
   height: 8rem;
   border-radius: 50%;
-  background-color: #E5D4CE;
+  background-color: #e5d4ce;
   margin-bottom: 1rem;
   display: flex;
   align-items: center;
@@ -10,7 +10,7 @@
 }
 
 .profile-avatar-letter {
-  color: #A71F35;
+  color: #a71f35;
   font-size: 2.5rem;
   font-weight: bold;
 }
@@ -56,4 +56,10 @@
   display: flex;
   align-items: center;
   gap: 0.25rem;
+}
+
+.profile-icon {
+  transition: none;
+  outline: 2px solid #a71f35;
+  outline-offset: -2px;
 }
