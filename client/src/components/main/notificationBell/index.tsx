@@ -92,32 +92,31 @@ const NotificationBell: React.FC = () => {
           <span className='notification-count'>{localNotifications.length}</span>
         )}
       </div>
-      {isOpen &&
-        isHovered && ( // Show dropdown only if clicked and hovered
-          <div className='notification-dropdown' ref={dropdownRef}>
-            <div className='notification-header'>
-              <h3>Notifications</h3>
-              {localNotifications.length > 0 && (
-                <button onClick={() => setLocalNotifications([])}>Clear all</button>
-              )}
-            </div>
-            <div className='notification-list'>
-              {localNotifications.length === 0 ? (
-                <div className='notification-empty'>No new notifications</div>
-              ) : (
-                localNotifications.map(notif => (
-                  <div key={notif.id} className={`notification-item ${notif.read ? 'read' : ''}`}>
-                    <span className='notification-icon'>{getNotificationIcon(notif.type)}</span>
-                    <span className='notification-message'>{notif.message}</span>
-                    <span className='notification-timestamp'>
-                      {new Date(notif.timestamp).toLocaleTimeString()}
-                    </span>
-                  </div>
-                ))
-              )}
-            </div>
+      {isOpen && isHovered && (
+        <div className='notification-dropdown' ref={dropdownRef}>
+          <div className='notification-header'>
+            <h3>Notifications</h3>
+            {localNotifications.length > 0 && (
+              <button onClick={() => setLocalNotifications([])}>Clear all</button>
+            )}
           </div>
-        )}
+          <div className='notification-list'>
+            {localNotifications.length === 0 ? (
+              <div className='notification-empty'>No new notifications</div>
+            ) : (
+              localNotifications.map(notif => (
+                <div key={notif.id} className={`notification-item ${notif.read ? 'read' : ''}`}>
+                  <span className='notification-icon'>{getNotificationIcon(notif.type)}</span>
+                  <span className='notification-message'>{notif.message}</span>
+                  <span className='notification-timestamp'>
+                    {new Date(notif.timestamp).toLocaleTimeString()}
+                  </span>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

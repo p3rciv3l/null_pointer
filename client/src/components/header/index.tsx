@@ -26,7 +26,6 @@ const Header = () => {
   };
 
   const handleMouseLeaveProfile = () => {
-    // Set a timeout to close the profile dropdown after 0.8 seconds
     setCloseTimeout(
       setTimeout(() => {
         setIsProfileOpen(false);
@@ -35,7 +34,6 @@ const Header = () => {
   };
 
   const handleMouseEnterProfile = () => {
-    // Clear any existing timeout to prevent premature closing
     if (closeTimeout) {
       clearTimeout(closeTimeout);
     }
