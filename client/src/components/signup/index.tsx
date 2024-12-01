@@ -16,7 +16,7 @@ const SignUp = () => {
     e.preventDefault();
     try {
       await signUp(email, password, username);
-      navigate('/', {
+      navigate('/login', {
         state: {
           message: 'Account created successfully! Please sign in.',
         },

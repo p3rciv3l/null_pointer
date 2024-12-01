@@ -18,28 +18,36 @@ const AIAnswerView: React.FC<AIAnswerViewProps> = ({ questionText }) => {
     return segments.map((segment, index) => {
       // If it's a code block
       if (segment.startsWith('```') && segment.endsWith('```')) {
-        const code = segment.slice(3, -3).trim();
+        // Extract language if specified
+        const firstLineEnd = segment.indexOf('\n');
+        const firstLine = segment.slice(3, firstLineEnd).trim();
+        const code = segment.slice(firstLineEnd + 1, -3).trim();
+
         return (
           <div key={index} className='code-block'>
-            <pre>{code}</pre>
+            {firstLine && <div className='code-language'>{firstLine}</div>}
+            <pre>
+              <code>{code}</code>
+            </pre>
           </div>
         );
       }
 
-      // For regular text, handle numbered lists and headers
+      // For regular text, split into lines and process each
       const lines = segment.split('\n');
       return lines.map((line, i) => {
-        // Headers
-        if (line.startsWith('#')) {
-          const match = line.match(/^#+/);
-          if (match) {
-            const level = Math.min(match[0].length, 6);
-            return React.createElement(
-              `h${level}`,
-              { key: `${index}-${i}` },
-              line.slice(level + 1),
-            );
-          }
+        // Skip empty lines
+        if (!line.trim()) {
+          return <div key={`${index}-${i}`}>&nbsp;</div>;
+        }
+
+        // Check if it's a numbered list
+        if (/^\d+\.\s/.test(line)) {
+          return (
+            <ol key={`${index}-${i}`} start={parseInt(line)}>
+              <li>{line.replace(/^\d+\.\s/, '')}</li>
+            </ol>
+          );
         }
 
         // Bold text
