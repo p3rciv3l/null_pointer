@@ -17,6 +17,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  border: none; /* Add this line to remove the border */
 }
 
 /* Button hover effect */
