@@ -62,9 +62,6 @@ const NotificationBell: React.FC = () => {
 
   const handleMouseEnter = () => {
     setIsHovered(true);
-    if (isOpen) {
-      setIsOpen(true); // Keep it open if already open
-    }
   };
 
   const handleMouseLeave = () => {
