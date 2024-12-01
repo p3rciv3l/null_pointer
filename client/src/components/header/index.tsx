@@ -17,7 +17,7 @@ import NotificationBell from '../main/notificationBell';
 const Header = () => {
   const { val, handleInputChange, handleKeyDown, user } = useHeader();
   const navigate = useNavigate();
-  const { isOpen, isHovered, handlers } = useDropdown();
+  const { isOpen, handlers } = useDropdown();
 
   const handleSignOut = async () => {
     await logout();
