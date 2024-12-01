@@ -17,13 +17,7 @@ export const createNotification = async (
     relatedId: params.relatedId,
     read: false,
     timestamp: new Date(),
-<<<<<<< HEAD
-  });
-  return notification.save();
-};
-=======
   }).save();
->>>>>>> a12c3eac5196de24a578e7c998fb5ca8ff96d25b
 
 export const getNotifications = async (userId: string): Promise<INotification[]> =>
   Notification.find({ userId }).sort({ timestamp: -1 }).exec();
