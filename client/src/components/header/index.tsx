@@ -26,11 +26,11 @@ const Header = () => {
   };
 
   const handleMouseLeaveProfile = () => {
-    // Set a timeout to close the profile dropdown after 0.3 seconds
+    // Set a timeout to close the profile dropdown after 0.8 seconds
     setCloseTimeout(
       setTimeout(() => {
         setIsProfileOpen(false);
-      }, 300),
+      }, 800),
     );
   };
 
