@@ -64,7 +64,9 @@ const profileController = (socket: FakeSOSocket) => {
           ],
         },
       ]);
-      if (!profile) {
+      if (profile) {
+        res.status(200).json(profile);
+      } else {
         res.status(404).json({ message: 'Profile not found' });
         return;
       }
