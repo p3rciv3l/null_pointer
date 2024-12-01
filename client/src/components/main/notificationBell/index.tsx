@@ -24,14 +24,14 @@ const NotificationBell: React.FC = () => {
     setLocalNotifications(prev => [...prev, notification]);
   }
 
-  function cleanup() {
-    socket.off('notificationUpdate', handleNotification);
-  }
-
   function handleNotification(notification: Notification): void {
     if (isUserNotification(notification)) {
       addNotification(notification);
     }
+  }
+
+  function cleanup() {
+    socket.off('notificationUpdate', handleNotification);
   }
 
   useEffect(() => {
