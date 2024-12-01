@@ -6,7 +6,6 @@ import './index.css';
 
 const BELL_ICON = '/assets/bell_icon.png';
 const GREY_BELL_ICON = '/assets/grey_bell.png';
-const HOVER_BELL_ICON = '/assets/hover_bell.png';
 
 const NotificationBell: React.FC = () => {
   const { socket, user } = useUserContext();
@@ -15,6 +14,7 @@ const NotificationBell: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [closeTimeout, setCloseTimeout] = useState<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -66,11 +66,18 @@ const NotificationBell: React.FC = () => {
 
   const handleMouseEnter = () => {
     setIsHovered(true);
+    if (closeTimeout) {
+      clearTimeout(closeTimeout);
+    }
   };
 
   const handleMouseLeave = () => {
     setIsHovered(false);
-    setIsOpen(false); // Close the dropdown when not hovering
+    setCloseTimeout(
+      setTimeout(() => {
+        setIsOpen(false);
+      }, 300),
+    );
   };
 
   return (
