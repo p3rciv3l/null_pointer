@@ -79,18 +79,32 @@
 
 /* Code Blocks */
 .code-block {
-  background-color: #282a36; /* Dark background */
-  border: 2px solid #a71f35; /* Red border */
+  background-color: #282a36;
+  border: 2px solid #a71f35;
   border-radius: 8px;
-  padding: 1rem;
   margin: 1rem 0;
+  overflow: hidden;
+}
+
+.code-language {
+  background-color: #343746;
+  color: #f8f8f2;
+  padding: 0.5rem 1rem;
   font-family: 'Consolas', 'Monaco', monospace;
-  color: #f8f8f2; /* Light text */
+  font-size: 0.9rem;
+  border-bottom: 1px solid #44475a;
 }
 
 .code-block pre {
   margin: 0;
+  padding: 1rem;
+}
+
+.code-block code {
+  font-family: 'Consolas', 'Monaco', monospace;
+  color: #f8f8f2;
   white-space: pre-wrap;
+  display: block;
 }
 
 /* Basic syntax highlighting */
