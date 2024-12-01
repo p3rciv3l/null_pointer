@@ -16,30 +16,31 @@ const NotificationBell: React.FC = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [closeTimeout, setCloseTimeout] = useState<NodeJS.Timeout | null>(null);
 
-  const isUserNotification = (notification: Notification): boolean =>
-    notification.userId === user.username;
+  function isUserNotification(notification: Notification): boolean {
+    return notification.userId === user.username;
+  }
 
-  const addNotification = (notification: Notification): void => {
+  function addNotification(notification: Notification): void {
     setLocalNotifications(prev => [...prev, notification]);
-  };
+  }
 
   useEffect(() => {
     if (!socket) return;
 
-    const handleNotification = (notification: Notification): void => {
+    function handleNotification(notification: Notification): void {
       if (isUserNotification(notification)) {
         addNotification(notification);
       }
-    };
+    }
 
     socket.on('notificationUpdate', handleNotification);
 
-    return () => {
+    return function cleanup() {
       socket.off('notificationUpdate', handleNotification);
     };
   }, [socket, user.username]);
 
-  const getNotificationIcon = (type: 'reply' | 'vote' | 'question') => {
+  function getNotificationIcon(type: 'reply' | 'vote' | 'question') {
     switch (type) {
       case 'reply':
         return '💬';
@@ -50,20 +51,20 @@ const NotificationBell: React.FC = () => {
       default:
         return '📢';
     }
-  };
+  }
 
-  const toggleDropdown = () => {
+  function toggleDropdown() {
     setIsOpen(prev => !prev);
-  };
+  }
 
-  const handleMouseEnter = () => {
+  function handleMouseEnter() {
     setIsHovered(true);
     if (closeTimeout) {
       clearTimeout(closeTimeout);
     }
-  };
+  }
 
-  const handleMouseLeave = () => {
+  function handleMouseLeave() {
     setIsHovered(false);
     setCloseTimeout(
       setTimeout(() => {
@@ -72,16 +73,16 @@ const NotificationBell: React.FC = () => {
         }
       }, 800),
     );
-  };
+  }
 
-  const handleDropdownMouseEnter = () => {
+  function handleDropdownMouseEnter() {
     setIsHovered(true);
     if (closeTimeout) {
       clearTimeout(closeTimeout);
     }
-  };
+  }
 
-  const handleDropdownMouseLeave = () => {
+  function handleDropdownMouseLeave() {
     setCloseTimeout(
       setTimeout(() => {
         if (!isHovered) {
@@ -89,7 +90,7 @@ const NotificationBell: React.FC = () => {
         }
       }, 800),
     );
-  };
+  }
 
   return (
     <div className='notification-container'>
