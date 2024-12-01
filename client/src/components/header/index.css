@@ -187,4 +187,10 @@
   flex-grow: 1;
   display: flex;
   justify-content: center;
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
 }
