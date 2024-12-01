@@ -127,7 +127,6 @@ describe('POST /addAnswer', () => {
 
   it('should add a new answer to the question', async () => {
     const validQid = new mongoose.Types.ObjectId();
-    const validAid = new mongoose.Types.ObjectId();
     const mockReqBody = {
       qid: validQid,
       ans: {
@@ -138,7 +137,7 @@ describe('POST /addAnswer', () => {
     };
 
     const mockAnswer = {
-      _id: validAid,
+      _id: new ObjectId('65e9b58910afe6e94fc6e6dc'),
       text: 'This is a test answer',
       ansBy: 'dummyUserId',
       ansDateTime: new Date('2024-06-03'),
@@ -352,7 +351,6 @@ describe('POST /answer/addAnswer', () => {
 
   it('should not add a new answer and return it in the response', async () => {
     const validQid = new mongoose.Types.ObjectId();
-    const validAid = new mongoose.Types.ObjectId();
     const mockReqBody = {
       qid: validQid.toString(),
       ans: {
@@ -363,7 +361,7 @@ describe('POST /answer/addAnswer', () => {
     };
 
     const mockAnswer: Answer = {
-      _id: validAid,
+      _id: new ObjectId('65e9b58910afe6e94fc6e6dc'),
       text: 'This is a valid test answer',
       ansBy: 'testUser',
       ansDateTime: new Date(),
@@ -449,7 +447,6 @@ describe('POST /answer/addAnswer', () => {
 
   it('should return 500 if `addAnswerToQuestion` fails', async () => {
     const validQid = new mongoose.Types.ObjectId();
-    const validAid = new mongoose.Types.ObjectId();
     const mockReqBody = {
       qid: validQid.toString(),
       ans: {
@@ -460,7 +457,7 @@ describe('POST /answer/addAnswer', () => {
     };
 
     const mockAnswer: Answer = {
-      _id: validAid,
+      _id: new ObjectId('65e9b58910afe6e94fc6e6dc'),
       text: 'This is a valid test answer',
       ansBy: 'testUser',
       ansDateTime: new Date(),
@@ -479,7 +476,6 @@ describe('POST /answer/addAnswer', () => {
 
   it('should return 500 if `populateDocument` fails', async () => {
     const validQid = new mongoose.Types.ObjectId();
-    const validAid = new mongoose.Types.ObjectId();
     const mockReqBody = {
       qid: validQid.toString(),
       ans: {
