@@ -331,3 +331,167 @@ describe('POST /addAnswer', () => {
     expect(response.status).toBe(500);
   });
 });
+
+jest.mock('../models/application'); // Mock the utility methods
+const saveAnswerMock = jest.spyOn(util, 'saveAnswer');
+const addAnswerToQuestionMock = jest.spyOn(util, 'addAnswerToQuestion');
+const populateDocumentMock = jest.spyOn(util, 'populateDocument');
+const fetchAndIncrementQuestionViewsByIdMock = jest.spyOn(
+  util,
+  'fetchAndIncrementQuestionViewsById',
+);
+
+describe('POST /answer/addAnswer', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  afterAll(async () => {
+    await mongoose.disconnect(); // Disconnect mongoose after all tests
+  });
+
+  it('should not add a new answer and return it in the response', async () => {
+    const validQid = new mongoose.Types.ObjectId();
+    const validAid = new mongoose.Types.ObjectId();
+    const mockReqBody = {
+      qid: validQid.toString(),
+      ans: {
+        text: 'This is a valid test answer',
+        ansBy: 'testUser',
+        ansDateTime: new Date(),
+      },
+    };
+
+    const mockAnswer: Answer = {
+      _id: validAid,
+      text: 'This is a valid test answer',
+      ansBy: 'testUser',
+      ansDateTime: new Date(),
+      comments: [],
+      question: QUESTIONS[0], // Add the associated question
+    };
+
+    saveAnswerMock.mockResolvedValueOnce(mockAnswer);
+    populateDocumentMock.mockResolvedValueOnce(mockAnswer);
+
+    const response = await supertest(app).post('/answer/addAnswer').send(mockReqBody);
+
+    expect(response.status).toBe(500);
+  });
+
+  it('should return 400 if `qid` is missing', async () => {
+    const mockReqBody = {
+      ans: {
+        text: 'This is a valid test answer',
+        ansBy: 'testUser',
+        ansDateTime: new Date(),
+      },
+    };
+
+    const response = await supertest(app).post('/answer/addAnswer').send(mockReqBody);
+
+    expect(response.status).toBe(400);
+    expect(response.text).toBe('Invalid request');
+  });
+
+  it('should return 400 if `text` is missing in the answer', async () => {
+    const mockReqBody = {
+      qid: 'dummyQuestionId',
+      ans: {
+        ansBy: 'testUser',
+        ansDateTime: new Date(),
+      },
+    };
+
+    const response = await supertest(app).post('/answer/addAnswer').send(mockReqBody);
+
+    expect(response.status).toBe(400);
+    expect(response.text).toBe('Invalid answer');
+  });
+
+  it('should return 500 if `fetchAndIncrementQuestionViewsById` fails', async () => {
+    const validQid = new mongoose.Types.ObjectId();
+    const mockReqBody = {
+      qid: validQid.toString(),
+      ans: {
+        text: 'This is a valid test answer',
+        ansBy: 'testUser',
+        ansDateTime: new Date(),
+      },
+    };
+
+    fetchAndIncrementQuestionViewsByIdMock.mockResolvedValueOnce({ error: 'Question not found' });
+
+    const response = await supertest(app).post('/answer/addAnswer').send(mockReqBody);
+
+    expect(response.status).toBe(500);
+    expect(response.text).toContain('Error when adding answer');
+  });
+
+  it('should return 500 if `saveAnswer` fails', async () => {
+    const validQid = new mongoose.Types.ObjectId();
+    const mockReqBody = {
+      qid: validQid.toString(),
+      ans: {
+        text: 'This is a valid test answer',
+        ansBy: 'testUser',
+        ansDateTime: new Date(),
+      },
+    };
+
+    saveAnswerMock.mockResolvedValueOnce({ error: 'Save answer failed' });
+
+    const response = await supertest(app).post('/answer/addAnswer').send(mockReqBody);
+
+    expect(response.status).toBe(500);
+    expect(response.text).toContain('Error when adding answer');
+  });
+
+  it('should return 500 if `addAnswerToQuestion` fails', async () => {
+    const validQid = new mongoose.Types.ObjectId();
+    const validAid = new mongoose.Types.ObjectId();
+    const mockReqBody = {
+      qid: validQid.toString(),
+      ans: {
+        text: 'This is a valid test answer',
+        ansBy: 'testUser',
+        ansDateTime: new Date(),
+      },
+    };
+
+    const mockAnswer: Answer = {
+      _id: validAid,
+      text: 'This is a valid test answer',
+      ansBy: 'testUser',
+      ansDateTime: new Date(),
+      comments: [],
+      question: QUESTIONS[0], // Add the associated question
+    };
+
+    saveAnswerMock.mockResolvedValueOnce(mockAnswer);
+    addAnswerToQuestionMock.mockResolvedValueOnce({ error: 'Failed to update question' });
+
+    const response = await supertest(app).post('/answer/addAnswer').send(mockReqBody);
+
+    expect(response.status).toBe(500);
+    expect(response.text).toContain('Error when adding answer');
+  });
+
+  it('should return 500 if `populateDocument` fails', async () => {
+    const validQid = new mongoose.Types.ObjectId();
+    const validAid = new mongoose.Types.ObjectId();
+    const mockReqBody = {
+      qid: validQid.toString(),
+      ans: {
+        text: 'This is a valid test answer',
+        ansBy: 'testUser',
+        ansDateTime: new Date(),
+      },
+    };
+
+    const response = await supertest(app).post('/answer/addAnswer').send(mockReqBody);
+
+    expect(response.status).toBe(500);
+    expect(response.text).toContain('Error when adding answer');
+  });
+});
