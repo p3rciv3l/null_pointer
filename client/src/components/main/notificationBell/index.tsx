@@ -80,16 +80,15 @@ const NotificationBell: React.FC = () => {
             )}
           </div>
           <div className='notification-list'>
-            {localNotifications.length > 0 &&
-              localNotifications.map(notif => (
-                <div key={notif.id} className={`notification-item ${notif.read ? 'read' : ''}`}>
-                  <span className='notification-icon'>{getNotificationIcon(notif.type)}</span>
-                  <span className='notification-message'>{notif.message}</span>
-                  <span className='notification-timestamp'>
-                    {new Date(notif.timestamp).toLocaleTimeString()}
-                  </span>
-                </div>
-              ))}
+            {localNotifications.map(notif => (
+              <div key={notif.id} className={`notification-item ${notif.read ? 'read' : ''}`}>
+                <span className='notification-icon'>{getNotificationIcon(notif.type)}</span>
+                <span className='notification-message'>{notif.message}</span>
+                <span className='notification-timestamp'>
+                  {new Date(notif.timestamp).toLocaleTimeString()}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       )}
