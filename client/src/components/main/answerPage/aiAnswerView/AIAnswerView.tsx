@@ -44,7 +44,7 @@ const AIAnswerView: React.FC<AIAnswerViewProps> = ({ questionText }) => {
         // Check if it's a numbered list
         if (/^\d+\.\s/.test(line)) {
           return (
-            <ol key={`${index}-${i}`} start={parseInt(line)}>
+            <ol key={`${index}-${i}`} start={parseInt(line, 10)}>
               <li>{line.replace(/^\d+\.\s/, '')}</li>
             </ol>
           );
