@@ -51,15 +51,19 @@ const Header = () => {
           <AskQuestionButton />
           <div className='user-section'>
             <div className='user-avatar'>
-              <span>{user.username.charAt(0)}</span>
+              <span>{user.username.charAt(0).toUpperCase()}</span>
             </div>
             <Menu className='menu-icon' />
-            <button
-              className='auth-button'
-              style={{ backgroundColor: '#a71f35' }}
-              onClick={handleSignOut}>
-              Sign out
-            </button>
+            <div className='dropdown'>
+              <div className='dropdown-content'>
+                <a href={`/profile/${user.username}`} className='dropdown-item'>
+                  Profile
+                </a>
+                <button className='dropdown-item' onClick={handleSignOut}>
+                  Sign out
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
