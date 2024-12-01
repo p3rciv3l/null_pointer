@@ -14,7 +14,6 @@ const NotificationBell: React.FC = () => {
   const { notifications, error } = useNotifications(user.username);
   const [localNotifications, setLocalNotifications] = useState<Notification[]>(notifications);
   const [isOpen, setIsOpen] = useState(false);
-  const [isGrey, setIsGrey] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -22,7 +21,6 @@ const NotificationBell: React.FC = () => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
-        setIsGrey(false);
       }
     };
 
@@ -62,9 +60,9 @@ const NotificationBell: React.FC = () => {
   // Function to determine the icon source
   const getBellIcon = () => {
     if (isHovered) {
-      return HOVER_BELL_ICON;
+      return GREY_BELL_ICON;
     }
-    return isGrey ? GREY_BELL_ICON : BELL_ICON;
+    return BELL_ICON;
   };
 
   return (
