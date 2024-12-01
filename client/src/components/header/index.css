@@ -44,7 +44,7 @@
 }
 
 .search-container {
-  position: absolute; 
+  position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -96,6 +96,7 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
   white-space: nowrap;
+  outline: none;
 }
 
 .ask-btn:hover {
@@ -125,4 +126,34 @@
   height: 16px;
   color: #6b7280;
   cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #a71f35; /* Background color for dropdown */
+  border-radius: 0.375rem; /* Matches rounded-md */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.user-section:hover .dropdown-content {
+  display: block; /* Show dropdown on hover */
+}
+
+.dropdown-item {
+  color: white; /* Text color */
+  padding: 0.5rem 1rem; /* Padding for items */
+  text-decoration: none; /* Remove underline */
+  display: block; /* Make items block elements */
+}
+
+.dropdown-item:hover {
+  color: #a71f35; /* Change text color on hover */
+  background-color: rgba(255, 255, 255, 0.1); /* Optional: background color on hover */
 }
