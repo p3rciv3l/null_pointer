@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './index.css';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Search } from 'lucide-react';
 import useHeader from '../../hooks/useHeader';
+import { useDropdown } from '../../hooks/useDropdown';
 import AskQuestionButton from '../main/askQuestionButton';
 import { logout } from '../../services/authService';
 import NotificationBell from '../main/notificationBell';
@@ -17,48 +17,11 @@ import NotificationBell from '../main/notificationBell';
 const Header = () => {
   const { val, handleInputChange, handleKeyDown, user } = useHeader();
   const navigate = useNavigate();
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const [closeTimeout, setCloseTimeout] = useState<NodeJS.Timeout | null>(null);
+  const { isOpen, isHovered, handlers } = useDropdown();
 
   const handleSignOut = async () => {
     await logout();
     navigate('/');
-  };
-
-  const handleMouseEnterProfile = () => {
-    setIsHovered(true);
-    if (closeTimeout) {
-      clearTimeout(closeTimeout);
-    }
-  };
-
-  const handleMouseLeaveProfile = () => {
-    setIsHovered(false);
-    setCloseTimeout(
-      setTimeout(() => {
-        if (!isHovered) {
-          setIsProfileOpen(false);
-        }
-      }, 800),
-    );
-  };
-
-  const handleDropdownMouseEnter = () => {
-    setIsHovered(true);
-    if (closeTimeout) {
-      clearTimeout(closeTimeout);
-    }
-  };
-
-  const handleDropdownMouseLeave = () => {
-    setCloseTimeout(
-      setTimeout(() => {
-        if (!isHovered) {
-          setIsProfileOpen(false);
-        }
-      }, 800),
-    );
   };
 
   return (
@@ -89,16 +52,13 @@ const Header = () => {
           <NotificationBell />
           <div
             className='user-section'
-            onMouseEnter={handleMouseEnterProfile}
-            onMouseLeave={handleMouseLeaveProfile}>
-            <div className='user-avatar' onClick={() => setIsProfileOpen(prev => !prev)}>
+            onMouseEnter={handlers.handleMouseEnter}
+            onMouseLeave={handlers.handleMouseLeave}>
+            <div className='user-avatar' onClick={handlers.handleClick}>
               <span>{user.username.charAt(0).toUpperCase()}</span>
             </div>
-            {isProfileOpen && (
-              <div
-                className='dropdown-content'
-                onMouseEnter={handleDropdownMouseEnter}
-                onMouseLeave={handleDropdownMouseLeave}>
+            {isOpen && (
+              <div className='dropdown-content'>
                 <a href={`/profile/${user.username}`} className='dropdown-item'>
                   Profile
                 </a>
