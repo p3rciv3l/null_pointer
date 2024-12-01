@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './index.css';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { Search, Menu } from 'lucide-react';
+import { Search } from 'lucide-react';
 import useHeader from '../../hooks/useHeader';
 import AskQuestionButton from '../main/askQuestionButton';
 import { logout } from '../../services/authService';
@@ -17,10 +17,28 @@ import NotificationBell from '../main/notificationBell';
 const Header = () => {
   const { val, handleInputChange, handleKeyDown, user } = useHeader();
   const navigate = useNavigate();
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [closeTimeout, setCloseTimeout] = useState<NodeJS.Timeout | null>(null);
 
   const handleSignOut = async () => {
     await logout();
     navigate('/');
+  };
+
+  const handleMouseLeaveProfile = () => {
+    // Set a timeout to close the profile dropdown after 0.3 seconds
+    setCloseTimeout(
+      setTimeout(() => {
+        setIsProfileOpen(false);
+      }, 300),
+    );
+  };
+
+  const handleMouseEnterProfile = () => {
+    // Clear any existing timeout to prevent premature closing
+    if (closeTimeout) {
+      clearTimeout(closeTimeout);
+    }
   };
 
   return (
@@ -49,11 +67,14 @@ const Header = () => {
         <div className='right-section'>
           <AskQuestionButton />
           <NotificationBell />
-          <div className='user-section'>
-            <div className='user-avatar'>
+          <div
+            className='user-section'
+            onMouseLeave={handleMouseLeaveProfile}
+            onMouseEnter={handleMouseEnterProfile}>
+            <div className='user-avatar' onClick={() => setIsProfileOpen(prev => !prev)}>
               <span>{user.username.charAt(0).toUpperCase()}</span>
             </div>
-            <div className='dropdown'>
+            {isProfileOpen && (
               <div className='dropdown-content'>
                 <a href={`/profile/${user.username}`} className='dropdown-item'>
                   Profile
@@ -67,7 +88,7 @@ const Header = () => {
                   Sign Out
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
