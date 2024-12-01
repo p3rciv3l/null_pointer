@@ -65,21 +65,16 @@ const NotificationBell: React.FC = () => {
     return BELL_ICON;
   };
 
+  const toggleDropdown = () => {
+    setIsOpen(prev => !prev);
+  };
+
   return (
     <div className='notification-container'>
       <NotificationComponent notifications={localNotifications} error={error} />
-      <div
-        className='bell-icon-container'
-        onMouseEnter={() => {
-          setIsOpen(true);
-          setIsHovered(true);
-        }}
-        onMouseLeave={() => {
-          setIsOpen(false);
-          setIsHovered(false);
-        }}>
+      <div className='bell-icon-container' onClick={toggleDropdown}>
         <img src={getBellIcon()} alt='notifications' />
-        {isOpen && localNotifications.length > 0 && (
+        {localNotifications.length > 0 && (
           <span className='notification-count'>{localNotifications.length}</span>
         )}
       </div>
