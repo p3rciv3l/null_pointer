@@ -1,11 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './index.css';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Search, Menu } from 'lucide-react';
 import useHeader from '../../hooks/useHeader';
 import AskQuestionButton from '../main/askQuestionButton';
 import { logout } from '../../services/authService';
-import { useNavigate } from 'react-router-dom';
 
 /**
  * Header component that renders the main title and a search bar.
@@ -54,7 +54,10 @@ const Header = () => {
               <span>{user.username.charAt(0)}</span>
             </div>
             <Menu className='menu-icon' />
-            <button className='auth-button' style={{ backgroundColor: '#a71f35' }} onClick={handleSignOut}>
+            <button
+              className='auth-button'
+              style={{ backgroundColor: '#a71f35' }}
+              onClick={handleSignOut}>
               Sign out
             </button>
           </div>
