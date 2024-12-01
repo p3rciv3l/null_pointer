@@ -149,7 +149,7 @@
 .dropdown-content {
   display: none;
   position: absolute;
-  right: 0%;
+  right: 7px;
   top: calc(100%);
   background-color: white;
   border: 2px solid #e5d4ce;

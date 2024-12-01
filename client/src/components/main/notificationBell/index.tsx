@@ -31,7 +31,7 @@ const NotificationBell: React.FC = () => {
 
   useEffect(() => {
     if (!socket) {
-      return () => {};
+      return;
     }
 
     const handleNotification = (notification: Notification): void => {
@@ -75,7 +75,26 @@ const NotificationBell: React.FC = () => {
     setIsHovered(false);
     setCloseTimeout(
       setTimeout(() => {
-        setIsOpen(false);
+        if (!isHovered) {
+          setIsOpen(false);
+        }
+      }, 800),
+    );
+  };
+
+  const handleDropdownMouseEnter = () => {
+    setIsHovered(true);
+    if (closeTimeout) {
+      clearTimeout(closeTimeout);
+    }
+  };
+
+  const handleDropdownMouseLeave = () => {
+    setCloseTimeout(
+      setTimeout(() => {
+        if (!isHovered) {
+          setIsOpen(false);
+        }
       }, 800),
     );
   };
@@ -92,8 +111,12 @@ const NotificationBell: React.FC = () => {
           <span className='notification-count'>{localNotifications.length}</span>
         )}
       </div>
-      {isOpen && isHovered && (
-        <div className='notification-dropdown' ref={dropdownRef}>
+      {isOpen && (
+        <div
+          className='notification-dropdown'
+          ref={dropdownRef}
+          onMouseEnter={handleDropdownMouseEnter}
+          onMouseLeave={handleDropdownMouseLeave}>
           <div className='notification-header'>
             <h3>Notifications</h3>
             {localNotifications.length > 0 && (

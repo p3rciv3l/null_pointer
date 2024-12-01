@@ -18,6 +18,7 @@ const Header = () => {
   const { val, handleInputChange, handleKeyDown, user } = useHeader();
   const navigate = useNavigate();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const [closeTimeout, setCloseTimeout] = useState<NodeJS.Timeout | null>(null);
 
   const handleSignOut = async () => {
@@ -25,18 +26,39 @@ const Header = () => {
     navigate('/');
   };
 
+  const handleMouseEnterProfile = () => {
+    setIsHovered(true);
+    if (closeTimeout) {
+      clearTimeout(closeTimeout);
+    }
+  };
+
   const handleMouseLeaveProfile = () => {
+    setIsHovered(false);
     setCloseTimeout(
       setTimeout(() => {
-        setIsProfileOpen(false);
+        if (!isHovered) {
+          setIsProfileOpen(false);
+        }
       }, 800),
     );
   };
 
-  const handleMouseEnterProfile = () => {
+  const handleDropdownMouseEnter = () => {
+    setIsHovered(true);
     if (closeTimeout) {
       clearTimeout(closeTimeout);
     }
+  };
+
+  const handleDropdownMouseLeave = () => {
+    setCloseTimeout(
+      setTimeout(() => {
+        if (!isHovered) {
+          setIsProfileOpen(false);
+        }
+      }, 800),
+    );
   };
 
   return (
@@ -67,13 +89,16 @@ const Header = () => {
           <NotificationBell />
           <div
             className='user-section'
-            onMouseLeave={handleMouseLeaveProfile}
-            onMouseEnter={handleMouseEnterProfile}>
+            onMouseEnter={handleMouseEnterProfile}
+            onMouseLeave={handleMouseLeaveProfile}>
             <div className='user-avatar' onClick={() => setIsProfileOpen(prev => !prev)}>
               <span>{user.username.charAt(0).toUpperCase()}</span>
             </div>
             {isProfileOpen && (
-              <div className='dropdown-content'>
+              <div
+                className='dropdown-content'
+                onMouseEnter={handleDropdownMouseEnter}
+                onMouseLeave={handleDropdownMouseLeave}>
                 <a href={`/profile/${user.username}`} className='dropdown-item'>
                   Profile
                 </a>
