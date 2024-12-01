@@ -80,6 +80,7 @@
 /* Code Blocks */
 .code-block {
   background-color: #282a36; /* Dark background */
+  border: 2px solid #a71f35; /* Red border */
   border-radius: 8px;
   padding: 1rem;
   margin: 1rem 0;
@@ -121,5 +122,17 @@
 
 /* Bold Text */
 .bold-text {
+  font-style: italic;
   font-weight: 700;
+}
+
+/* Numbered text */
+div + div:has(ol) {
+  margin-top: 1rem;
+  padding-left: 1.5rem;
+}
+
+/* No margin if code block is before numbered list */
+.code-block + div:has(ol) {
+  margin-top: 0;
 }
