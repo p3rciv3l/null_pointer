@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Notification } from '../../../types';
 import useUserContext from '../../../hooks/useUserContext';
 import useNotifications from '../../../hooks/useNotifications';
-import { Notification } from '../../../types';
 import './index.css';
 
 const BELL_ICON = '/assets/bell_icon.png';
@@ -60,43 +60,56 @@ const NotificationBell: React.FC = () => {
     setIsOpen(prev => !prev);
   };
 
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    if (isOpen) {
+      setIsOpen(true); // Keep it open if already open
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    setIsOpen(false); // Close the dropdown when not hovering
+  };
+
   return (
     <div className='notification-container'>
       <div
         className='bell-icon-container'
         onClick={toggleDropdown}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}>
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}>
         <img src={isHovered ? GREY_BELL_ICON : BELL_ICON} alt='notifications' />
         {localNotifications.length > 0 && (
           <span className='notification-count'>{localNotifications.length}</span>
         )}
       </div>
-      {isOpen && (
-        <div className='notification-dropdown' ref={dropdownRef}>
-          <div className='notification-header'>
-            <h3>Notifications</h3>
-            {localNotifications.length > 0 && (
-              <button onClick={() => setLocalNotifications([])}>Clear all</button>
-            )}
+      {isOpen &&
+        isHovered && ( // Show dropdown only if clicked and hovered
+          <div className='notification-dropdown' ref={dropdownRef}>
+            <div className='notification-header'>
+              <h3>Notifications</h3>
+              {localNotifications.length > 0 && (
+                <button onClick={() => setLocalNotifications([])}>Clear all</button>
+              )}
+            </div>
+            <div className='notification-list'>
+              {localNotifications.length === 0 ? (
+                <div className='notification-empty'>No new notifications</div>
+              ) : (
+                localNotifications.map(notif => (
+                  <div key={notif.id} className={`notification-item ${notif.read ? 'read' : ''}`}>
+                    <span className='notification-icon'>{getNotificationIcon(notif.type)}</span>
+                    <span className='notification-message'>{notif.message}</span>
+                    <span className='notification-timestamp'>
+                      {new Date(notif.timestamp).toLocaleTimeString()}
+                    </span>
+                  </div>
+                ))
+              )}
+            </div>
           </div>
-          <div className='notification-list'>
-            {localNotifications.length === 0 ? (
-              <div className='notification-empty'>No new notifications</div>
-            ) : (
-              localNotifications.map(notif => (
-                <div key={notif.id} className={`notification-item ${notif.read ? 'read' : ''}`}>
-                  <span className='notification-icon'>{getNotificationIcon(notif.type)}</span>
-                  <span className='notification-message'>{notif.message}</span>
-                  <span className='notification-timestamp'>
-                    {new Date(notif.timestamp).toLocaleTimeString()}
-                  </span>
-                </div>
-              ))
-            )}
-          </div>
-        </div>
-      )}
+        )}
     </div>
   );
 };
