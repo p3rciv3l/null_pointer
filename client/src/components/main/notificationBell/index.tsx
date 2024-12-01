@@ -14,14 +14,14 @@ const NotificationBell: React.FC = () => {
   const { socket, user } = useUserContext();
   const { notifications, error } = useNotifications(user.username);
   const [localNotifications, setLocalNotifications] = useState<Notification[]>(notifications);
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [isGrey, setIsGrey] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setShowDropdown(false);
+        setIsOpen(false);
         setIsGrey(false);
       }
     };
@@ -64,18 +64,14 @@ const NotificationBell: React.FC = () => {
       <NotificationComponent notifications={localNotifications} error={error} />
       <div
         className='bell-icon-container'
-        onClick={() => {
-          setShowDropdown(!showDropdown);
-          setIsGrey(!isGrey);
-        }}
-        onMouseEnter={() => setIsGrey(true)}
-        onMouseLeave={() => !showDropdown && setIsGrey(false)}>
+        onMouseEnter={() => setIsOpen(true)}
+        onMouseLeave={() => setIsOpen(false)}>
         <img src={isGrey ? GREY_BELL_ICON : BELL_ICON} alt='notifications' />
         {localNotifications.length > 0 && (
           <span className='notification-count'>{localNotifications.length}</span>
         )}
       </div>
-      {showDropdown && (
+      {isOpen && (
         <div className='notification-dropdown' ref={dropdownRef}>
           <div className='notification-header'>
             <h3>Notifications</h3>
@@ -84,9 +80,7 @@ const NotificationBell: React.FC = () => {
             )}
           </div>
           <div className='notification-list'>
-            {localNotifications.length === 0 ? (
-              <div className='notification-empty'>No new notifications</div>
-            ) : (
+            {localNotifications.length > 0 &&
               localNotifications.map(notif => (
                 <div key={notif.id} className={`notification-item ${notif.read ? 'read' : ''}`}>
                   <span className='notification-icon'>{getNotificationIcon(notif.type)}</span>
@@ -95,8 +89,7 @@ const NotificationBell: React.FC = () => {
                     {new Date(notif.timestamp).toLocaleTimeString()}
                   </span>
                 </div>
-              ))
-            )}
+              ))}
           </div>
         </div>
       )}
