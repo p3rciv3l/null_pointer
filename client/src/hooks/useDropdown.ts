@@ -40,3 +40,5 @@ export const useDropdown = () => {
     },
   };
 };
+
+export default useDropdown;
