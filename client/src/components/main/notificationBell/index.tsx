@@ -78,10 +78,7 @@ const NotificationBell: React.FC = () => {
           setIsOpen(false);
           setIsHovered(false);
         }}>
-        <img
-          src={getBellIcon()}
-          alt='notifications'
-        />
+        <img src={getBellIcon()} alt='notifications' />
         {isOpen && localNotifications.length > 0 && (
           <span className='notification-count'>{localNotifications.length}</span>
         )}
