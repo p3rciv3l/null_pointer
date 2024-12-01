@@ -30,9 +30,11 @@ const NotificationBell: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (!socket) return;
+    if (!socket) {
+      return;
+    }
 
-    const handleNotification = (notification: Notification) => {
+    const handleNotification = (notification: Notification): void => {
       if (notification.userId === user.username) {
         setLocalNotifications(prev => [...prev, notification]);
       }
