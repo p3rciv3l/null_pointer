@@ -1,11 +1,24 @@
 .notification-container {
   position: relative;
   margin-right: 20px;
+  padding-left: 20px;
 }
 
 .bell-icon-container {
   position: relative;
   cursor: pointer;
+}
+
+.bell-icon-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0s;
 }
 
 .bell-icon-container img {
@@ -28,7 +41,7 @@
 .notification-dropdown {
   position: absolute;
   top: calc(100% + 10px);
-  right: -10px;
+  right: 0;
   width: 350px;
   max-height: 400px;
   overflow-y: auto;
@@ -95,10 +108,10 @@
 }
 
 .notification-empty {
-  padding: 20px;
+  padding: 10px;
   text-align: center;
-  color: #666;
   font-style: italic;
+  color: #666;
 }
 
 .notification-timestamp {

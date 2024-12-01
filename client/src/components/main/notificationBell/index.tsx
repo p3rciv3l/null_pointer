@@ -1,37 +1,24 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Notification } from '../../../types';
 import useUserContext from '../../../hooks/useUserContext';
 import useNotifications from '../../../hooks/useNotifications';
-import { Notification } from '../../../types';
+import { useDropdown } from '../../../hooks/useDropdown';
 import './index.css';
-import NotificationComponent from './NotificationComponent';
 
-/* const BELL_ICON = '/bell_icon.png';
-const GREY_BELL_ICON = '/grey_bell.png'; */
 const BELL_ICON = '/assets/bell_icon.png';
 const GREY_BELL_ICON = '/assets/grey_bell.png';
 
 const NotificationBell: React.FC = () => {
   const { socket, user } = useUserContext();
-  const { notifications, error } = useNotifications(user.username);
+  const { notifications } = useNotifications(user.username);
   const [localNotifications, setLocalNotifications] = useState<Notification[]>(notifications);
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [isGrey, setIsGrey] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const { isOpen, isHovered, handlers } = useDropdown();
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setShowDropdown(false);
-        setIsGrey(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  useEffect(() => {
-    if (!socket) return undefined;
+    if (!socket) {
+      return undefined;
+    }
 
     const handleNotification = (notification: Notification) => {
       if (notification.userId === user.username) {
@@ -47,36 +34,28 @@ const NotificationBell: React.FC = () => {
   }, [socket, user.username]);
 
   const getNotificationIcon = (type: 'reply' | 'vote' | 'question') => {
-    switch (type) {
-      case 'reply':
-        return '💬';
-      case 'vote':
-        return '⭐';
-      case 'question':
-        return '❓';
-      default:
-        return '📢';
-    }
+    const icons = {
+      reply: '💬',
+      vote: '⭐',
+      question: '❓',
+    };
+    return icons[type] || '📢';
   };
 
   return (
-    <div className='notification-container'>
-      <NotificationComponent notifications={localNotifications} error={error} />
-      <div
-        className='bell-icon-container'
-        onClick={() => {
-          setShowDropdown(!showDropdown);
-          setIsGrey(!isGrey);
-        }}
-        onMouseEnter={() => setIsGrey(true)}
-        onMouseLeave={() => !showDropdown && setIsGrey(false)}>
-        <img src={isGrey ? GREY_BELL_ICON : BELL_ICON} alt='notifications' />
+    <div
+      ref={containerRef}
+      className='notification-container'
+      onMouseEnter={handlers.handleMouseEnter}
+      onMouseLeave={handlers.handleMouseLeave}>
+      <div className='bell-icon-container' onClick={handlers.handleClick}>
+        <img src={isHovered ? GREY_BELL_ICON : BELL_ICON} alt='notifications' />
         {localNotifications.length > 0 && (
           <span className='notification-count'>{localNotifications.length}</span>
         )}
       </div>
-      {showDropdown && (
-        <div className='notification-dropdown' ref={dropdownRef}>
+      {isOpen && (
+        <div className='notification-dropdown'>
           <div className='notification-header'>
             <h3>Notifications</h3>
             {localNotifications.length > 0 && (

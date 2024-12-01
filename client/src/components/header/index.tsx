@@ -1,9 +1,12 @@
 import React from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import './index.css';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { Search, Menu } from 'lucide-react';
+import { Search } from 'lucide-react';
 import useHeader from '../../hooks/useHeader';
+import { useDropdown } from '../../hooks/useDropdown';
 import AskQuestionButton from '../main/askQuestionButton';
+import { logout } from '../../services/authService';
+import NotificationBell from '../main/notificationBell';
 
 /**
  * Header component that renders the main title and a search bar.
@@ -13,13 +16,22 @@ import AskQuestionButton from '../main/askQuestionButton';
 
 const Header = () => {
   const { val, handleInputChange, handleKeyDown, user } = useHeader();
+  const navigate = useNavigate();
+  const { isOpen, handlers } = useDropdown();
+
+  const handleSignOut = async () => {
+    await logout();
+    navigate('/');
+  };
 
   return (
     <header className='header'>
       <div className='header-container'>
         {/* Left Section */}
         <div className='center-section'>
-          <img src='/logo.svg' alt='Logo' className='logo' />
+          <Link to='/home'>
+            <img src='/assets/alternate_full_logo_1.png' alt='Logo' className='logo' />
+          </Link>
           <div className='search-container'>
             <div className='search-wrapper'>
               <Search className='search-icon' />
@@ -37,11 +49,29 @@ const Header = () => {
         {/* Right Section */}
         <div className='right-section'>
           <AskQuestionButton />
-          <div className='user-section'>
-            <div className='user-avatar'>
-              <span>{user.username.charAt(0)}</span>
+          <NotificationBell />
+          <div
+            className='user-section'
+            onMouseEnter={handlers.handleMouseEnter}
+            onMouseLeave={handlers.handleMouseLeave}>
+            <div className='user-avatar' onClick={handlers.handleClick}>
+              <span>{user.username.charAt(0).toUpperCase()}</span>
             </div>
-            <Menu className='menu-icon' />
+            {isOpen && (
+              <div className='dropdown-content'>
+                <a href={`/profile/${user.username}`} className='dropdown-item'>
+                  Profile
+                </a>
+                <div
+                  className='dropdown-item'
+                  onClick={handleSignOut}
+                  role='button'
+                  tabIndex={0}
+                  onKeyDown={e => e.key === 'Enter' && handleSignOut()}>
+                  Sign Out
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

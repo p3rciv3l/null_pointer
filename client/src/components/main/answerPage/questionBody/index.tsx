@@ -4,7 +4,6 @@ import { handleHyperlink } from '../../../../tool';
 /**
  * Interface representing the props for the QuestionBody component.
  *
- * - views - The number of views the question has received.
  * - text - The content of the question, which may contain hyperlinks.
  * - askby - The username of the user who asked the question.
  * - meta - Additional metadata related to the question, such as the date and time it was asked.
