@@ -177,7 +177,9 @@ async function answerCreate(
     ansBy: ansBy,
     ansDateTime: ansDateTime,
     comments: comments,
-    question: question
+    question: question,
+    upVotes: [],
+    downVotes: [],
   };
   return await AnswerModel.create(answerDetail);
 }
