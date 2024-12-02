@@ -29,9 +29,8 @@ const SignUp = () => {
         joinedWhen: new Date(),
         following: [],
       };
-
+      console.log('ADDING PROFILE');
       await addProfile(newProfile);
-
       navigate('/', {
         state: {
           message: 'Account created successfully! Please sign in.',
