@@ -93,6 +93,8 @@ const ans1: Answer = {
   ansDateTime: new Date('2023-11-18T09:24:00'),
   comments: [],
   question: QUESTIONS[0], // Add the associated question
+  upVotes: [],
+  downVotes: [],
 };
 
 const ans2: Answer = {
@@ -102,6 +104,8 @@ const ans2: Answer = {
   ansDateTime: new Date('2023-11-20T09:24:00'),
   comments: [],
   question: QUESTIONS[0], // Add the associated question
+  upVotes: [],
+  downVotes: [],
 };
 
 const ans3: Answer = {
@@ -111,6 +115,8 @@ const ans3: Answer = {
   ansDateTime: new Date('2023-11-19T09:24:00'),
   comments: [],
   question: QUESTIONS[0], // Add the associated question
+  upVotes: [],
+  downVotes: [],
 };
 
 QUESTIONS[0].answers = [ans1, ans2];
@@ -143,6 +149,8 @@ describe('POST /addAnswer', () => {
       ansDateTime: new Date('2024-06-03'),
       comments: [],
       question: QUESTIONS[0],
+      upVotes: [],
+      downVotes: [],
     };
     saveAnswerSpy.mockResolvedValueOnce(mockAnswer);
 
@@ -277,6 +285,8 @@ describe('POST /addAnswer', () => {
       ansDateTime: new Date('2024-06-03'),
       comments: [],
       question: QUESTIONS[0],
+      upVotes: [],
+      downVotes: [],
     };
 
     saveAnswerSpy.mockResolvedValueOnce(mockAnswer);
@@ -305,6 +315,8 @@ describe('POST /addAnswer', () => {
       ansDateTime: new Date('2024-06-03'),
       comments: [],
       question: QUESTIONS[0],
+      upVotes: [],
+      downVotes: [],
     };
 
     const mockQuestion = {
@@ -367,6 +379,8 @@ describe('POST /answer/addAnswer', () => {
       ansDateTime: new Date(),
       comments: [],
       question: QUESTIONS[0], // Add the associated question
+      upVotes: [],
+      downVotes: [],
     };
 
     saveAnswerMock.mockResolvedValueOnce(mockAnswer);
@@ -463,6 +477,8 @@ describe('POST /answer/addAnswer', () => {
       ansDateTime: new Date(),
       comments: [],
       question: QUESTIONS[0], // Add the associated question
+      upVotes: [],
+      downVotes: [],
     };
 
     saveAnswerMock.mockResolvedValueOnce(mockAnswer);

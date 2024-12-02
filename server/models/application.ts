@@ -633,7 +633,7 @@ export const addVoteToDocument = async (
 
     if (!resultDoc || 'error' in resultDoc) {
       console.log(resultDoc);
-      return { error: 'Document not found!' };
+      return { error: `${docType} not found!` };
     }
 
     resultDoc = docType === 'question' ? (resultDoc as Question) : (resultDoc as Answer);
@@ -649,11 +649,11 @@ export const addVoteToDocument = async (
 
     if (voteType === 'upvote') {
       msg = resultDoc.upVotes.includes(username)
-        ? 'Document upvoted successfully'
+        ? `${docType} upvoted successfully`
         : 'Upvote cancelled successfully';
     } else {
       msg = resultDoc.downVotes.includes(username)
-        ? 'Document downvoted successfully'
+        ? `${docType} downvoted successfully`
         : 'Downvote cancelled successfully';
     }
 
@@ -670,8 +670,8 @@ export const addVoteToDocument = async (
     return {
       error:
         voteType === 'upvote'
-          ? 'Error when adding upvote to document'
-          : 'Error when adding downvote to document',
+          ? `Error when adding upvote to ${docType}`
+          : `Error when adding downvote to ${docType}`,
     };
   }
 };
