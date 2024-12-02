@@ -86,6 +86,7 @@ const ProfilePage = () => {
 
   const { profile } = useViewProfile(username);
   if (!profile) return <div>Profile not found</div>;
+  console.log('Profile', profile);
 
   const formattedDate = new Date(profile.joinedWhen).toLocaleDateString('en-US', {
     year: 'numeric',
@@ -135,7 +136,7 @@ const ProfilePage = () => {
 
           <QuestionDisplay activeTab={activeTab} questionsPosted={profile.questionsAsked} />
           <AnswerDisplay activeTab={activeTab} answersGiven={profile.answersGiven} />
-          <TagDisplay activeTab={activeTab} topTags={user.topTags} />
+          <TagDisplay activeTab={activeTab} topTags={profile.topTags || []} />
         </div>
       </div>
     </div>
