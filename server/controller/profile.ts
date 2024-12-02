@@ -59,13 +59,13 @@ const profileController = (socket: FakeSOSocket) => {
         },
       ]);
       if (!profile) {
-        res.status(404).json({ error: 'Profile not found' });
+        res.status(404).json({ message: 'Profile not found' });
         return;
       }
 
       const topTags = await calculateTagScores(profile.questionsAsked);
 
-      res.json({
+      res.status(200).json({
         id: profile.id,
         username: profile.username,
         title: profile.title,
@@ -79,7 +79,7 @@ const profileController = (socket: FakeSOSocket) => {
         topTags,
       });
     } catch (error) {
-      res.status(500).json({ error: 'Server error' });
+      res.status(500).json({ message: 'Server error', error });
     }
   };
 
