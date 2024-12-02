@@ -379,6 +379,8 @@ describe('POST /answer/addAnswer', () => {
       ansDateTime: new Date(),
       comments: [],
       question: QUESTIONS[0], // Add the associated question
+      upVotes: [],
+      downVotes: [],
     };
 
     saveAnswerMock.mockResolvedValueOnce(mockAnswer);
@@ -475,6 +477,8 @@ describe('POST /answer/addAnswer', () => {
       ansDateTime: new Date(),
       comments: [],
       question: QUESTIONS[0], // Add the associated question
+      upVotes: [],
+      downVotes: [],
     };
 
     saveAnswerMock.mockResolvedValueOnce(mockAnswer);
