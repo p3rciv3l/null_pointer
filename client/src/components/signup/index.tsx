@@ -3,6 +3,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import { FirebaseError } from 'firebase/app';
 import useLogin from '../../hooks/useLogin';
 import './index.css';
+import { addProfile } from '../../services/profileService';
+import { Profile } from '../../types';
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
@@ -16,6 +18,20 @@ const SignUp = () => {
     e.preventDefault();
     try {
       await signUp(email, password, username);
+      const newProfile: Profile = {
+        username,
+        title: '',
+        bio: '',
+        answersGiven: [],
+        questionsAsked: [],
+        questionsUpvoted: [],
+        answersUpvoted: [],
+        joinedWhen: new Date(),
+        following: [],
+      };
+
+      await addProfile(newProfile);
+
       navigate('/', {
         state: {
           message: 'Account created successfully! Please sign in.',
