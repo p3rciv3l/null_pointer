@@ -188,6 +188,7 @@ export interface Profile {
   answersUpvoted: Answer[];
   joinedWhen: Date;
   following: Types.ObjectId[];
+  topTags?: { name: string; score: number; posts: number; points: number }[];
 }
 
 /**
@@ -280,4 +281,14 @@ export interface Notification {
   read: boolean;
   userId: string;
   relatedId: string;
+}
+
+/**
+ * Type representing the score for a tag.
+ */
+export interface TagScore {
+  name: string;
+  score: number;
+  posts: number;
+  points: number;
 }

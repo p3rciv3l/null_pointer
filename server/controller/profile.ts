@@ -1,6 +1,6 @@
 import express, { Response } from 'express';
 import { AddProfileRequest, FakeSOSocket, FindProfileByUsernameRequest, Profile } from '../types';
-import { populateProfile, saveProfile } from '../models/application';
+import { calculateTagScores, populateProfile, saveProfile } from '../models/application';
 import ProfileModel from '../models/profile';
 
 // Initialize the profile controller with a socket for real-time updates
@@ -58,11 +58,26 @@ const profileController = (socket: FakeSOSocket) => {
           ],
         },
       ]);
-      if (profile) {
-        res.status(200).json(profile);
-      } else {
+      if (!profile) {
         res.status(404).json({ message: 'Profile not found' });
+        return;
       }
+
+      const topTags = await calculateTagScores(profile.questionsAsked);
+
+      res.status(200).json({
+        id: profile.id,
+        username: profile.username,
+        title: profile.title,
+        bio: profile.bio,
+        answersGiven: profile.answersGiven,
+        questionsAsked: profile.questionsAsked,
+        questionsUpvoted: profile.questionsUpvoted,
+        answersUpvoted: profile.answersUpvoted,
+        joinedWhen: profile.joinedWhen,
+        following: profile.following,
+        topTags,
+      });
     } catch (error) {
       res.status(500).json({ message: 'Server error', error });
     }

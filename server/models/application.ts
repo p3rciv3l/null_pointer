@@ -11,6 +11,7 @@ import {
   Question,
   QuestionResponse,
   Tag,
+  TagScore,
 } from '../types';
 import AnswerModel from './answers';
 import QuestionModel from './questions';
@@ -724,4 +725,48 @@ export const getTagCountMap = async (): Promise<Map<string, number> | null | { e
   } catch (error) {
     return { error: 'Error when construction tag map' };
   }
+};
+
+export const calculateTagScores = async (questions: Question[]): Promise<TagScore[]> => {
+  // Create a map to store tag statistics
+  const tagStats = new Map<
+    string,
+    {
+      posts: number;
+      points: number;
+    }
+  >();
+
+  // Process each question
+  questions.forEach(question => {
+    // Calculate points for this question
+    const questionPoints = question.upVotes.length - question.downVotes.length;
+
+    // Process each tag in the question
+    question.tags.forEach(tag => {
+      const currentStats = tagStats.get(tag.name) || { posts: 0, points: 0 };
+
+      // Update statistics
+      tagStats.set(tag.name, {
+        posts: currentStats.posts + 1,
+        points: currentStats.points + questionPoints,
+      });
+    });
+  });
+
+  // Convert map to array and calculate scores
+  const tagScores: TagScore[] = Array.from(tagStats.entries()).map(([name, stats]) => {
+    // Score formula: posts * 0.7 + points * 0.3
+    const score = Math.round((stats.posts * 0.7 + stats.points * 0.3) * 10);
+
+    return {
+      name,
+      score,
+      posts: stats.posts,
+      points: stats.points,
+    };
+  });
+
+  // Sort tags by score in descending order and return top 3 directly
+  return tagScores.sort((a, b) => b.score - a.score).slice(0, 3);
 };
