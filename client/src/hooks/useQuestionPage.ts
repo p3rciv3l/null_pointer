@@ -40,6 +40,8 @@ const useQuestionPage = () => {
         active: 'Active Questions',
         unanswered: 'Unanswered Questions',
         mostViewed: 'Most Viewed Questions',
+        following: 'Following Questions',
+        forYou: 'Recommended Questions',
       };
       pageTitle = orderMapping[questionOrder] || 'All Questions';
     }
