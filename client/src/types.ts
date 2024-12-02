@@ -100,6 +100,7 @@ export interface Profile {
   answersUpvoted: Answer[];
   joinedWhen: Date;
   following: string[];
+  topTags?: { name: string; score: number; posts: number; points: number }[];
 }
 
 /**
