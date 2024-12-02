@@ -20,6 +20,8 @@ export const orderTypeDisplayName = {
   unanswered: 'Unanswered',
   active: 'Active',
   mostViewed: 'Most Viewed',
+  following: 'Following',
+  forYou: 'For You',
 } as const;
 
 /**
