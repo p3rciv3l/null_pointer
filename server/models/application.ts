@@ -725,6 +725,7 @@ export const updateProfileArray = async (
   if (!validFields.includes(field)) {
     return { error: `Invalid field: ${field} Must be one of: ${validFields.join(', ')}` };
   }
+  console.log(`finding prof: ${username}`);
   const updatedProfile = await ProfileModel.findOneAndUpdate(
     { username },
     { $push: { [field]: { $each: [value], $postion: 0 } } },
