@@ -64,6 +64,50 @@ const profileController = (socket: FakeSOSocket) => {
           ],
         },
       ]);
+      if (!profile) {
+        res.status(404).json({ message: 'Profile not found' });
+        return;
+      }
+
+      const topTags = await calculateTagScores(profile.questionsAsked);
+
+      res.status(200).json({
+        id: profile.id,
+        username: profile.username,
+        title: profile.title,
+        bio: profile.bio,
+        answersGiven: profile.answersGiven,
+        questionsAsked: profile.questionsAsked,
+        questionsUpvoted: profile.questionsUpvoted,
+        answersUpvoted: profile.answersUpvoted,
+        joinedWhen: profile.joinedWhen,
+        following: profile.following,
+        topTags,
+      });
+    } catch (error) {
+      res.status(500).json({ message: 'Server error', error });
+    }
+  };
+
+  const updateEditProfile = async (req: updateProfileRequest, res: Response): Promise<void> => {
+    // Ensure at least one field is being updated
+    if (!req.query.title && !req.query.bio) {
+      throw new Error('At least one field (title or bio) must be provided.');
+    }
+
+    // Construct the update object dynamically
+    const updateDocument: Partial<Profile> = {};
+    if (req.query.title) updateDocument.title = req.query.title;
+    if (req.query.bio) updateDocument.bio = req.query.bio;
+
+    // Simulate updating the database
+    const { username } = req.params;
+    try {
+      const profile = await ProfileModel.findOneAndUpdate(
+        { username }, // Filter to find the profile
+        { $set: updateDocument }, // Update only the provided fields
+        { new: true }, // Return the updated profile
+      );
       if (profile) {
         res.status(200).json(profile);
       } else {

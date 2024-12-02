@@ -489,6 +489,78 @@ const populate = async () => {
       []
     );
 
+    const profile17 = await profileCreate(
+      'cloudArchitect',
+      new Date('2023-12-05'),
+      'Cloud Solutions Architect',
+      'Experienced in cloud architecture and infrastructure design',
+      [a11],
+      [],
+      [],
+      [],
+      []
+    );
+    
+    const profile18 = await profileCreate(
+      'dockerPro',
+      new Date('2023-12-06'),
+      'Docker Specialist',
+      'Container orchestration and DevOps expert',
+      [],
+      [q7],
+      [],
+      [],
+      []
+    );
+    
+    const profile19 = await profileCreate(
+      'pythonMaster',
+      new Date('2023-12-07'),
+      'Python Developer',
+      'Advanced Python programming and automation',
+      [],
+      [],
+      [],
+      [],
+      []
+    );
+    
+    const profile20 = await profileCreate(
+      'dataSage',
+      new Date('2023-12-08'),
+      'Data Scientist',
+      'Expert in data analysis and machine learning',
+      [a10],
+      [],
+      [],
+      [],
+      []
+    );
+    
+    const profile21 = await profileCreate(
+      'webDev',
+      new Date('2023-12-09'),
+      'Web Developer',
+      'Full-stack web development professional',
+      [],
+      [],
+      [],
+      [],
+      []
+    );
+    
+    const profile22 = await profileCreate(
+      'reactDev',
+      new Date('2023-12-10'),
+      'React Developer',
+      'Specialized in React and modern frontend development',
+      [],
+      [q8],
+      [],
+      [],
+      []
+    );
+
 
     // Update following relationships after all profiles are created
     await ProfileModel.findOneAndUpdate(
