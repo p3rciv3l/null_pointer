@@ -36,9 +36,9 @@ const ProfilePage = () => {
               bio={profile.bio}
               date={formattedDate}
               reputation={profile?.reputation ?? 0}
-              goldBadge={profile.badgeCount?.gold ?? -500}
-              silverBadge={profile.badgeCount?.silver ?? -500}
-              bronzeBadge={profile.badgeCount?.bronze ?? -500}
+              goldBadge={profile.badgeCount?.gold ?? 0}
+              silverBadge={profile.badgeCount?.silver ?? 0}
+              bronzeBadge={profile.badgeCount?.bronze ?? 0}
             />
           </ContentCard>
 
