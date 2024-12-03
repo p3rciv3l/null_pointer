@@ -126,8 +126,7 @@ describe('POST /addAnswer', () => {
   });
 
   it('should add a new answer to the question', async () => {
-    const validQid = new ObjectId();
-    const validAid = new ObjectId();
+    const validQid = new mongoose.Types.ObjectId();
     const mockReqBody = {
       qid: validQid,
       ans: {
@@ -137,13 +136,13 @@ describe('POST /addAnswer', () => {
       },
     };
 
-    const mockAnswer: Answer = {
-      _id: validAid,
+    const mockAnswer = {
+      _id: new ObjectId('65e9b58910afe6e94fc6e6dc'),
       text: 'This is a test answer',
       ansBy: 'dummyUserId',
       ansDateTime: new Date('2024-06-03'),
       comments: [],
-      question: QUESTIONS[0], // Add the associated question
+      question: QUESTIONS[0],
     };
     saveAnswerSpy.mockResolvedValueOnce(mockAnswer);
 
@@ -157,9 +156,23 @@ describe('POST /addAnswer', () => {
       views: [],
       upVotes: [],
       downVotes: [],
+      answers: [mockAnswer._id],
+      comments: [],
+    });
+
+    popDocSpy.mockResolvedValueOnce({
+      _id: validQid,
+      title: 'This is a test question',
+      text: 'This is a test question',
+      tags: [],
+      askedBy: 'dummyUserId',
+      askDateTime: new Date('2024-06-03'),
+      views: [],
+      upVotes: [],
+      downVotes: [],
       answers: [mockAnswer],
       comments: [],
-    } as Question);
+    });
 
     const response = await supertest(app).post('/answer/addAnswer').send(mockReqBody);
 
