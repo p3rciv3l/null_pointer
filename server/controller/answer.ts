@@ -151,7 +151,7 @@ const answerController = (socket: FakeSOSocket) => {
         throw new Error(status.error);
       }
 
-      socket.emit('voteUpdate', {
+      socket.emit('voteUpdateAnswer', {
         qid,
         upVotes: status.upVotes,
         downVotes: status.downVotes,

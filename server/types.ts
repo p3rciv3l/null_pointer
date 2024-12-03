@@ -275,6 +275,7 @@ export interface ServerToClientEvents {
   answerUpdate: (result: AnswerUpdatePayload) => void;
   viewsUpdate: (question: QuestionResponse) => void;
   voteUpdate: (vote: VoteUpdatePayload) => void;
+  voteUpdateAnswer: (vote: VoteUpdatePayload) => void;
   commentUpdate: (comment: CommentUpdatePayload) => void;
   profileUpdate: (profile: ProfileResponse) => void;
   notificationUpdate: (notification: Notification) => void;
