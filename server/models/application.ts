@@ -622,7 +622,6 @@ export const addVoteToDocument = async (
   try {
     let resultDoc;
     if (docType === 'question') {
-      console.log(`updatingDocument ${updateOperation}`);
       resultDoc = await QuestionModel.findOneAndUpdate({ _id: docID }, updateOperation, {
         new: true,
       });
@@ -633,7 +632,6 @@ export const addVoteToDocument = async (
     }
 
     if (!resultDoc || 'error' in resultDoc) {
-      console.log(resultDoc);
       return { error: `${docType} not found!` };
     }
 
@@ -726,7 +724,6 @@ export const updateProfileArray = async (
   if (!validFields.includes(field)) {
     return { error: `Invalid field: ${field} Must be one of: ${validFields.join(', ')}` };
   }
-  console.log(`finding prof: ${username}`);
   const updatedProfile = await ProfileModel.findOneAndUpdate(
     { username },
     { $push: { [field]: { $each: [value], $postion: 0 } } },
