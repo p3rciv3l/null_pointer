@@ -20,6 +20,8 @@ export const orderTypeDisplayName = {
   unanswered: 'Unanswered',
   active: 'Active',
   mostViewed: 'Most Viewed',
+  following: 'Following',
+  forYou: 'For You',
 } as const;
 
 /**
@@ -100,6 +102,7 @@ export interface Profile {
   answersUpvoted: Answer[];
   joinedWhen: Date;
   following: string[];
+  topTags?: { name: string; score: number; posts: number; points: number }[];
 }
 
 /**

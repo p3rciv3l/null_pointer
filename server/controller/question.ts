@@ -9,7 +9,6 @@ import {
   FakeSOSocket,
 } from '../types';
 import {
-  addVoteToQuestion,
   fetchAndIncrementQuestionViewsById,
   filterQuestionsByAskedBy,
   filterQuestionsBySearch,
@@ -17,6 +16,8 @@ import {
   processTags,
   populateDocument,
   saveQuestion,
+  updateProfileArray,
+  addVoteToDocument,
 } from '../models/application';
 import Notification from '../models/notification';
 
@@ -137,7 +138,20 @@ const questionController = (socket: FakeSOSocket) => {
       if (populatedQuestion && 'error' in populatedQuestion) {
         throw new Error(populatedQuestion.error);
       }
+      const forcedQuestion = populatedQuestion as Question;
+      if (forcedQuestion._id === undefined) {
+        throw new Error('question ID error');
+      }
 
+      const profileStatus = await updateProfileArray(
+        forcedQuestion.askedBy,
+        forcedQuestion._id,
+        'questionsAsked',
+      );
+
+      if (!profileStatus || 'error' in profileStatus) {
+        throw new Error('Error adding question to profile');
+      }
       // emit question update
       socket.emit('questionUpdate', populatedQuestion as Question);
 
@@ -186,7 +200,8 @@ const questionController = (socket: FakeSOSocket) => {
     const { qid, username } = req.body;
 
     try {
-      const status = await addVoteToQuestion(qid, username, type);
+      console.log(req.body.qid);
+      const status = await addVoteToDocument(qid, username, type, 'question');
       if ('error' in status) {
         throw new Error(status.error);
       }

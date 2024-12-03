@@ -26,6 +26,8 @@ export interface Answer {
   ansDateTime: Date;
   comments: Comment[];
   question: Question; // The Object ID of the associated question, or the question object if populated.
+  upVotes: string[];
+  downVotes: string[];
 }
 
 /**
@@ -137,7 +139,7 @@ export interface AddProfileRequest extends Request {
 /**
  * Interface for the request body when upvoting or downvoting a question.
  * - body - The question ID and the username of the user voting.
- *  - qid - The unique identifier of the question.
+ *  - id - The unique identifier of the question.
  *  - username - The username of the user voting.
  */
 export interface VoteRequest extends Request {
@@ -186,6 +188,7 @@ export interface Profile {
   answersUpvoted: Answer[];
   joinedWhen: Date;
   following: Types.ObjectId[];
+  topTags?: { name: string; score: number; posts: number; points: number }[];
 }
 
 /**
@@ -198,6 +201,16 @@ export interface FindProfileByUsernameRequest extends Request {
   };
   query: {
     username: string;
+  };
+}
+
+export interface updateProfileRequest extends Request {
+  params: {
+    username: string,
+  };
+  query: { 
+    title?: string; 
+    bio?: string 
   };
 }
 
@@ -232,7 +245,7 @@ export interface CommentUpdatePayload {
 
 /**
  * Interface representing the payload for a vote update event, which contains:
- * - qid - The unique identifier of the question.
+ * - id - The unique identifier of the question.
  * - upVotes - An array of usernames who upvoted the question.
  * - downVotes - An array of usernames who downvoted the question.
  */
@@ -278,4 +291,14 @@ export interface Notification {
   read: boolean;
   userId: string;
   relatedId: string;
+}
+
+/**
+ * Type representing the score for a tag.
+ */
+export interface TagScore {
+  name: string;
+  score: number;
+  posts: number;
+  points: number;
 }

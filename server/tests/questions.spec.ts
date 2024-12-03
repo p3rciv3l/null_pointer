@@ -67,6 +67,8 @@ const ans1: Answer = {
   ansDateTime: new Date('2024-06-09'), // The mock date is string type but in the actual implementation it is a Date type
   comments: [],
   question: MOCK_QUESTIONS[0],
+  upVotes: [],
+  downVotes: [],
 };
 
 const ans2: Answer = {
@@ -76,6 +78,8 @@ const ans2: Answer = {
   ansDateTime: new Date('2024-06-10'),
   comments: [],
   question: MOCK_QUESTIONS[0],
+  upVotes: [],
+  downVotes: [],
 };
 
 const ans3: Answer = {
@@ -85,6 +89,8 @@ const ans3: Answer = {
   ansDateTime: new Date('2024-06-11'),
   comments: [],
   question: MOCK_QUESTIONS[0],
+  upVotes: [],
+  downVotes: [],
 };
 
 const ans4: Answer = {
@@ -94,6 +100,8 @@ const ans4: Answer = {
   ansDateTime: new Date('2024-06-14'),
   comments: [],
   question: MOCK_QUESTIONS[0],
+  upVotes: [],
+  downVotes: [],
 };
 
 MOCK_QUESTIONS[0].answers = [ans1];

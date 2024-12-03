@@ -135,7 +135,7 @@ const ProfilePage = () => {
 
           <QuestionDisplay activeTab={activeTab} questionsPosted={profile.questionsAsked} />
           <AnswerDisplay activeTab={activeTab} answersGiven={profile.answersGiven} />
-          <TagDisplay activeTab={activeTab} topTags={user.topTags} />
+          <TagDisplay activeTab={activeTab} topTags={profile.topTags || []} />
         </div>
       </div>
     </div>

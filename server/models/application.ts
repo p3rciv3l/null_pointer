@@ -11,6 +11,7 @@ import {
   Question,
   QuestionResponse,
   Tag,
+  TagScore,
 } from '../types';
 import AnswerModel from './answers';
 import QuestionModel from './questions';
@@ -565,23 +566,34 @@ export const processTags = async (tags: Tag[]): Promise<Tag[]> => {
 };
 
 /**
- * Adds a vote to a question.
+ * Adds a vote to a document.
  *
- * @param qid The ID of the question to add a vote to.
+ * @param docID The ID of the document to add a vote to.
  * @param username The username of the user who voted.
- * @param type The type of vote to add, either 'upvote' or 'downvote'.
+ * @param voteType The type of vote to add, either 'upvote' or 'downvote'.
+ * @param docType The type of document to add the vote to, either 'question' or 'answer'.
  *
  * @returns A Promise that resolves to an object containing either a success message or an error message,
  *          along with the updated upVotes and downVotes arrays.
  */
-export const addVoteToQuestion = async (
-  qid: string,
+export const addVoteToDocument = async (
+  docID: string,
   username: string,
-  type: 'upvote' | 'downvote',
+  voteType: 'upvote' | 'downvote',
+  docType: 'question' | 'answer',
 ): Promise<{ msg: string; upVotes: string[]; downVotes: string[] } | { error: string }> => {
   let updateOperation: QueryOptions;
+  let updateProfileOperation: QueryOptions;
+  let fieldName = '';
+  if (docType === 'question') {
+    fieldName = 'questionsAsked';
+  } else if (docType === 'answer') {
+    fieldName = 'answersGiven';
+  } else {
+    throw new Error('docType must be one of: question, answer, profile');
+  }
 
-  if (type === 'upvote') {
+  if (voteType === 'upvote') {
     updateOperation = [
       {
         $set: {
@@ -597,6 +609,25 @@ export const addVoteToQuestion = async (
               { $in: [username, '$upVotes'] },
               '$downVotes',
               { $filter: { input: '$downVotes', as: 'd', cond: { $ne: ['$$d', username] } } },
+            ],
+          },
+        },
+      },
+    ];
+    updateProfileOperation = [
+      {
+        $set: {
+          questionsUpvoted: {
+            $cond: [
+              { $in: [docID, { $getField: fieldName }] },
+              {
+                $filter: {
+                  input: { $getField: fieldName },
+                  as: 'q',
+                  cond: { $ne: ['$$q', docID] },
+                },
+              },
+              { $concatArrays: [{ $getField: fieldName }, [docID]] },
             ],
           },
         },
@@ -623,40 +654,61 @@ export const addVoteToQuestion = async (
         },
       },
     ];
+    updateProfileOperation = { $pull: { [fieldName]: docID } };
   }
 
   try {
-    const result = await QuestionModel.findOneAndUpdate({ _id: qid }, updateOperation, {
+    let resultDoc;
+    if (docType === 'question') {
+      resultDoc = await QuestionModel.findOneAndUpdate({ _id: docID }, updateOperation, {
+        new: true,
+      });
+    } else {
+      resultDoc = await AnswerModel.findOneAndUpdate({ _id: docID }, updateOperation, {
+        new: true,
+      });
+    }
+
+    if (!resultDoc || 'error' in resultDoc) {
+      return { error: `${docType} not found!` };
+    }
+
+    resultDoc = docType === 'question' ? (resultDoc as Question) : (resultDoc as Answer);
+
+    const resultProf = await ProfileModel.findOneAndUpdate({ username }, updateProfileOperation, {
       new: true,
     });
-
-    if (!result) {
-      return { error: 'Question not found!' };
+    if (!resultProf || 'error' in resultProf) {
+      return { error: 'Error adding vote to profile' };
     }
 
     let msg = '';
 
-    if (type === 'upvote') {
-      msg = result.upVotes.includes(username)
-        ? 'Question upvoted successfully'
+    if (voteType === 'upvote') {
+      msg = resultDoc.upVotes.includes(username)
+        ? `${docType} upvoted successfully`
         : 'Upvote cancelled successfully';
     } else {
-      msg = result.downVotes.includes(username)
-        ? 'Question downvoted successfully'
+      msg = resultDoc.downVotes.includes(username)
+        ? `${docType} downvoted successfully`
         : 'Downvote cancelled successfully';
+    }
+
+    if (!resultDoc._id) {
+      throw new Error('Document ID error');
     }
 
     return {
       msg,
-      upVotes: result.upVotes || [],
-      downVotes: result.downVotes || [],
+      upVotes: resultDoc.upVotes || [],
+      downVotes: resultDoc.downVotes || [],
     };
   } catch (err) {
     return {
       error:
-        type === 'upvote'
-          ? 'Error when adding upvote to question'
-          : 'Error when adding downvote to question',
+        voteType === 'upvote'
+          ? `Error when adding upvote to ${docType}`
+          : `Error when adding downvote to ${docType}`,
     };
   }
 };
@@ -687,6 +739,38 @@ export const addAnswerToQuestion = async (qid: string, ans: Answer): Promise<Que
   } catch (error) {
     return { error: 'Error when adding answer to question' };
   }
+};
+
+/**
+ * Updates a profile based on username and updates provided.
+ *
+ * @param username - Username of the profile to update
+ * @param value - The objectID of the item being added to the profile
+ * @param field - The field from the profile schema that we are adding to
+ * @returns The updated profile or an error message if the update failed
+ */
+export const updateProfileArray = async (
+  username: string,
+  value: ObjectId,
+  field: string,
+): Promise<ProfileResponse> => {
+  if (!(field && value)) {
+    return { error: 'Field and value are required' };
+  }
+
+  const validFields = ['answersGiven', 'questionsAsked', 'questionsUpvoted', 'answersUpvoted'];
+  if (!validFields.includes(field)) {
+    return { error: `Invalid field: ${field} Must be one of: ${validFields.join(', ')}` };
+  }
+  const updatedProfile = await ProfileModel.findOneAndUpdate(
+    { username },
+    { $push: { [field]: { $each: [value], $postion: 0 } } },
+    { new: true },
+  );
+  if (updatedProfile === null) {
+    return { error: 'Profile not found!' };
+  }
+  return updatedProfile;
 };
 
 /**
@@ -762,4 +846,48 @@ export const getTagCountMap = async (): Promise<Map<string, number> | null | { e
   } catch (error) {
     return { error: 'Error when construction tag map' };
   }
+};
+
+export const calculateTagScores = async (questions: Question[]): Promise<TagScore[]> => {
+  // Create a map to store tag statistics
+  const tagStats = new Map<
+    string,
+    {
+      posts: number;
+      points: number;
+    }
+  >();
+
+  // Process each question
+  questions.forEach(question => {
+    // Calculate points for this question
+    const questionPoints = question.upVotes.length - question.downVotes.length;
+
+    // Process each tag in the question
+    question.tags.forEach(tag => {
+      const currentStats = tagStats.get(tag.name) || { posts: 0, points: 0 };
+
+      // Update statistics
+      tagStats.set(tag.name, {
+        posts: currentStats.posts + 1,
+        points: currentStats.points + questionPoints,
+      });
+    });
+  });
+
+  // Convert map to array and calculate scores
+  const tagScores: TagScore[] = Array.from(tagStats.entries()).map(([name, stats]) => {
+    // Score formula: posts * 0.7 + points * 0.3
+    const score = Math.round((stats.posts * 0.7 + stats.points * 0.3) * 10);
+
+    return {
+      name,
+      score,
+      posts: stats.posts,
+      points: stats.points,
+    };
+  });
+
+  // Sort tags by score in descending order and return top 3 directly
+  return tagScores.sort((a, b) => b.score - a.score).slice(0, 3);
 };

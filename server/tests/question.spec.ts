@@ -4,7 +4,7 @@ import { app } from '../app';
 import * as util from '../models/application';
 import { Question } from '../types';
 
-const addVoteToQuestionSpy = jest.spyOn(util, 'addVoteToQuestion');
+const addVoteToDocumentSpy = jest.spyOn(util, 'addVoteToDocument');
 
 interface MockResponse {
   msg: string;
@@ -116,7 +116,7 @@ describe('POST /upvoteQuestion', () => {
       downVotes: [],
     };
 
-    addVoteToQuestionSpy.mockResolvedValueOnce(mockResponse);
+    addVoteToDocumentSpy.mockResolvedValueOnce(mockResponse);
 
     const response = await supertest(app).post('/question/upvoteQuestion').send(mockReqBody);
 
@@ -138,7 +138,7 @@ describe('POST /upvoteQuestion', () => {
 
     await supertest(app).post('/question/upvoteQuestion').send(mockReqBody);
 
-    addVoteToQuestionSpy.mockResolvedValueOnce(mockSecondResponse);
+    addVoteToDocumentSpy.mockResolvedValueOnce(mockSecondResponse);
 
     const response = await supertest(app).post('/question/upvoteQuestion').send(mockReqBody);
 
@@ -159,7 +159,7 @@ describe('POST /upvoteQuestion', () => {
       downVotes: [],
     };
 
-    addVoteToQuestionSpy.mockResolvedValueOnce(mockResponseWithBothVotes);
+    addVoteToDocumentSpy.mockResolvedValueOnce(mockResponseWithBothVotes);
 
     let response = await supertest(app).post('/question/upvoteQuestion').send(mockReqBody);
 
@@ -173,7 +173,7 @@ describe('POST /upvoteQuestion', () => {
       upVotes: [],
     };
 
-    addVoteToQuestionSpy.mockResolvedValueOnce(mockResponseWithBothVotes);
+    addVoteToDocumentSpy.mockResolvedValueOnce(mockResponseWithBothVotes);
 
     response = await supertest(app).post('/question/downvoteQuestion').send(mockReqBody);
 
@@ -223,7 +223,7 @@ describe('POST /downvoteQuestion', () => {
       upVotes: [],
     };
 
-    addVoteToQuestionSpy.mockResolvedValueOnce(mockResponse);
+    addVoteToDocumentSpy.mockResolvedValueOnce(mockResponse);
 
     const response = await supertest(app).post('/question/downvoteQuestion').send(mockReqBody);
 
@@ -245,7 +245,7 @@ describe('POST /downvoteQuestion', () => {
 
     await supertest(app).post('/question/downvoteQuestion').send(mockReqBody);
 
-    addVoteToQuestionSpy.mockResolvedValueOnce(mockSecondResponse);
+    addVoteToDocumentSpy.mockResolvedValueOnce(mockSecondResponse);
 
     const response = await supertest(app).post('/question/downvoteQuestion').send(mockReqBody);
 
@@ -266,7 +266,7 @@ describe('POST /downvoteQuestion', () => {
       upVotes: [],
     };
 
-    addVoteToQuestionSpy.mockResolvedValueOnce(mockResponse);
+    addVoteToDocumentSpy.mockResolvedValueOnce(mockResponse);
 
     let response = await supertest(app).post('/question/downvoteQuestion').send(mockReqBody);
 
@@ -280,7 +280,7 @@ describe('POST /downvoteQuestion', () => {
       upVotes: ['new-user'],
     };
 
-    addVoteToQuestionSpy.mockResolvedValueOnce(mockResponse);
+    addVoteToDocumentSpy.mockResolvedValueOnce(mockResponse);
 
     response = await supertest(app).post('/question/upvoteQuestion').send(mockReqBody);
 

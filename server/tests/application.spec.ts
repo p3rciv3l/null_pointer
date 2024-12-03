@@ -14,10 +14,10 @@ import {
   getTagCountMap,
   saveComment,
   addComment,
-  addVoteToQuestion,
   populateDocument,
   populateProfile,
   saveProfile,
+  addVoteToDocument,
 } from '../models/application';
 import { Answer, Question, Tag, Comment, Profile } from '../types';
 import { T1_DESC, T2_DESC, T3_DESC } from '../data/posts_strings';
@@ -114,6 +114,8 @@ const ans1: Answer = {
   ansDateTime: new Date('2023-11-18T09:24:00'),
   comments: [],
   question: QUESTIONS[0], // Add the associated question
+  upVotes: [],
+  downVotes: [],
 };
 
 const ans2: Answer = {
@@ -123,6 +125,8 @@ const ans2: Answer = {
   ansDateTime: new Date('2023-11-20T09:24:00'),
   comments: [],
   question: QUESTIONS[0], // Add the associated question
+  upVotes: [],
+  downVotes: [],
 };
 
 const ans3: Answer = {
@@ -132,6 +136,8 @@ const ans3: Answer = {
   ansDateTime: new Date('2023-11-19T09:24:00'),
   comments: [],
   question: QUESTIONS[0], // Add the associated question
+  upVotes: [],
+  downVotes: [],
 };
 
 const ans4: Answer = {
@@ -141,6 +147,8 @@ const ans4: Answer = {
   ansDateTime: new Date('2023-11-19T09:24:00'),
   comments: [],
   question: QUESTIONS[0], // Add the associated question
+  upVotes: [],
+  downVotes: [],
 };
 
 QUESTIONS[0].answers = [ans1, ans2];
@@ -569,15 +577,25 @@ describe('application module', () => {
           downVotes: [],
         };
 
+        const mockProfile = {
+          username: 'someProfile',
+          questionsUpvoted: [],
+        };
+
         mockingoose(QuestionModel).toReturn(
           { ...mockQuestion, upVotes: ['testUser'], downVotes: [] },
           'findOneAndUpdate',
         );
 
-        const result = await addVoteToQuestion('someQuestionId', 'testUser', 'upvote');
+        mockingoose(ProfileModel).toReturn(
+          { ...mockProfile, questionsUpvoted: ['someQuestionId'] },
+          'findOneAndUpdate',
+        );
+
+        const result = await addVoteToDocument('someQuestionId', 'testUser', 'upvote', 'question');
 
         expect(result).toEqual({
-          msg: 'Question upvoted successfully',
+          msg: 'question upvoted successfully',
           upVotes: ['testUser'],
           downVotes: [],
         });
@@ -590,15 +608,25 @@ describe('application module', () => {
           downVotes: ['testUser'],
         };
 
+        const mockProfile = {
+          username: 'someProfile',
+          questionsUpvoted: [],
+        };
+
         mockingoose(QuestionModel).toReturn(
           { ...mockQuestion, upVotes: ['testUser'], downVotes: [] },
           'findOneAndUpdate',
         );
 
-        const result = await addVoteToQuestion('someQuestionId', 'testUser', 'upvote');
+        mockingoose(ProfileModel).toReturn(
+          { ...mockProfile, questionsUpvoted: ['somequestionId'] },
+          'findOneAndUpdate',
+        );
+
+        const result = await addVoteToDocument('someQuestionId', 'testUser', 'upvote', 'question');
 
         expect(result).toEqual({
-          msg: 'Question upvoted successfully',
+          msg: 'question upvoted successfully',
           upVotes: ['testUser'],
           downVotes: [],
         });
@@ -611,12 +639,22 @@ describe('application module', () => {
           downVotes: [],
         };
 
+        const mockProfile = {
+          username: 'someProfile',
+          questionsUpvoted: ['somequestionId'],
+        };
+
         mockingoose(QuestionModel).toReturn(
           { ...mockQuestion, upVotes: [], downVotes: [] },
           'findOneAndUpdate',
         );
 
-        const result = await addVoteToQuestion('someQuestionId', 'testUser', 'upvote');
+        mockingoose(ProfileModel).toReturn(
+          { ...mockProfile, questionsUpvoted: [] },
+          'findOneAndUpdate',
+        );
+
+        const result = await addVoteToDocument('someQuestionId', 'testUser', 'upvote', 'question');
 
         expect(result).toEqual({
           msg: 'Upvote cancelled successfully',
@@ -628,15 +666,15 @@ describe('application module', () => {
       test('addVoteToQuestion should return an error if the question is not found', async () => {
         mockingoose(QuestionModel).toReturn(null, 'findById');
 
-        const result = await addVoteToQuestion('nonExistentId', 'testUser', 'upvote');
+        const result = await addVoteToDocument('nonExistentId', 'testUser', 'upvote', 'question');
 
-        expect(result).toEqual({ error: 'Question not found!' });
+        expect(result).toEqual({ error: 'question not found!' });
       });
 
       test('addVoteToQuestion should return an error when there is an issue with adding an upvote', async () => {
         mockingoose(QuestionModel).toReturn(new Error('Database error'), 'findOneAndUpdate');
 
-        const result = await addVoteToQuestion('someQuestionId', 'testUser', 'upvote');
+        const result = await addVoteToDocument('someQuestionId', 'testUser', 'upvote', 'question');
 
         expect(result).toEqual({ error: 'Error when adding upvote to question' });
       });
@@ -648,15 +686,30 @@ describe('application module', () => {
           downVotes: [],
         };
 
+        const mockProfile = {
+          username: 'someProfile',
+          questionsUpvoted: [],
+        };
+
+        mockingoose(ProfileModel).toReturn(
+          { ...mockProfile, questionsUpvoted: [] },
+          'findOneAndUpdate',
+        );
+
         mockingoose(QuestionModel).toReturn(
           { ...mockQuestion, upVotes: [], downVotes: ['testUser'] },
           'findOneAndUpdate',
         );
 
-        const result = await addVoteToQuestion('someQuestionId', 'testUser', 'downvote');
+        const result = await addVoteToDocument(
+          'someQuestionId',
+          'testUser',
+          'downvote',
+          'question',
+        );
 
         expect(result).toEqual({
-          msg: 'Question downvoted successfully',
+          msg: 'question downvoted successfully',
           upVotes: [],
           downVotes: ['testUser'],
         });
@@ -669,15 +722,30 @@ describe('application module', () => {
           downVotes: [],
         };
 
+        const mockProfile = {
+          username: 'someProfile',
+          questionsUpvoted: ['somequestionId'],
+        };
+
+        mockingoose(ProfileModel).toReturn(
+          { ...mockProfile, questionsUpvoted: [] },
+          'findOneAndUpdate',
+        );
+
         mockingoose(QuestionModel).toReturn(
           { ...mockQuestion, upVotes: [], downVotes: ['testUser'] },
           'findOneAndUpdate',
         );
 
-        const result = await addVoteToQuestion('someQuestionId', 'testUser', 'downvote');
+        const result = await addVoteToDocument(
+          'someQuestionId',
+          'testUser',
+          'downvote',
+          'question',
+        );
 
         expect(result).toEqual({
-          msg: 'Question downvoted successfully',
+          msg: 'question downvoted successfully',
           upVotes: [],
           downVotes: ['testUser'],
         });
@@ -690,12 +758,27 @@ describe('application module', () => {
           downVotes: ['testUser'],
         };
 
+        const mockProfile = {
+          username: 'someProfile',
+          questionsUpvoted: [],
+        };
+
+        mockingoose(ProfileModel).toReturn(
+          { ...mockProfile, questionsUpvoted: [] },
+          'findOneAndUpdate',
+        );
+
         mockingoose(QuestionModel).toReturn(
           { ...mockQuestion, upVotes: [], downVotes: [] },
           'findOneAndUpdate',
         );
 
-        const result = await addVoteToQuestion('someQuestionId', 'testUser', 'downvote');
+        const result = await addVoteToDocument(
+          'someQuestionId',
+          'testUser',
+          'downvote',
+          'question',
+        );
 
         expect(result).toEqual({
           msg: 'Downvote cancelled successfully',
@@ -707,15 +790,20 @@ describe('application module', () => {
       test('addVoteToQuestion should return an error if the question is not found', async () => {
         mockingoose(QuestionModel).toReturn(null, 'findById');
 
-        const result = await addVoteToQuestion('nonExistentId', 'testUser', 'downvote');
+        const result = await addVoteToDocument('nonExistentId', 'testUser', 'downvote', 'question');
 
-        expect(result).toEqual({ error: 'Question not found!' });
+        expect(result).toEqual({ error: 'question not found!' });
       });
 
       test('addVoteToQuestion should return an error when there is an issue with adding a downvote', async () => {
         mockingoose(QuestionModel).toReturn(new Error('Database error'), 'findOneAndUpdate');
 
-        const result = await addVoteToQuestion('someQuestionId', 'testUser', 'downvote');
+        const result = await addVoteToDocument(
+          'someQuestionId',
+          'testUser',
+          'downvote',
+          'question',
+        );
 
         expect(result).toEqual({ error: 'Error when adding downvote to question' });
       });
@@ -731,6 +819,8 @@ describe('application module', () => {
           ansDateTime: new Date('2024-06-06'),
           comments: [],
           question: QUESTIONS[0],
+          upVotes: [],
+          downVotes: [],
         };
 
         const result = (await saveAnswer(
