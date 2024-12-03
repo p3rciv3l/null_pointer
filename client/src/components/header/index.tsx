@@ -7,6 +7,7 @@ import { useDropdown } from '../../hooks/useDropdown';
 import AskQuestionButton from '../main/askQuestionButton';
 import { logout } from '../../services/authService';
 import NotificationBell from '../main/notificationBell';
+import UserProfileLink from '../main/profile/profileLink';
 
 /**
  * Header component that renders the main title and a search bar.
@@ -59,9 +60,7 @@ const Header = () => {
             </div>
             {isOpen && (
               <div className='dropdown-content'>
-                <a href={`/profile/${user.username}`} className='dropdown-item'>
-                  Profile
-                </a>
+                <UserProfileLink username={user.username} />
                 <div
                   className='dropdown-item'
                   onClick={handleSignOut}
