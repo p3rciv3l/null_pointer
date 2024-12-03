@@ -9,7 +9,7 @@ export type FakeSOSocket = Server<ServerToClientEvents>;
 /**
  * Type representing the possible ordering options for questions.
  */
-export type OrderType = 'newest' | 'unanswered' | 'active' | 'mostViewed';
+export type OrderType = 'newest' | 'unanswered' | 'active' | 'mostViewed' | 'forYou';
 
 /**
  * Interface representing an Answer document, which contains:
@@ -84,9 +84,7 @@ export interface Question {
   comments: Comment[] | ObjectId[];
 }
 
-export interface AIAnswer {
-
-}
+export interface AIAnswer {}
 
 /**
  * Type representing the possible responses for a Question-related operation.
