@@ -17,8 +17,9 @@ import {
   addVoteToQuestion,
   populateDocument,
   populateProfile,
+  saveProfile,
 } from '../models/application';
-import { Answer, Question, Tag, Comment } from '../types';
+import { Answer, Question, Tag, Comment, Profile } from '../types';
 import { T1_DESC, T2_DESC, T3_DESC } from '../data/posts_strings';
 import AnswerModel from '../models/answers';
 import ProfileModel from '../models/profile';
@@ -322,6 +323,14 @@ describe('application module', () => {
         expect(result[1]._id?.toString()).toEqual('65e9b58910afe6e94fc6e6dc');
         expect(result[2]._id?.toString()).toEqual('65e9b5a995b6c7045a30d823');
         expect(result[3]._id?.toString()).toEqual('65e9b716ff0e892116b2de09');
+      });
+
+      test('get top tags questions', async () => {
+        mockingoose(QuestionModel).toReturn(QUESTIONS, 'find');
+
+        const result = await getQuestionsByOrder('forYou');
+
+        expect(result.length).toEqual(4);
       });
 
       test('getQuestionsByOrder should return empty list if find throws an error', async () => {
@@ -942,6 +951,26 @@ describe('application module', () => {
         expect(result.text).toEqual(com1.text);
         expect(result.commentBy).toEqual(com1.commentBy);
         expect(result.commentDateTime).toEqual(com1.commentDateTime);
+      });
+    });
+
+    describe('saveProfile', () => {
+      test('saveProfile should return the saved profile', async () => {
+        const p: Profile = {
+          _id: new ObjectId('507f191e810c19729de860ea'),
+          username: 'testUser',
+          title: 'Test Title',
+          bio: 'This is a test bio',
+          joinedWhen: new Date('2023-11-18T09:25:00'),
+          following: [],
+          answersGiven: [],
+          questionsAsked: [],
+          questionsUpvoted: [],
+          answersUpvoted: [],
+        };
+        const result = (await saveProfile(p)) as Profile;
+
+        expect(result._id).toBeDefined();
       });
     });
 
