@@ -171,6 +171,41 @@ const sortQuestionsByMostViews = (qlist: Question[]): Question[] =>
   sortQuestionsByNewest(qlist).sort((a, b) => b.views.length - a.views.length);
 
 /**
+ * Sorts a list of questions by the top tags based on the user's tags interaction in ascending order.
+ *
+ * @param qlist The array of Question objects to be sorted.
+ *
+ * @returns A new array of Question objects sorted by the top tags.
+ */
+const sortQuestionsByTopTags = (qlist: Question[]): Question[] => {
+  // Implement sorting by top tags
+  const tagCountMap = new Map<string, number>();
+
+  // Count the occurrences of each tag in the questions
+  qlist.forEach(q => {
+    q.tags.forEach(tag => {
+      tagCountMap.set(tag.name, (tagCountMap.get(tag.name) || 0) + 1);
+    });
+  });
+
+  // Sort tags by their count in descending order
+  const sortedTags = Array.from(tagCountMap.entries()).sort((a, b) => b[1] - a[1]);
+
+  // Create a map of tag names to their rank
+  const tagRankMap = new Map<string, number>();
+  sortedTags.forEach(([tagName], index) => {
+    tagRankMap.set(tagName, index);
+  });
+
+  // Sort questions by the rank of their top tag
+  return qlist.sort((a, b) => {
+    const aTopTagRank = Math.min(...a.tags.map(tag => tagRankMap.get(tag.name) || Infinity));
+    const bTopTagRank = Math.min(...b.tags.map(tag => tagRankMap.get(tag.name) || Infinity));
+    return aTopTagRank - bTopTagRank;
+  });
+};
+
+/**
  * Adds a tag to the database if it does not already exist.
  *
  * @param {Tag} tag - The tag to add
@@ -220,7 +255,10 @@ export const getQuestionsByOrder = async (order: OrderType): Promise<Question[]>
     if (order === 'newest') {
       return sortQuestionsByNewest(qlist);
     }
-    return sortQuestionsByMostViews(qlist);
+    if (order === 'mostViewed') {
+      return sortQuestionsByMostViews(qlist);
+    }
+    return sortQuestionsByTopTags(qlist);
   } catch (error) {
     return [];
   }
