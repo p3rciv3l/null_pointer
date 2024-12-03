@@ -26,6 +26,8 @@ export interface Answer {
   ansDateTime: Date;
   comments: Comment[];
   question: Question; // The Object ID of the associated question, or the question object if populated.
+  upVotes: string[];
+  downVotes: string[];
 }
 
 /**
@@ -139,7 +141,7 @@ export interface AddProfileRequest extends Request {
 /**
  * Interface for the request body when upvoting or downvoting a question.
  * - body - The question ID and the username of the user voting.
- *  - qid - The unique identifier of the question.
+ *  - id - The unique identifier of the question.
  *  - username - The username of the user voting.
  */
 export interface VoteRequest extends Request {
@@ -204,6 +206,16 @@ export interface FindProfileByUsernameRequest extends Request {
   };
 }
 
+export interface updateProfileRequest extends Request {
+  params: {
+    username: string,
+  };
+  query: { 
+    title?: string; 
+    bio?: string 
+  };
+}
+
 /**
  * Interface extending the request body when adding a comment to a question or an answer, which contains:
  * - id - The unique identifier of the question or answer being commented on.
@@ -235,7 +247,7 @@ export interface CommentUpdatePayload {
 
 /**
  * Interface representing the payload for a vote update event, which contains:
- * - qid - The unique identifier of the question.
+ * - id - The unique identifier of the question.
  * - upVotes - An array of usernames who upvoted the question.
  * - downVotes - An array of usernames who downvoted the question.
  */

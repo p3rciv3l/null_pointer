@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import supertest from 'supertest';
 import { app } from '../app';
 import * as util from '../models/application';
-import { Answer, Question, Tag } from '../types';
+import { Answer, Profile, Question, Tag } from '../types';
 
 const tag1: Tag = {
   _id: new mongoose.Types.ObjectId('507f191e810c19729de860ea'),
@@ -27,6 +27,19 @@ const mockQuestion: Question = {
   upVotes: [],
   downVotes: [],
   comments: [],
+};
+
+const mockProfile: Profile = {
+  _id: new mongoose.Types.ObjectId('65e9b58910afe6e94fc6e6ff'),
+  username: 'mockProfile',
+  title: 'mockTitle',
+  bio: 'mockBio',
+  answersGiven: [],
+  questionsAsked: [mockQuestion],
+  questionsUpvoted: [],
+  answersUpvoted: [],
+  joinedWhen: new Date('2024-06-06'),
+  following: [],
 };
 
 const simplifyQuestion = (question: Question) => ({
@@ -61,6 +74,7 @@ describe('POST /addQuestion', () => {
     jest.spyOn(util, 'processTags').mockResolvedValue([tag1, tag2] as Tag[]);
     jest.spyOn(util, 'saveQuestion').mockResolvedValueOnce(mockQuestion as Question);
     jest.spyOn(util, 'populateDocument').mockResolvedValueOnce(mockQuestion as Question);
+    jest.spyOn(util, 'updateProfileArray').mockResolvedValueOnce(mockProfile as Profile);
 
     // Making the request
     const response = await supertest(app).post('/question/addQuestion').send(mockQuestion);
@@ -83,10 +97,25 @@ describe('POST /addQuestion', () => {
     expect(response.status).toBe(500);
   });
 
-  it('should return 500 if error occurs in `saveQuestion` while adding a new question', async () => {
+  it('should return 500 if error occurs in `populateDocument` while adding a new question', async () => {
     jest.spyOn(util, 'processTags').mockResolvedValue([tag1, tag2] as Tag[]);
     jest.spyOn(util, 'saveQuestion').mockResolvedValueOnce(mockQuestion as Question);
     jest.spyOn(util, 'populateDocument').mockResolvedValueOnce({ error: 'Error while populating' });
+
+    // Making the request
+    const response = await supertest(app).post('/question/addQuestion').send(mockQuestion);
+
+    // Asserting the response
+    expect(response.status).toBe(500);
+  });
+
+  it('should return 500 if error occurs in `updateProfileArray` while adding a new question', async () => {
+    jest.spyOn(util, 'processTags').mockResolvedValue([tag1, tag2] as Tag[]);
+    jest.spyOn(util, 'saveQuestion').mockResolvedValueOnce(mockQuestion as Question);
+    jest.spyOn(util, 'populateDocument').mockResolvedValueOnce(mockQuestion as Question);
+    jest
+      .spyOn(util, 'updateProfileArray')
+      .mockResolvedValueOnce({ error: 'Error while updating Profile' });
 
     // Making the request
     const response = await supertest(app).post('/question/addQuestion').send(mockQuestion);
@@ -187,6 +216,8 @@ describe('POST /addQuestion', () => {
     });
 
     jest.spyOn(util, 'populateDocument').mockResolvedValueOnce(result);
+
+    jest.spyOn(util, 'updateProfileArray').mockResolvedValueOnce(mockProfile as Profile);
 
     // Making the request
     const response = await supertest(app).post('/question/addQuestion').send(mockQuestion);
