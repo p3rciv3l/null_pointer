@@ -273,6 +273,7 @@ export interface ServerToClientEvents {
   answerUpdate: (result: AnswerUpdatePayload) => void;
   viewsUpdate: (question: QuestionResponse) => void;
   voteUpdate: (vote: VoteUpdatePayload) => void;
+  voteUpdateAnswer: (vote: VoteUpdatePayload) => void;
   commentUpdate: (comment: CommentUpdatePayload) => void;
   profileUpdate: (profile: ProfileResponse) => void;
   notificationUpdate: (notification: Notification) => void;
@@ -301,4 +302,13 @@ export interface TagScore {
   score: number;
   posts: number;
   points: number;
+}
+
+/**
+ * Type representing badge awards for a user.
+ */
+export interface BadgeCount {
+  gold: number;
+  silver: number;
+  bronze: number;
 }

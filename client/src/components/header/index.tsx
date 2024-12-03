@@ -60,7 +60,9 @@ const Header = () => {
             </div>
             {isOpen && (
               <div className='dropdown-content'>
-                <UserProfileLink username={user.username} />
+                <div className='dropdown-item'>
+                  <UserProfileLink username={user.username} isIconPage={true} />
+                </div>
                 <div
                   className='dropdown-item'
                   onClick={handleSignOut}

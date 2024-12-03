@@ -20,7 +20,7 @@ interface VoteComponentProps {
  *
  * @param question - The question object containing voting information.
  */
-const VoteComponent = ({ question }: VoteComponentProps) => {
+const VoteComponentQuestion = ({ question }: VoteComponentProps) => {
   const { user } = useUserContext();
   const { count, voted } = useVoteStatus({ question });
 
@@ -62,4 +62,4 @@ const VoteComponent = ({ question }: VoteComponentProps) => {
   );
 };
 
-export default VoteComponent;
+export default VoteComponentQuestion;

@@ -200,7 +200,6 @@ const questionController = (socket: FakeSOSocket) => {
     const { qid, username } = req.body;
 
     try {
-      console.log(req.body.qid);
       const status = await addVoteToDocument(qid, username, type, 'question');
       if ('error' in status) {
         throw new Error(status.error);

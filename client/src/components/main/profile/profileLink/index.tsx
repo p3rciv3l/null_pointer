@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router-dom';
 
 interface UserProfileLinkProps {
   username: string;
-  className?: string; // Added optional className prop for styling
+  className?: string; // Optional className prop for styling
+  isIconPage?: boolean; // Optional field for reformatting in the icon of the header
 }
 
-const UserProfileLink = ({ username, className }: UserProfileLinkProps) => {
+const UserProfileLink = ({ username, className, isIconPage }: UserProfileLinkProps) => {
   const navigate = useNavigate(); // Initialize the navigate function at the top
 
   const handleClick = () => {
@@ -15,7 +16,7 @@ const UserProfileLink = ({ username, className }: UserProfileLinkProps) => {
 
   return (
     <div className={className} onClick={handleClick}>
-      {username}
+      {isIconPage ? 'Profile' : username}
     </div>
   );
 };

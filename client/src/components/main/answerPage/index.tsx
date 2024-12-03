@@ -4,7 +4,7 @@ import { UserIcon, BotMessageSquare } from 'lucide-react';
 import { getMetaData } from '../../../tool';
 import AnswerView from './answer';
 import { Comment } from '../../../types';
-import VoteComponent from '../voteComponent';
+import VoteComponentQuestion from '../voteComponentQuestion';
 import CommentSection from '../commentSection';
 import useAnswerPage from '../../../hooks/useAnswerPage';
 import UserProfileLink from '../profile/profileLink';
@@ -25,7 +25,7 @@ const AnswerPage = () => {
     <div className='page_container'>
       <div className='question_container'>
         {/* Voting System */}
-        <VoteComponent question={question} />
+        <VoteComponentQuestion question={question} />
         {/* Main Content */}
         <div className='question_content'>
           <h1 className='question_title'>{question.title}</h1>
@@ -77,10 +77,7 @@ const AnswerPage = () => {
       {question.answers.map((a, idx) => (
         <AnswerView
           key={idx}
-          text={a.text}
-          ansBy={a.ansBy}
-          meta={getMetaData(new Date(a.ansDateTime))}
-          comments={a.comments}
+          answer={a}
           handleAddComment={(comment: Comment) => handleNewComment(comment, 'answer', a._id)}
         />
       ))}

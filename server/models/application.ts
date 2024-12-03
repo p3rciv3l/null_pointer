@@ -3,6 +3,7 @@ import { QueryOptions } from 'mongoose';
 import {
   Answer,
   AnswerResponse,
+  BadgeCount,
   Comment,
   CommentResponse,
   OrderType,
@@ -877,8 +878,8 @@ export const calculateTagScores = async (questions: Question[]): Promise<TagScor
 
   // Convert map to array and calculate scores
   const tagScores: TagScore[] = Array.from(tagStats.entries()).map(([name, stats]) => {
-    // Score formula: posts * 0.7 + points * 0.3
-    const score = Math.round((stats.posts * 0.7 + stats.points * 0.3) * 10);
+    // Score formula: posts * 0.7 + points * 0.3 * 5
+    const score = Math.round((stats.posts * 0.7 + stats.points * 0.3) * 5);
 
     return {
       name,
@@ -890,4 +891,68 @@ export const calculateTagScores = async (questions: Question[]): Promise<TagScor
 
   // Sort tags by score in descending order and return top 3 directly
   return tagScores.sort((a, b) => b.score - a.score).slice(0, 3);
+};
+// export const calculateTagScores = async (questions: Question[]): Promise<TagScore[]> => {
+
+export const calculateBadges = async (
+  questions: Question[],
+  answers: Answer[],
+): Promise<BadgeCount> => {
+  const badges: BadgeCount = {
+    gold: 0,
+    silver: 0,
+    bronze: 0,
+  };
+  // Process questions
+  questions.forEach(question => {
+    const upvoteCount = question.upVotes.length;
+
+    if (upvoteCount >= 7) {
+      badges.gold++;
+    } else if (upvoteCount >= 5) {
+      badges.silver++;
+    } else if (upvoteCount >= 3) {
+      badges.bronze++;
+    }
+  });
+
+  // Process answers
+  answers.forEach(answer => {
+    const upvoteCount = answer.upVotes.length;
+
+    if (upvoteCount >= 7) {
+      badges.gold++;
+    } else if (upvoteCount >= 5) {
+      badges.silver++;
+    } else if (upvoteCount >= 3) {
+      badges.bronze++;
+    }
+  });
+
+  return badges;
+};
+
+export const calculateReputation = async (
+  questions: Question[],
+  answers: Answer[],
+): Promise<number> => {
+  let score = 0;
+  // Process questions
+  questions.forEach(question => {
+    const upvoteCount = question.upVotes.length;
+    const downvoteCount = question.downVotes.length;
+
+    const questionScore = upvoteCount - downvoteCount;
+    score += questionScore;
+  });
+
+  // Process answers
+  answers.forEach(answer => {
+    const upvoteCount = answer.upVotes.length;
+    const downvoteCount = answer.downVotes.length;
+
+    const questionScore = upvoteCount - downvoteCount;
+    score += questionScore;
+  });
+  return score;
 };

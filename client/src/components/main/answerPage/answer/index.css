@@ -1,12 +1,13 @@
 .answer-container {
+  display: flex;
   background-color: white;
   border-bottom: 1px solid #e5e7eb;
-  margin-left: 18px;
-
+  padding: 1rem;
 }
 
 .answer-wrapper {
-  padding: 0.75rem 1rem;
+  flex: 1;
+  margin-left: 1rem;
 }
 
 .answer-content-group {

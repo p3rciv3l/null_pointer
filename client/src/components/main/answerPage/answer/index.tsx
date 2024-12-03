@@ -1,9 +1,10 @@
 import React from 'react';
-import { handleHyperlink } from '../../../../tool';
+import { getMetaData, handleHyperlink } from '../../../../tool';
 import CommentSection from '../../commentSection';
 import './index.css';
-import { Comment } from '../../../../types';
+import { Answer, Comment } from '../../../../types';
 import UserProfileLink from '../../profile/profileLink';
+import VoteComponentAnswer from '../../voteComponentAnswer';
 
 /**
  * Interface representing the props for the AnswerView component.
@@ -15,10 +16,7 @@ import UserProfileLink from '../../profile/profileLink';
  * - handleAddComment: Callback function to handle adding a new comment.
  */
 interface AnswerProps {
-  text: string;
-  ansBy: string;
-  meta: string;
-  comments: Comment[];
+  answer: Answer;
   handleAddComment: (comment: Comment) => void;
 }
 
@@ -26,23 +24,24 @@ interface AnswerProps {
  * AnswerView component that displays the content of an answer with the author's name and metadata.
  */
 
-const AnswerView = ({ text, ansBy, meta, comments, handleAddComment }: AnswerProps) => (
+const AnswerView = ({ answer, handleAddComment }: AnswerProps) => (
   <div className='answer-container'>
+    <VoteComponentAnswer answer={answer} />
     <div className='answer-wrapper'>
       <div className='answer-content-group'>
         {/* Meta container */}
         <div className='answer-meta-container'>
-          <UserProfileLink username={ansBy} className='answer-author' />
-          <span className='answer-meta'>{meta}</span>
+          <UserProfileLink username={answer.ansBy} className='answer-author' />
+          <span className='answer-meta'>{getMetaData(new Date(answer.ansDateTime))}</span>
         </div>
         {/* Answer content */}
         <div className='answer-content'>
-          <p className='answer-text'>{handleHyperlink(text)}</p>
+          <p className='answer-text'>{handleHyperlink(answer.text)}</p>
         </div>
 
         {/* Comments section */}
         <div className='answer-comment-section'>
-          <CommentSection comments={comments} handleAddComment={handleAddComment} />
+          <CommentSection comments={answer.comments} handleAddComment={handleAddComment} />
         </div>
       </div>
     </div>

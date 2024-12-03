@@ -103,6 +103,8 @@ export interface Profile {
   joinedWhen: Date;
   following: string[];
   topTags?: { name: string; score: number; posts: number; points: number }[];
+  badgeCount?: { gold: number; silver: number; bronze: number };
+  reputation?: number;
 }
 
 /**
@@ -120,6 +122,8 @@ export interface Answer {
   ansDateTime: Date;
   comments: Comment[];
   question?: Question; // Adding the question the Answer is associated with as optional field.
+  upVotes: string[];
+  downVotes: string[];
 }
 
 /**
@@ -178,6 +182,7 @@ export interface ServerToClientEvents {
   answerUpdate: (update: AnswerUpdatePayload) => void;
   viewsUpdate: (question: Question) => void;
   voteUpdate: (vote: VoteUpdatePayload) => void;
+  voteUpdateAnswer: (vote: VoteUpdatePayload) => void;
   commentUpdate: (update: CommentUpdatePayload) => void;
   profileUpdate: (profile: Profile) => void;
   notificationUpdate: (notification: Notification) => void;
