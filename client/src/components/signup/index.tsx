@@ -29,7 +29,6 @@ const SignUp = () => {
         joinedWhen: new Date(),
         following: [],
       };
-      console.log('ADDING PROFILE');
       await addProfile(newProfile);
       navigate('/', {
         state: {
