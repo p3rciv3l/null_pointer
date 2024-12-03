@@ -108,11 +108,26 @@ const profileController = (socket: FakeSOSocket) => {
         { $set: updateDocument }, // Update only the provided fields
         { new: true }, // Return the updated profile
       );
-      if (profile) {
-        res.status(200).json(profile);
-      } else {
+      if (!profile) {
         res.status(404).json({ message: 'Profile not found' });
+        return;
       }
+
+      const topTags = await calculateTagScores(profile.questionsAsked);
+
+      res.status(200).json({
+        id: profile.id,
+        username: profile.username,
+        title: profile.title,
+        bio: profile.bio,
+        answersGiven: profile.answersGiven,
+        questionsAsked: profile.questionsAsked,
+        questionsUpvoted: profile.questionsUpvoted,
+        answersUpvoted: profile.answersUpvoted,
+        joinedWhen: profile.joinedWhen,
+        following: profile.following,
+        topTags,
+      });
     } catch (error) {
       res.status(500).json({ message: 'Server error', error });
     }

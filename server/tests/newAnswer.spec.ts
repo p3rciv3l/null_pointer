@@ -373,7 +373,7 @@ describe('POST /answer/addAnswer', () => {
     };
 
     const mockAnswer: Answer = {
-      _id: new mongoose.Types.ObjectId(),
+      _id: new ObjectId('65e9b58910afe6e94fc6e6dc'),
       text: 'This is a valid test answer',
       ansBy: 'testUser',
       ansDateTime: new Date(),
@@ -471,7 +471,7 @@ describe('POST /answer/addAnswer', () => {
     };
 
     const mockAnswer: Answer = {
-      _id: new mongoose.Types.ObjectId(),
+      _id: new ObjectId('65e9b58910afe6e94fc6e6dc'),
       text: 'This is a valid test answer',
       ansBy: 'testUser',
       ansDateTime: new Date(),
