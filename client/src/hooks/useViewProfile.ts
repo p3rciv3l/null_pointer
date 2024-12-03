@@ -23,7 +23,6 @@ const useViewProfile = (username?: string): UseViewProfileResult => {
       try {
         if (username) {
           const data = await getProfile(username);
-          console.log('profile data', data);
           setProfile(data);
         }
       } catch (err) {

@@ -29,7 +29,6 @@ const addAnswer = async (qid: string, ans: Answer): Promise<Answer> => {
  */
 const upvoteAnswer = async (qid: string, username: string) => {
   const data = { qid, username };
-  console.log('Data sent to back-end', data);
   const res = await api.post(`${ANSWER_API_URL}/upvoteAnswer`, data);
   if (res.status !== 200) {
     throw new Error('Error while upvoting the answer');
