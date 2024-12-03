@@ -22,6 +22,8 @@ const answerSchema: Schema = new Schema(
     },
     comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
     question: { type: Schema.Types.ObjectId, ref: 'Question', required: true },
+    upVotes: [{ type: String }],
+    downVotes: [{ type: String }],
   },
   { collection: 'Answer' },
 );

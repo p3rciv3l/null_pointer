@@ -840,8 +840,8 @@ export const calculateTagScores = async (questions: Question[]): Promise<TagScor
 
   // Convert map to array and calculate scores
   const tagScores: TagScore[] = Array.from(tagStats.entries()).map(([name, stats]) => {
-    // Score formula: posts * 0.7 + points * 0.3
-    const score = Math.round((stats.posts * 0.7 + stats.points * 0.3) * 10);
+    // Score formula: posts * 0.7 + points * 0.3 * 5
+    const score = Math.round((stats.posts * 0.7 + stats.points * 0.3) * 5);
 
     return {
       name,

@@ -1,28 +1,28 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ThumbsDownIcon, ThumbsUpIcon } from 'lucide-react';
-import { downvoteQuestion, upvoteQuestion } from '../../../services/questionService';
-import './index.css';
+import '../voteComponentQuestion/index.css';
 import useUserContext from '../../../hooks/useUserContext';
-import { Question } from '../../../types';
-import useVoteStatus from '../../../hooks/useVoteStatus';
+import { Answer } from '../../../types';
+import useVoteStatusAnswer from '../../../hooks/useVoteStatusAnswer';
+import { downvoteAnswer, upvoteAnswer } from '../../../services/answerService';
 
 /**
  * Interface represents the props for the VoteComponent.
  *
  * question - The question object containing voting information.
  */
-interface VoteComponentProps {
-  question: Question;
+interface VoteComponentAnswerProps {
+  answer: Answer;
 }
 
 /**
  * A Vote component that allows users to upvote or downvote a question.
  *
- * @param question - The question object containing voting information.
+ * @param answer - The answer object containing voting information.
  */
-const VoteComponent = ({ question }: VoteComponentProps) => {
+const VoteComponentAnswer = ({ answer }: VoteComponentAnswerProps) => {
   const { user } = useUserContext();
-  const { count, voted } = useVoteStatus({ question });
+  const { count, voted } = useVoteStatusAnswer({ answer });
 
   /**
    * Function to handle upvoting or downvoting a question.
@@ -31,11 +31,11 @@ const VoteComponent = ({ question }: VoteComponentProps) => {
    */
   const handleVote = async (type: 'upvote' | 'downvote') => {
     try {
-      if (question._id) {
+      if (answer._id) {
         if (type === 'upvote') {
-          await upvoteQuestion(question._id, user.username);
+          await upvoteAnswer(answer._id, user.username);
         } else if (type === 'downvote') {
-          await downvoteQuestion(question._id, user.username);
+          await downvoteAnswer(answer._id, user.username);
         }
       }
     } catch (error) {
@@ -62,4 +62,4 @@ const VoteComponent = ({ question }: VoteComponentProps) => {
   );
 };
 
-export default VoteComponent;
+export default VoteComponentAnswer;
