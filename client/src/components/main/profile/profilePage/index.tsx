@@ -106,9 +106,9 @@ const ProfilePage = () => {
               bio={profile.bio}
               date={formattedDate}
               reputation={user.reputation}
-              goldBadge={user.badgesEarned.gold}
-              silverBadge={user.badgesEarned.silver}
-              bronzeBadge={user.badgesEarned.bronze}
+              goldBadge={profile.badgeCount?.gold ?? -500}
+              silverBadge={profile.badgeCount?.silver ?? -500}
+              bronzeBadge={profile.badgeCount?.bronze ?? -500}
             />
           </ContentCard>
 
@@ -116,7 +116,7 @@ const ProfilePage = () => {
           <StatsCard
             numQuestionsAsked={profile.questionsAsked.length}
             numAnswersGiven={profile.answersGiven.length}
-            reputation={user.reputation}
+            reputation={profile?.reputation ?? 0}
           />
         </div>
 

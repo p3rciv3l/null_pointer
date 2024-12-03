@@ -6,7 +6,13 @@ import {
   Profile,
   updateProfileRequest,
 } from '../types';
-import { calculateTagScores, populateProfile, saveProfile } from '../models/application';
+import {
+  calculateBadges,
+  calculateReputation,
+  calculateTagScores,
+  populateProfile,
+  saveProfile,
+} from '../models/application';
 import ProfileModel from '../models/profile';
 
 // Initialize the profile controller with a socket for real-time updates
@@ -70,6 +76,8 @@ const profileController = (socket: FakeSOSocket) => {
       }
 
       const topTags = await calculateTagScores(profile.questionsAsked);
+      const badgeCount = await calculateBadges(profile.questionsAsked, profile.answersGiven);
+      const reputation = await calculateReputation(profile.questionsAsked, profile.answersGiven);
 
       res.status(200).json({
         id: profile.id,
@@ -83,6 +91,8 @@ const profileController = (socket: FakeSOSocket) => {
         joinedWhen: profile.joinedWhen,
         following: profile.following,
         topTags,
+        badgeCount,
+        reputation,
       });
     } catch (error) {
       res.status(500).json({ message: 'Server error', error });
@@ -114,6 +124,8 @@ const profileController = (socket: FakeSOSocket) => {
       }
 
       const topTags = await calculateTagScores(profile.questionsAsked);
+      const badgeCount = await calculateBadges(profile.questionsAsked, profile.answersGiven);
+      const reputation = await calculateReputation(profile.questionsAsked, profile.answersGiven);
 
       res.status(200).json({
         id: profile.id,
@@ -127,6 +139,8 @@ const profileController = (socket: FakeSOSocket) => {
         joinedWhen: profile.joinedWhen,
         following: profile.following,
         topTags,
+        badgeCount,
+        reputation,
       });
     } catch (error) {
       res.status(500).json({ message: 'Server error', error });

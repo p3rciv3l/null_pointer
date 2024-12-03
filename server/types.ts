@@ -304,3 +304,12 @@ export interface TagScore {
   posts: number;
   points: number;
 }
+
+/**
+ * Type representing badge awards for a user.
+ */
+export interface BadgeCount {
+  gold: number;
+  silver: number;
+  bronze: number;
+}

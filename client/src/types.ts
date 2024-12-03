@@ -103,6 +103,8 @@ export interface Profile {
   joinedWhen: Date;
   following: string[];
   topTags?: { name: string; score: number; posts: number; points: number }[];
+  badgeCount?: { gold: number; silver: number; bronze: number };
+  reputation?: number;
 }
 
 /**
