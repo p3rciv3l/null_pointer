@@ -1,34 +1,19 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { ThumbsDownIcon, ThumbsUpIcon } from 'lucide-react';
+import { ThumbsDownIcon, ThumbsUpIcon, CheckCircle2 } from 'lucide-react';
 import '../voteComponentQuestion/index.css';
 import useUserContext from '../../../hooks/useUserContext';
 import { Answer } from '../../../types';
 import useVoteStatusAnswer from '../../../hooks/useVoteStatusAnswer';
 import { downvoteAnswer, upvoteAnswer } from '../../../services/answerService';
 
-/**
- * Interface represents the props for the VoteComponent.
- *
- * question - The question object containing voting information.
- */
 interface VoteComponentAnswerProps {
   answer: Answer;
 }
 
-/**
- * A Vote component that allows users to upvote or downvote a question.
- *
- * @param answer - The answer object containing voting information.
- */
 const VoteComponentAnswer = ({ answer }: VoteComponentAnswerProps) => {
   const { user } = useUserContext();
   const { count, voted } = useVoteStatusAnswer({ answer });
+  const showCertified = count > 3;
 
-  /**
-   * Function to handle upvoting or downvoting a question.
-   *
-   * @param type - The type of vote, either 'upvote' or 'downvote'.
-   */
   const handleVote = async (type: 'upvote' | 'downvote') => {
     try {
       if (answer._id) {
@@ -44,20 +29,28 @@ const VoteComponentAnswer = ({ answer }: VoteComponentAnswerProps) => {
   };
 
   return (
-    <div className='vote-container'>
-      <button
-        onClick={() => handleVote('upvote')}
-        className={`vote-button ${voted === 1 ? 'vote-button-upvoted' : ''}`}
-        aria-label='Upvote'>
-        <ThumbsUpIcon className='icon' />
-      </button>
-      <span className='vote-count'>{count}</span>
-      <button
-        onClick={() => handleVote('downvote')}
-        className={`vote-button ${voted === -1 ? 'vote-button-downvoted' : ''}`}
-        aria-label='Downvote'>
-        <ThumbsDownIcon className='icon' />
-      </button>
+    <div className='vote-container-wrapper'>
+      <div className='vote-container'>
+        <button
+          onClick={() => handleVote('upvote')}
+          className={`vote-button ${voted === 1 ? 'vote-button-upvoted' : ''}`}
+          aria-label='Upvote'>
+          <ThumbsUpIcon className='icon' />
+        </button>
+        <span className='vote-count'>{count}</span>
+        <button
+          onClick={() => handleVote('downvote')}
+          className={`vote-button ${voted === -1 ? 'vote-button-downvoted' : ''}`}
+          aria-label='Downvote'>
+          <ThumbsDownIcon className='icon' />
+        </button>
+      </div>
+      {showCertified && (
+        <div className='certified-badge'>
+          <CheckCircle2 className='certified-icon' />
+          <span className='certified-text'>Certified Answer</span>
+        </div>
+      )}
     </div>
   );
 };
