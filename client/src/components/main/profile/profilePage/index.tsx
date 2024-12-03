@@ -32,8 +32,8 @@ const ProfilePage = () => {
           <ContentCard>
             <ProfileCard
               username={username}
-              title={profile.title?.trim() ? profile.title : 'No title added'}
-              bio={profile.bio?.trim() ? profile.bio : 'No bio added'}
+              title={profile.title}
+              bio={profile.bio}
               date={formattedDate}
               reputation={profile?.reputation ?? 0}
               goldBadge={profile.badgeCount?.gold ?? -500}
